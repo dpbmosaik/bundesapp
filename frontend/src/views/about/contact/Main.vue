@@ -1,5 +1,5 @@
 <template>
-  <h1> Anmelden </h1>
+  <h1> Kontakt </h1>
 </template>
 
 <script>
