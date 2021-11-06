@@ -15,7 +15,7 @@ class RegisterSerializer(serializers.Serializer):
     phone = serializers.CharField(required=False)
     additional_adress = serializers.CharField(required=False)
     stamm = serializers.CharField()
-    group = serializers.CharField()
+    group = serializers.CharField(required=False)
     username = serializers.CharField()
     password = serializers.CharField()
 
