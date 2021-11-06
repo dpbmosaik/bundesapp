@@ -15,6 +15,7 @@
               @prevStep="prevStep()"
               @nextStep="nextStep()"
               @submit="getData()"
+              @ignore="onIngoredClicked()"
             />
           </v-stepper-content>
         </v-stepper-items>
@@ -58,6 +59,9 @@ export default {
     },
   },
   methods: {
+    onRegistrationConfirmed() {
+      
+    },
     nextStep() {
       this.currentStep += 1;
       this.callOnBeforeTab(this.currentStep - 1);
@@ -73,13 +77,6 @@ export default {
         && this.$refs[nextStepName][0].beforeTabShow) {
         this.$refs[nextStepName][0].beforeTabShow();
       }
-    },
-    submitStep() {
-      this.validate();
-      if (!this.valid) {
-        return;
-      }
-      this.$emit('submit');
     },
     send(allData) {
       axios

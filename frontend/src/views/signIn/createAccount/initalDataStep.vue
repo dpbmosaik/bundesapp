@@ -137,6 +137,7 @@
             @nextStep="nextStep()"
             @prevStep="prevStep"
             @submitStep="submitStep()"
+              @ignore="onIngoredClicked"
           />
         </v-container>
       </v-card>
@@ -145,16 +146,19 @@
 </template>
 
 <script>
+import axios from "axios"
 import { mapGetters } from "vuex";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 import { required, email } from "vuelidate/lib/validators";
 //import { helpers } from 'vuelidate/lib/validators'
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
+import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
   displayName: 'Name',
   props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
+  mixins: [stepMixin],
   data: () => ({
     API_URL: process.env.VUE_APP_API,
     active: false,
@@ -276,22 +280,25 @@ export default {
     },
   },
   methods: {
-    validate() {
-      this.$v.$touch();
-      this.valid = !this.$v.$error;
-    },
     getData() {
       return this.initialData;
     },
-    prevStep() {
-      this.$emit("prevStep");
-    },
-    nextStep() {
-      this.validate();
-      if (!this.valid) {
-        return;
-      }
-      this.$emit("nextStep");
+    send() {
+      axios
+        .post(
+          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
+          this.initialData
+        )
+        .then((response) => {
+          this.$router.push({
+            name: "registrationCreate",
+            content: response,
+          });
+        })
+        .catch(() => {
+          this.showError = true;
+          console.log("Fehler");
+        });
     },
   },
 };
