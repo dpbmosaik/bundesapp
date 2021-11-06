@@ -126,7 +126,6 @@ export default {
   validations: {
     initialData: {
       stamm: { required },
-      group: { required },
     }
   },
   computed: {

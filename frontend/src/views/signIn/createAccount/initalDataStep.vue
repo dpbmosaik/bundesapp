@@ -149,7 +149,7 @@
 import axios from "axios"
 import { mapGetters } from "vuex";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
-import { required, email } from "vuelidate/lib/validators";
+import { required, email, minLength, maxLength } from "vuelidate/lib/validators";
 //import { helpers } from 'vuelidate/lib/validators'
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 import { stepMixin } from "@/mixins/stepMixin.js";
@@ -210,6 +210,7 @@ export default {
     initialData: {
       firstname: {
         required,
+        maxLength: maxLength(24),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z-]*$/);
           return regex.test(value);
@@ -217,12 +218,15 @@ export default {
       },
       lastname: {
         required,
+        maxLength: maxLength(24),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z-]*$/);
           return regex.test(value);
         },
       },
       scoutname: {
+        maxLength: maxLength(12),
+        minLength: minLength(2),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z0-9-äöüß]*$/);
           return regex.test(value);
@@ -244,6 +248,9 @@ export default {
       ) {
         errors.push("Es muss ein valider Vorname eingegeben werden.");
       }
+      if (!this.$v.initialData.firstname.maxLength) {
+        errors.push("Der Vorname darf nicht länger als 24 Zeichen sein.");
+      }
       return errors;
     },
     lastNameErrors() {
@@ -255,6 +262,9 @@ export default {
       ) {
         errors.push("Es muss ein valider Nachname eingegeben werden.");
       }
+      if (!this.$v.initialData.lastname.maxLength) {
+        errors.push("Der Nachname darf nicht länger als 24 Zeichen sein.");
+      }
       return errors;
     },
     scoutNameErrors() {
@@ -264,6 +274,9 @@ export default {
         errors.push(
           "Es muss ein valider Fahrtenname (ohne Sonderzeichen) eingegeben werden."
         );
+      }
+      if (!this.$v.initialData.scoutname.maxLength || !this.$v.initialData.scoutname.minLength) {
+        errors.push("Der Fahrtenname muss zwischen 2 und 12 Zeichen lang sein.");
       }
       return errors;
     },
