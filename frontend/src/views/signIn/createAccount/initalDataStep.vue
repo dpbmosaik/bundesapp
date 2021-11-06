@@ -116,6 +116,7 @@
                 dense
                 v-model="initialData.email"
                 label="E-Mail Adresse*"
+                :error-messages="emailErrors"
               >
                 <template slot="append">
                   <v-tooltip bottom>
@@ -149,6 +150,8 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
+import { required, email } from 'vuelidate/lib/validators';
+//import { helpers } from 'vuelidate/lib/validators'
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
@@ -202,9 +205,41 @@ export default {
   }),
   name: "StepInitalData",
   displayName: "Account",
-  validations: {},
+  validations: {
+    initialData: {
+      firstname: {required},
+      lastname: {required},
+      email: {required, email},
+    },
+  },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
+    firstNameErrors() {
+      const errors = [];
+      //const alpha = helpers.regex('alpha', /^[a-zA-Z-]*$/);
+      //const alphaAndNumeric = helpers.regex('alphaAndNumeric', /^[a-zA-Z0-9-]*$/);
+      if (!this.$v.initialData.firstname.$dirty) return errors;
+      if (!this.$v.initialData.firstname.required) {
+        errors.push('Es muss ein Vorname eingegeben werden.');
+      }
+      return errors;
+    },
+    lastNameErrors() {
+      const errors = [];
+      if (!this.$v.initialData.lastname.$dirty) return errors;
+      if (!this.$v.initialData.lastname.required) {
+        errors.push('Es muss ein Nachname eingegeben werden.');
+      }
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.initialData.email.$dirty) return errors;
+      if (!this.$v.initialData.email.required || !this.$v.initialData.email.email) {
+        errors.push('Es muss eine valide Email eingegeben werden.');
+      }
+      return errors;
+    },
   },
   methods: {
     validate() {
