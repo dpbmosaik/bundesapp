@@ -2,16 +2,7 @@
   <div>
     <v-stepper v-model="currentStep">
       <template v-for="(step, index) in steps">
-        <v-stepper-step
-          alt-labels
-          class="mt-12"
-          :key="`stepper-${index}`"
-          :complete="currentStep > index + 1"
-          :step="index + 1"
-        >
-          {{ `${step.displayName}` }}
-        </v-stepper-step>
-
+      
         <v-divider :key="index"></v-divider>
 
         <v-stepper-items :key="`stepper-items-${index}`">
@@ -23,36 +14,45 @@
               :max-pos="steps.length"
               @prevStep="prevStep()"
               @nextStep="nextStep()"
-              @submit="onRegistrationConfirmed()"
+              @submit="getData()"
             />
           </v-stepper-content>
         </v-stepper-items>
+        <v-stepper-step
+          alt-labels
+          class="mt-12"
+          :key="`stepper-${index}`"
+          :complete="currentStep > index + 1"
+          :step="index + 1"
+        >
+          {{ `${step.displayName}` }}
+        </v-stepper-step>
       </template>
     </v-stepper>
   </div>
 </template>
 
 <script>
-import InitalDataStep from "./initalDataStep.vue";
+import InitialDataStep from "./initalDataStep.vue";
 import AddressStep from "./addressStep.vue";
 import GroupStep from "./groupStep.vue";
 import BirthAndGender from "./birthAndGender.vue";
+import axios from "axios";
 
 export default {
   components: {
-    InitalDataStep,
+    InitialDataStep,
     GroupStep,
     AddressStep,
     BirthAndGender,
   },
-  data() {
-    return {
-      currentStep: 1,
-    };
-  },
+  data: () => ({
+    currentStep: 1,
+    API_URL: process.env.VUE_APP_API,
+  }),
   computed: {
     steps() {
-      return [InitalDataStep, GroupStep, BirthAndGender, AddressStep];
+      return [InitialDataStep, GroupStep, BirthAndGender, AddressStep];
     },
   },
   methods: {
@@ -79,6 +79,47 @@ export default {
       }
       this.$emit('submit');
     },
+    send(allData) {
+      axios
+        .post(
+          `${this.API_URL}auth/register/`,
+          allData
+        )
+        .then((response) => {
+          this.$router.push({
+            name: "registrationCreate",
+            content: response,
+          });
+        })
+        .catch(() => {
+          this.showError = true;
+          console.log("Fehler");
+        });
+    },
+    getData() {
+      let initialData = this.$refs.InitialDataStep[0].getData();
+      let groupData = this.$refs.GroupStep[0].getData();
+      let birthAndGenderData = this.$refs.BirthAndGender[0].getData();
+      let addressData = this.$refs.AddressStep[0].getData();
+
+      let allData = {
+        firstname: initialData.firstname,
+        lastname: initialData.lastname,
+        scoutname: initialData.scoutname,
+        mail: initialData.email,
+        stamm: groupData.stamm,
+        group: groupData.group,
+        birthdate: birthAndGenderData.birthdate,
+        gender: birthAndGenderData.gender,
+        address: addressData.address,
+        street: addressData.street,
+        additionalAddress: addressData.additionalAddress,
+        phone: addressData.phone,
+        username: initialData.firstname+initialData.scoutname,
+        password: 'start123'
+      }
+      this.send(allData)
+    }
   },
 };
 </script>

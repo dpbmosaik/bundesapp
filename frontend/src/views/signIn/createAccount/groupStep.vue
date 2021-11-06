@@ -23,6 +23,7 @@
                 filled
                 dense
                 v-model="initialData.stamm"
+                :error-messages="stammErrors"
                 :items="data.stamm"
                 item-text="name"
                 item-value="id"
@@ -64,6 +65,7 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
+import { required } from "vuelidate/lib/validators";
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
@@ -116,13 +118,29 @@ export default {
     showSuccess: false,
     timeout: 7000,
   }),
-  name: "StepInitalData",
-  displayName: "Account",
-  validations: {},
+  name: "GroupStep",
+  displayName: "Stamm / Gruppe",
+  validations: {
+    initialData: {
+      stamm: { required },
+      group: { required },
+    }
+  },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
+    stammErrors() {
+      const errors = [];
+      if (!this.$v.initialData.stamm.$dirty) return errors;
+      if (!this.$v.initialData.stamm.required) {
+        errors.push("Es muss ein Stamm ausgewählt werden.");
+      }
+      return errors;
+    },
   },
   methods: {
+    getData() {
+      return this.initialData;
+    },
     validate() {
       this.$v.$touch();
       this.valid = !this.$v.$error;

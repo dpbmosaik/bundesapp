@@ -148,8 +148,8 @@ export default {
     showSuccess: false,
     timeout: 7000,
   }),
-  name: "StepInitalData",
-  displayName: "Account",
+  name: "BirthAndGender",
+  displayName: "Geburtstag / Geschlecht",
   validations: {
     initialData: {
       birthdate: { required },
@@ -190,6 +190,9 @@ export default {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
   },
   methods: {
+    getData() {
+      return this.initialData;
+    },
     save(date) {
       this.$refs.menu.save(date);
     },

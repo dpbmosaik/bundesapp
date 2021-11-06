@@ -146,13 +146,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 import { required, email } from "vuelidate/lib/validators";
 //import { helpers } from 'vuelidate/lib/validators'
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
+  displayName: 'Name',
   props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
@@ -201,8 +201,7 @@ export default {
     showSuccess: false,
     timeout: 7000,
   }),
-  name: "StepInitalData",
-  displayName: "Account",
+  name: "InitialDataStep",
   validations: {
     initialData: {
       firstname: {
@@ -281,22 +280,8 @@ export default {
       this.$v.$touch();
       this.valid = !this.$v.$error;
     },
-    send() {
-      axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
-        .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
-        })
-        .catch(() => {
-          this.showError = true;
-          console.log("Fehler");
-        });
+    getData() {
+      return this.initialData;
     },
     prevStep() {
       this.$emit("prevStep");

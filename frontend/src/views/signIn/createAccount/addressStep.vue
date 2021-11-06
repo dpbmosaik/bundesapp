@@ -23,7 +23,6 @@
                 filled
                 dense
                 v-model="initialData.street"
-                :error-messages="streetErrors"
                 label="Straße und Hausnummer"
                 required
                 @input="$v.data.street.$touch()"
@@ -53,7 +52,6 @@
                 :items="zipCodeResponse"
                 :item-text="customText"
                 required
-                :error-messages="zipCodeErrors"
                 item-value="id"
                 label="Stadt / Postleitzahl"
                 placeholder="Wähle Stadt oder Postleitzahl."
@@ -83,7 +81,6 @@
               <v-text-field
                 filled
                 dense
-                v-model="initialData.additionalAddress"
                 label="Adresszusatz"
               >
               </v-text-field>
@@ -94,7 +91,6 @@
               <v-text-field
                 filled
                 dense
-                v-model="initialData.phone"
                 :error-messages="phoneErrors"
                 label="Telefonnummer"
                 required
@@ -136,7 +132,6 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
-import { required, integer } from "vuelidate/lib/validators";
 
 export default {
   props: ["isOpen", "position", "maxPos"],
@@ -181,74 +176,11 @@ export default {
     showSuccess: false,
     timeout: 7000,
   }),
-  name: "StepInitalData",
-  displayName: "Account",
-  validations: {
-    initialData: {
-      phone: {
-        required,
-        minValue: 5,
-        integer,
-        phoneNumStartValidator: (value) => {
-          const regex = new RegExp(/^0[0-9]*/);
-          return regex.test(value);
-        },
-      },
-      street: {
-        required,
-        minLength: 5,
-        maxLength: 20,
-      },
-      zipcode: {
-        required,
-        minLength: 4,
-      },
-    },
-  },
+  name: "AddressStep",
+  displayName: "Adresse / Nummer",
+  validations: { },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
-    phoneErrors() {
-      const errors = [];
-      if (!this.$v.initialData.phone.$dirty) return errors;
-      if (!this.$v.initialData.phone.required) {
-        errors.push("Telefonnummer ist erforderlich.");
-      }
-      if (
-        !this.$v.initialData.phone.integer || // eslint-disable-line
-        !this.$v.initialData.phone.minValue // eslint-disable-line
-      ) {
-        errors.push("Telefonnummer darf nur aus Zahlen bestehen."); // eslint-disable-line
-      }
-      if (!this.$v.initialData.phone.phoneNumStartValidator) {
-        errors.push("Die Telefonnummer muss mit 0 beginnen.");
-      }
-      return errors;
-    },
-    streetErrors() {
-      const errors = [];
-      if (!this.$v.initialData.street.$dirty) return errors;
-      if (!this.$v.initialData.street.required) {
-        errors.push("Adresse ist erforderlich.");
-      }
-      if (!this.$v.initialData.street.minLength) {
-        errors.push("Adresse muss mindestens 5 Zeichen lang sein.");
-      }
-      if (!this.$v.initialData.street.maxLength) {
-        errors.push("Adresse darf maximal 30 Zeichen lang sein.");
-      }
-      return errors;
-    },
-    zipCodeErrors() {
-      const errors = [];
-      if (!this.$v.initialData.zipcode.$dirty) return errors;
-      if (!this.$v.initialData.zipcode.minLength) {
-        errors.push("Stadt ist erforderlich.");
-      }
-      if (!this.$v.initialData.zipcode.required) {
-        errors.push("Stadt ist erforderlich.");
-      }
-      return errors;
-    },
   },
   watch: {
     search(searchString) {
@@ -276,6 +208,9 @@ export default {
     },
   },
   methods: {
+    getData() {
+      return this.initialData;
+    },
     customText: (item) => `${item.zipCode} — ${item.city}`,
     validate() {
       this.$v.$touch();
