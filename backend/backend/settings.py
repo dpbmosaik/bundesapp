@@ -155,16 +155,17 @@ AUTHENTICATION_BACKENDS = (
     'backend.OIDCAuthentication.MyOIDCAB',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+# https://auth.anmelde-tool.de/auth/realms/Hagis-Spielwiese
 BASE_URI = env('BASE_URI')
-OIDC_AUTH_URI = f'{BASE_URI}/{env("OIDC_RP_CLIENT_ID")}/'
-OIDC_CALLBACK_PUBLIC_URI = f'{BASE_URI}/'
+BASE_REALM_URI = f'{BASE_URI}/realms/{env("OIDC_RP_REALMNAME")}'
+OIDC_AUTH_URI = f'{BASE_REALM_URI}/{env("OIDC_RP_CLIENT_ID")}/'
+OIDC_CALLBACK_PUBLIC_URI = f'{BASE_REALM_URI}/'
 OIDC_RP_CLIENT_ID = env('OIDC_RP_CLIENT_ID')
-OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET')
+OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET_BACKEND')
 # OIDC_DRF_AUTH_BACKEND = 'mozilla_django_oidc.auth.OIDCAuthenticationBackend'
-OIDC_OP_TOKEN_ENDPOINT = f'{BASE_URI}/protocol/openid-connect/token'
-OIDC_OP_USER_ENDPOINT = f'{BASE_URI}/protocol/openid-connect/userinfo'
-OIDC_OP_AUTHORIZATION_ENDPOINT = f'{BASE_URI}/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/userinfo'
+OIDC_OP_AUTHORIZATION_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/auth'
 OIDC_STORE_ID_TOKEN = True
 OIDC_CREATE_USER = True
 
