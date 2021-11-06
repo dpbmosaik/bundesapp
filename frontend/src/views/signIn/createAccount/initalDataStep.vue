@@ -207,7 +207,18 @@ export default {
   displayName: "Account",
   validations: {
     initialData: {
-      firstname: {required},
+      firstname: {
+        required,
+        alphaCustom: function(value) {
+          const regex = new RegExp('/^[a-zA-Z-]*$/');
+
+          console.log(value);
+          console.log(regex.test(value));
+
+          debugger; //eslint-disable-line
+          return !regex.test(value);
+        },
+      },
       lastname: {required},
       email: {required, email},
     },
@@ -221,6 +232,9 @@ export default {
       if (!this.$v.initialData.firstname.$dirty) return errors;
       if (!this.$v.initialData.firstname.required) {
         errors.push('Es muss ein Vorname eingegeben werden.');
+      }
+      if (!this.$v.initialData.firstname.alphaCustom) {
+        errors.push('Voll Doof.');
       }
       return errors;
     },
