@@ -47,10 +47,10 @@
         >
           <v-card flat>
             {{getInhalt(item)}}
-            <v-img src="@/assets/aussicht.jpg" 
+            <v-img src="@/assets/wandern.jpg" 
             aspect-ratio="1" 
             v-on:click=atClick() 
-            v-if= "item==this.items[0]"
+            v-if= "item==items[0]"
             >
            
             <div class="centered">

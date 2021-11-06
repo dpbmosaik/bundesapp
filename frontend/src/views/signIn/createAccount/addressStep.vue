@@ -250,7 +250,7 @@ export default {
   methods: {
     validate() {
       this.$v.$touch();
-      this.valid = !this.$v.$error;
+      //this.valid = !this.$v.$error;
     },
     submitStep() {
       this.validate();

@@ -23,7 +23,6 @@
                 filled
                 dense
                 v-model="initialData.username"
-                :error-messages="userNameErrors"
                 label="Anzeigename"
                 required
                 @input="$v.initialData.username.$touch()"
@@ -53,7 +52,7 @@
                 filled
                 dense
                 v-model="initialData.password"
-                :error-messages="passWordErrors"
+                :error-messages="passwordErrors"
                 label="Passwort*"
                 required
                 @input="$v.initialData.password.$touch()"
@@ -77,7 +76,7 @@
                 dense
                 v-model="initialData.passwordB"
                 autofocus
-                :error-messages="passWordBErrors"
+                :error-messages="passwordBErrors"
                 label="Passwort bestätigen*"
                 required
                 @input="$v.initialData.passwordB.$touch()"
@@ -161,7 +160,7 @@ export default {
         "Die Handynummer ist freiwillig und hilft dich zu kontaktieren (Für manche Fahrten ist sie Pflicht)",
     },
         showPW: false,
-        showPWB: true,
+        showPWB: false,
         password: 'Password',
         /* rules: {
           required: value => !!value || 'Required.',
@@ -187,7 +186,7 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
-    passWordErrors() {
+    passwordErrors() {
       const errors = [];
       if (!this.$v.initialData.password.$dirty) return errors;
       if (!this.$v.initialData.password.required) {
