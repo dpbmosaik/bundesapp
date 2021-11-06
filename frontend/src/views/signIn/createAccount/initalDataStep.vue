@@ -88,8 +88,6 @@
                 :error-messages="scoutNameErrors"
                 label="Fahrtenname (optional)"
                 required
-                @input="$v.initialData.scoutname.$touch()"
-                @blur="$v.initialData.scoutname.$touch()"
               >
                 <template slot="append">
                   <v-tooltip bottom>
@@ -209,17 +207,24 @@ export default {
     initialData: {
       firstname: {
         required,
-        alphaCustom: function(value) {
-          const regex = new RegExp('/^[a-zA-Z-]*$/');
-
-          console.log(value);
-          console.log(regex.test(value));
-
-          debugger; //eslint-disable-line
-          return !regex.test(value);
-        },
+        alphaCustom: ((value) => {
+          const regex = new RegExp(/^[a-zA-Z-]*$/);
+          return regex.test(value);
+        }),
       },
-      lastname: {required},
+      lastname: {
+        required,
+      alphaCustom: ((value) => {
+          const regex = new RegExp(/^[a-zA-Z-]*$/);
+          return regex.test(value);
+        }),
+        },
+      scoutname: {
+        alphaCustom: ((value) => {
+          const regex = new RegExp(/^[a-zA-Z0-9-äöüß]*$/);
+          return regex.test(value);
+        }),
+      },
       email: {required, email},
     },
   },
@@ -230,19 +235,24 @@ export default {
       //const alpha = helpers.regex('alpha', /^[a-zA-Z-]*$/);
       //const alphaAndNumeric = helpers.regex('alphaAndNumeric', /^[a-zA-Z0-9-]*$/);
       if (!this.$v.initialData.firstname.$dirty) return errors;
-      if (!this.$v.initialData.firstname.required) {
-        errors.push('Es muss ein Vorname eingegeben werden.');
-      }
-      if (!this.$v.initialData.firstname.alphaCustom) {
-        errors.push('Voll Doof.');
+      if (!this.$v.initialData.firstname.required || !this.$v.initialData.firstname.alphaCustom) {
+        errors.push('Es muss ein valider Vorname eingegeben werden.');
       }
       return errors;
     },
     lastNameErrors() {
       const errors = [];
       if (!this.$v.initialData.lastname.$dirty) return errors;
-      if (!this.$v.initialData.lastname.required) {
-        errors.push('Es muss ein Nachname eingegeben werden.');
+      if (!this.$v.initialData.lastname.required || !this.$v.initialData.lastname.alphaCustom) {
+        errors.push('Es muss ein valider Nachname eingegeben werden.');
+      }
+      return errors;
+    },
+    scoutNameErrors() {
+      const errors = [];
+      if (!this.$v.initialData.scoutname.$dirty) return errors;
+      if (!this.$v.initialData.scoutname.alphaCustom) {
+        errors.push('Es muss ein valider Fahrtenname (ohne Sonderzeichen) eingegeben werden.');
       }
       return errors;
     },

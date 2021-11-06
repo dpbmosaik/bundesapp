@@ -24,7 +24,6 @@
                 dense
                 v-model="initialData.group"
                 :items="data.groups"
-                :error-messages="ageGroupsErrors"
                 item-text="name"
                 item-value="id"
                 label="Gruppe"

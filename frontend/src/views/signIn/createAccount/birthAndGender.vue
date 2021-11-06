@@ -20,9 +20,9 @@
           <v-row class="pa-3">
             <v-col>
               <v-menu
+                ref="menu"
                 filled
                 dense
-                ref="menu"
                 v-model="menu"
                 :close-on-content-click="false"
                 transition="scale-transition"
@@ -35,14 +35,14 @@
                     dense
                     v-model="computedDateFormattedMomentjs"
                     label="Geburtstag"
-                    :error-messages="birthdayErrors"
+                    :error-messages="birthdateErrors"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="initialData.birthday"
+                  v-model="initialData.birthdate"
                   :active-picker.sync="activePicker"
                   :max="
                     new Date(
@@ -91,6 +91,8 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
+import moment from 'moment';
+import { required } from 'vuelidate/lib/validators';
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
@@ -103,6 +105,10 @@ export default {
     isLoading: true,
     isZipLoading: false,
     zipCodeResponse: [],
+    menu: false,
+    modal: false,
+    menu2: false,
+    activePicker: null,
     initialData: {
       firstname: null,
       lastname: null,
@@ -144,11 +150,45 @@ export default {
   }),
   name: "StepInitalData",
   displayName: "Account",
-  validations: {},
+  validations: {
+    initialData: {
+      birthdate: {required},
+      gender: {required},
+    }
+  },
+  watch: {
+    menu(val) {
+      val && this.$nextTick(() => { // eslint-disable-line
+        this.activePicker = 'YEAR'; // eslint-disable-line
+      });
+    },
+  },
   computed: {
+    computedDateFormattedMomentjs() {
+      return this.initialData.birthdate ? moment(this.initialData.birthdate).format('DD.MM.YYYY') : '';
+    },
+    birthdateErrors() {
+      const errors = [];
+      if (!this.$v.initialData.birthdate.$dirty) return errors;
+      if (!this.$v.initialData.birthdate.required) {
+        errors.push('Alter ist erforderlich.');
+      }
+      return errors;
+    },
+    genderErrors() {
+      const errors = [];
+      if (!this.$v.initialData.gender.$dirty) return errors;
+      if (!this.$v.initialData.gender.required) {
+        errors.push('Geschlecht ist erforderlich.');
+      }
+      return errors;
+    },
     ...mapGetters(["isAuthenticated", "getJwtData"]),
   },
   methods: {
+     save(date) {
+      this.$refs.menu.save(date);
+    },
     validate() {
       this.$v.$touch();
       this.valid = !this.$v.$error;
