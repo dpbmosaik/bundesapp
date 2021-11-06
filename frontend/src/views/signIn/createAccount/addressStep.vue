@@ -214,7 +214,7 @@ export default {
     customText: (item) => `${item.zipCode} — ${item.city}`,
     validate() {
       this.$v.$touch();
-      this.valid = !this.$v.$error;
+      //this.valid = !this.$v.$error;
     },
     submitStep() {
       this.validate();

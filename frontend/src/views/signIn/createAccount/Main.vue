@@ -38,6 +38,7 @@ import AddressStep from "./addressStep.vue";
 import GroupStep from "./groupStep.vue";
 import BirthAndGender from "./birthAndGender.vue";
 import axios from "axios";
+import LoginAndPassword from "./loginAndPassword.vue";
 
 export default {
   components: {
@@ -45,6 +46,7 @@ export default {
     GroupStep,
     AddressStep,
     BirthAndGender,
+    LoginAndPassword,
   },
   data: () => ({
     currentStep: 1,
@@ -52,7 +54,7 @@ export default {
   }),
   computed: {
     steps() {
-      return [InitialDataStep, GroupStep, BirthAndGender, AddressStep];
+      return [InitialDataStep, GroupStep, BirthAndGender, AddressStep, LoginAndPassword];
     },
   },
   methods: {

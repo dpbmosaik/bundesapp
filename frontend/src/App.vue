@@ -8,7 +8,7 @@
       permanent
       width="300"
       left
-      color="#F5F5F5"
+      color="#F5C000"
       floating
     >
       <v-container fluid>
@@ -83,9 +83,9 @@ export default {
     },
     logoPath() {
       if (process.env.VUE_APP_ENV === 'dev') {
-        return require('@/assets/logo.png');
+        return require('@/assets/dpbmLogo.gif');
       }
-      return require('@/assets/logo.png');
+      return require('@/assets/dpbmLogo.gif');
     },
   },
   created() {
@@ -99,6 +99,7 @@ export default {
         {
           action: "mdi-airplane-landing",
           signedIn: true,
+          active: true,
           title: "Startseite",
           module: 'landing',
           items: [
