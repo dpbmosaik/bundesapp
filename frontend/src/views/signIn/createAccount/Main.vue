@@ -21,9 +21,6 @@
               :ref="step.name"
               :position="index + 1"
               :max-pos="steps.length"
-              :currentRegistration="currentRegistration"
-              :scoutOrganisation="scoutOrganisation"
-              :currentEvent="currentEvent"
               @prevStep="prevStep()"
               @nextStep="nextStep()"
               @submit="onRegistrationConfirmed()"
@@ -68,6 +65,14 @@ export default {
     prevStep() {
       this.currentStep -= 1;
       this.callOnBeforeTab(this.currentStep - 1);
+    },
+    callOnBeforeTab(step) {
+      const nextStepName = this.steps[step].name;
+      if (this.$refs[nextStepName]
+        && this.$refs[nextStepName].length
+        && this.$refs[nextStepName][0].beforeTabShow) {
+        this.$refs[nextStepName][0].beforeTabShow();
+      }
     },
     submitStep() {
       this.validate();

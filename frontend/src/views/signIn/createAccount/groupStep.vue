@@ -22,9 +22,23 @@
               <v-select
                 filled
                 dense
+                v-model="initialData.stamm"
+                :items="data.stamm"
+                item-text="name"
+                item-value="id"
+                label="Stammesname"
+                required
+                @input="validate()"
+              />
+            </v-col>
+          </v-row>
+          <v-row class="pa-3" v-if="this.initialData.stamm != null">
+            <v-col>
+              <v-select
+                filled
+                dense
                 v-model="initialData.group"
                 :items="data.groups"
-                :error-messages="ageGroupsErrors"
                 item-text="name"
                 item-value="id"
                 label="Gruppe"
@@ -53,7 +67,7 @@ import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
-  props: ['isOpen', 'position', 'maxPos'],
+  props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
     API_URL: process.env.VUE_APP_API,
@@ -81,7 +95,8 @@ export default {
       phone: null,
     },
     data: {
-      groups: [{ id: 1, name: "Raubvögel" }],
+      stamm: [{ id: 1, name: "Raubvögel" }],
+      groups: [{ id: 1, name: "Meute Tschil" }],
       genders: [
         { id: 1, label: "weiblich" },
         { id: 2, label: "männlich" },

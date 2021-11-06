@@ -88,8 +88,6 @@
                 :error-messages="scoutNameErrors"
                 label="Fahrtenname (optional)"
                 required
-                @input="$v.initialData.scoutname.$touch()"
-                @blur="$v.initialData.scoutname.$touch()"
               >
                 <template slot="append">
                   <v-tooltip bottom>
@@ -116,6 +114,7 @@
                 dense
                 v-model="initialData.email"
                 label="E-Mail Adresse*"
+                :error-messages="emailErrors"
               >
                 <template slot="append">
                   <v-tooltip bottom>
@@ -149,10 +148,12 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
+import { required, email } from "vuelidate/lib/validators";
+//import { helpers } from 'vuelidate/lib/validators'
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
-  props: ['isOpen', 'position', 'maxPos'],
+  props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
     API_URL: process.env.VUE_APP_API,
@@ -202,9 +203,78 @@ export default {
   }),
   name: "StepInitalData",
   displayName: "Account",
-  validations: {},
+  validations: {
+    initialData: {
+      firstname: {
+        required,
+        alphaCustom: (value) => {
+          const regex = new RegExp(/^[a-zA-Z-]*$/);
+          return regex.test(value);
+        },
+      },
+      lastname: {
+        required,
+        alphaCustom: (value) => {
+          const regex = new RegExp(/^[a-zA-Z-]*$/);
+          return regex.test(value);
+        },
+      },
+      scoutname: {
+        alphaCustom: (value) => {
+          const regex = new RegExp(/^[a-zA-Z0-9-äöüß]*$/);
+          return regex.test(value);
+        },
+      },
+      email: { required, email },
+    },
+  },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
+    firstNameErrors() {
+      const errors = [];
+      //const alpha = helpers.regex('alpha', /^[a-zA-Z-]*$/);
+      //const alphaAndNumeric = helpers.regex('alphaAndNumeric', /^[a-zA-Z0-9-]*$/);
+      if (!this.$v.initialData.firstname.$dirty) return errors;
+      if (
+        !this.$v.initialData.firstname.required ||
+        !this.$v.initialData.firstname.alphaCustom
+      ) {
+        errors.push("Es muss ein valider Vorname eingegeben werden.");
+      }
+      return errors;
+    },
+    lastNameErrors() {
+      const errors = [];
+      if (!this.$v.initialData.lastname.$dirty) return errors;
+      if (
+        !this.$v.initialData.lastname.required ||
+        !this.$v.initialData.lastname.alphaCustom
+      ) {
+        errors.push("Es muss ein valider Nachname eingegeben werden.");
+      }
+      return errors;
+    },
+    scoutNameErrors() {
+      const errors = [];
+      if (!this.$v.initialData.scoutname.$dirty) return errors;
+      if (!this.$v.initialData.scoutname.alphaCustom) {
+        errors.push(
+          "Es muss ein valider Fahrtenname (ohne Sonderzeichen) eingegeben werden."
+        );
+      }
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.initialData.email.$dirty) return errors;
+      if (
+        !this.$v.initialData.email.required ||
+        !this.$v.initialData.email.email
+      ) {
+        errors.push("Es muss eine valide Email eingegeben werden.");
+      }
+      return errors;
+    },
   },
   methods: {
     validate() {
