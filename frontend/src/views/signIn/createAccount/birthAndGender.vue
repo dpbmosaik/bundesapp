@@ -91,12 +91,12 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
-import moment from 'moment';
-import { required } from 'vuelidate/lib/validators';
+import moment from "moment";
+import { required } from "vuelidate/lib/validators";
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
 export default {
-  props: ['isOpen', 'position', 'maxPos'],
+  props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
     API_URL: process.env.VUE_APP_API,
@@ -152,26 +152,30 @@ export default {
   displayName: "Account",
   validations: {
     initialData: {
-      birthdate: {required},
-      gender: {required},
-    }
+      birthdate: { required },
+      gender: { required },
+    },
   },
   watch: {
     menu(val) {
-      val && this.$nextTick(() => { // eslint-disable-line
-        this.activePicker = 'YEAR'; // eslint-disable-line
-      });
+      val &&
+        this.$nextTick(() => {
+          // eslint-disable-line
+          this.activePicker = "YEAR"; // eslint-disable-line
+        });
     },
   },
   computed: {
     computedDateFormattedMomentjs() {
-      return this.initialData.birthdate ? moment(this.initialData.birthdate).format('DD.MM.YYYY') : '';
+      return this.initialData.birthdate
+        ? moment(this.initialData.birthdate).format("DD.MM.YYYY")
+        : "";
     },
     birthdateErrors() {
       const errors = [];
       if (!this.$v.initialData.birthdate.$dirty) return errors;
       if (!this.$v.initialData.birthdate.required) {
-        errors.push('Alter ist erforderlich.');
+        errors.push("Alter ist erforderlich.");
       }
       return errors;
     },
@@ -179,14 +183,14 @@ export default {
       const errors = [];
       if (!this.$v.initialData.gender.$dirty) return errors;
       if (!this.$v.initialData.gender.required) {
-        errors.push('Geschlecht ist erforderlich.');
+        errors.push("Geschlecht ist erforderlich.");
       }
       return errors;
     },
     ...mapGetters(["isAuthenticated", "getJwtData"]),
   },
   methods: {
-     save(date) {
+    save(date) {
       this.$refs.menu.save(date);
     },
     validate() {
