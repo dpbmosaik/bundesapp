@@ -19,15 +19,56 @@
           </v-row>
           <v-row class="pa-3">
             <v-col>
+              <v-menu
+                filled
+                dense
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    filled
+                    dense
+                    v-model="computedDateFormattedMomentjs"
+                    label="Geburtstag"
+                    :error-messages="birthdayErrors"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="initialData.birthday"
+                  :active-picker.sync="activePicker"
+                  :max="
+                    new Date(
+                      new Date('2021-12-24T03:24:00') -
+                        new Date().getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .substr(0, 10)
+                  "
+                  min="1950-01-01"
+                  @change="save"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row class="pa-3">
+            <v-col>
               <v-select
                 filled
                 dense
-                v-model="initialData.group"
-                :items="data.groups"
-                :error-messages="ageGroupsErrors"
-                item-text="name"
+                v-model="initialData.gender"
+                :items="data.genders"
+                :error-messages="genderErrors"
+                item-text="label"
                 item-value="id"
-                label="Gruppe"
+                label="Geschlecht"
                 required
                 @input="validate()"
               />

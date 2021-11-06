@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h1>Account erstellen</h1>
-    <v-stepper v-model="currentStep" vertical>
+    <v-stepper v-model="currentStep">
       <template v-for="(step, index) in steps">
         <v-stepper-step
+          alt-labels
+          class="mt-12"
           :key="`stepper-${index}`"
           :complete="currentStep > index + 1"
           :step="index + 1"
@@ -31,17 +32,21 @@
         </v-stepper-items>
       </template>
     </v-stepper>
-
   </div>
 </template>
 
 <script>
 import InitalDataStep from "./initalDataStep.vue";
+import AddressStep from "./addressStep.vue";
 import GroupStep from "./groupStep.vue";
+import BirthAndGender from "./birthAndGender.vue";
+
 export default {
   components: {
     InitalDataStep,
     GroupStep,
+    AddressStep,
+    BirthAndGender,
   },
   data() {
     return {
@@ -50,7 +55,7 @@ export default {
   },
   computed: {
     steps() {
-      return [InitalDataStep, GroupStep];
+      return [InitalDataStep, GroupStep, BirthAndGender, AddressStep];
     },
   },
   methods: {
@@ -61,6 +66,13 @@ export default {
     prevStep() {
       this.currentStep -= 1;
       this.callOnBeforeTab(this.currentStep - 1);
+    },
+    submitStep() {
+      this.validate();
+      if (!this.valid) {
+        return;
+      }
+      this.$emit('submit');
     },
   },
 };
