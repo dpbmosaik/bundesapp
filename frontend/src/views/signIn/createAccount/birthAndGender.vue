@@ -80,6 +80,7 @@
             @nextStep="nextStep()"
             @prevStep="prevStep"
             @submitStep="submitStep()"
+            @ignore="onIngoredClicked"
           />
         </v-container>
       </v-card>
@@ -94,8 +95,10 @@ import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue
 import moment from "moment";
 import { required } from "vuelidate/lib/validators";
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
+// import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
+  // mixins: [stepMixin],
   props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
@@ -227,6 +230,9 @@ export default {
       }
       this.$emit("nextStep");
     },
+    onIngoredClicked() {
+      this.$emit('nextStep');
+    }
   },
 };
 </script>

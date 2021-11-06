@@ -121,6 +121,7 @@
             @nextStep="nextStep()"
             @prevStep="prevStep"
             @submitStep="submitStep()"
+            @ignore="onIngoredClicked"
           />
         </v-container>
       </v-card>
@@ -132,8 +133,10 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
+import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
+  mixins: [stepMixin],
   props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   data: () => ({
@@ -212,17 +215,6 @@ export default {
       return this.initialData;
     },
     customText: (item) => `${item.zipCode} — ${item.city}`,
-    validate() {
-      this.$v.$touch();
-      this.valid = !this.$v.$error;
-    },
-    submitStep() {
-      this.validate();
-      if (!this.valid) {
-        return;
-      }
-      this.$emit("submit");
-    },
     async getZipCodeMapping(searchString) {
       const path = `${this.API_URL}auth/zip-code/?zip_city=${searchString}`;
       const response = await axios.get(path);
@@ -261,16 +253,6 @@ export default {
     beforeTabShow() {
       this.getSingleZipCode(this.data.zipCode);
       this.onRefresh();
-    },
-    prevStep() {
-      this.$emit("prevStep");
-    },
-    nextStep() {
-      this.validate();
-      if (!this.valid) {
-        return;
-      }
-      this.$emit("nextStep");
     },
   },
 };

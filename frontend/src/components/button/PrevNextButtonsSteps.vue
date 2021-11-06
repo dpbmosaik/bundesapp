@@ -4,6 +4,9 @@
     <v-btn v-if="position < maxPos" color="primary" @click="$emit('nextStep')">
       Weiter
     </v-btn>
+    <v-btn icon v-if="position < maxPos" color="primary" @click="$emit('ignore')">
+      <v-icon right> mdi-debug-step-over </v-icon>
+    </v-btn>
     <v-btn v-else color="primary" @click="$emit('submitStep')"> Abschließen </v-btn>
   </v-row>
 </template>
