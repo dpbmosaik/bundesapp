@@ -51,12 +51,14 @@
                 dense
                 v-model="initialData.zipcode"
                 :items="zipCodeResponse"
+                :item-text="customText"
                 required
                 :error-messages="zipCodeErrors"
                 item-value="id"
                 label="Stadt / Postleitzahl"
                 placeholder="Wähle Stadt oder Postleitzahl."
                 :loading="isZipLoading"
+                :search-input.sync="search"
               >
                 <template slot="append">
                   <v-tooltip bottom>
@@ -146,6 +148,7 @@ export default {
     isLoading: true,
     isZipLoading: false,
     zipCodeResponse: [],
+    search: null,
     initialData: {
       firstname: null,
       lastname: null,
@@ -247,7 +250,33 @@ export default {
       return errors;
     },
   },
+  watch: {
+    search(searchString) {
+      // still loading
+      if (this.isZipLoading) return;
+
+      if (!searchString) return;
+
+      if (searchString.indexOf(' ') >= 0) return;
+
+      if (searchString && searchString.length <= 1) return;
+
+      this.isZipLoading = true;
+
+      this.getZipCodeMapping(searchString)
+        .then((res) => {
+          this.zipCodeResponse = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isZipLoading = false;
+        });
+    },
+  },
   methods: {
+    customText: (item) => `${item.zipCode} — ${item.city}`,
     validate() {
       this.$v.$touch();
       this.valid = !this.$v.$error;
@@ -258,6 +287,24 @@ export default {
         return;
       }
       this.$emit("submit");
+    },
+    async getZipCodeMapping(searchString) {
+      const path = `${this.API_URL}auth/zip-code/?zip_city=${searchString}`;
+      const response = await axios.get(path);
+
+      return response.data;
+    },
+    getSingleZipCode(zipCode) {
+      this.callSingleZipCode(zipCode)
+        .then((res) => {
+          this.zipCodeResponse = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isZipLoading = false;
+        });
     },
     send() {
       axios
@@ -277,6 +324,7 @@ export default {
         });
     },
     beforeTabShow() {
+      this.getSingleZipCode(this.data.zipCode);
       this.onRefresh();
     },
     prevStep() {
