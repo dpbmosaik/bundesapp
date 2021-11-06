@@ -99,6 +99,7 @@ export default {
         {
           action: "mdi-airplane-landing",
           signedIn: true,
+          active: true,
           title: "Startseite",
           module: 'landing',
           items: [
