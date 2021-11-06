@@ -75,10 +75,10 @@
       class="d-flex child-flex"
       cols="6"
     >
-    {{getPicture(n)}}
+    <!-- {{getPicture(n)}} -->
       <v-img
         aspect-ratio="1"
-        :src=getPicture(n)
+        :src="getPicture(n)"
         class="grey lighten-2"
       >
         <template v-slot:placeholder>
@@ -134,23 +134,16 @@ export default {
         }return  text;    
       },
       getPicture(num){
-        let text
         switch (num) {
           case 1:
-            text= "@/assets/wiese.jpg"
-            break;
+            return  require('@/assets/wiese.jpg')
           case 2:
-            text= "@/assets/aussicht.jpg"
-            break;
+            return  require('@/assets/aussicht.jpg')
           case 3:
-            text= "@/assets/feuer.jpg"
-            break;
+            return  require('@/assets/feuer.jpg')
           case 4:
-            text= "@/assets/wandern.jpg"
-            break;
-          default:
-            text="hier stünde ihr pfad";
-        }return  text;
+            return  require('@/assets/wandern.jpg')
+        }
       }
     },
   }
@@ -159,11 +152,12 @@ export default {
 <style>
 .centered {
   background-color:rgba(0, 255, 64, 0);
-  color:rgb(56, 27, 27);
+  color:rgb(247, 245, 245);
   font-weight:bolder;
+  font-size: 200px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-40%, -40%);
+  transform: translate(-50%, -50%);
 }
 </style>
