@@ -176,7 +176,7 @@ export default {
       const errors = [];
       if (!this.$v.initialData.username.$dirty) return errors;
       if (!this.$v.initialData.username.required) {
-        errors.push("Passwort ist erforderlich.");
+        errors.push("Benutzername ist erforderlich.");
       }
       return errors;  
     }
