@@ -61,7 +61,8 @@
                     <span>
                       {{
                         "Trage bitte den Wohnort oder die Postleitzahl " +
-                        "des Wohnorts ein und wähle die richtige Option aus."
+                        "des Wohnorts ein und wähle die richtige Option aus. " +
+                        "Gebe mindestens 3 Zahlen oder Buchstaben ein."
                       }}
                     </span>
                   </v-tooltip>
@@ -71,12 +72,7 @@
           </v-row>
           <v-row class="pa-3">
             <v-col>
-              <v-text-field
-                filled
-                dense
-                label="Adresszusatz"
-              >
-              </v-text-field>
+              <v-text-field filled dense label="Adresszusatz"> </v-text-field>
             </v-col>
           </v-row>
           <v-row class="pa-3">
@@ -96,12 +92,7 @@
                       </v-icon>
                     </template>
                     <span>
-                      {{
-                        "Trage bitte eine Mobil- oder Festnetznummer " +
-                        "ein unter der der_die Teilnehmer_in oder die " +
-                        "Erziehungsberechtigten nach " +
-                        "der Fahrt erreichbar sind."
-                      }}
+                      {{ tooltip.phone }}
                     </span>
                   </v-tooltip>
                 </template>
@@ -141,40 +132,23 @@ export default {
     zipCodeResponse: [],
     search: null,
     initialData: {
-      firstname: null,
-      lastname: null,
-      scoutname: null,
-      mail: null,
-      stamm: null,
-      group: null,
-      username: null,
-      birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      gender: null,
       address: null,
       zipcode: null,
       city: null,
       additionalAddress: null,
       phone: null,
     },
-    data: {
-      groups: [{ id: 1, name: "Raubvögel" }],
-      genders: [
-        { id: 1, label: "weiblich" },
-        { id: 2, label: "männlich" },
-        { id: 3, label: "non-binär" },
-      ],
-      valid: true,
-      isLoading: true,
-    },
     showError: false,
     showSuccess: false,
     timeout: 7000,
+    tooltip: {
+      phone:
+        "Die Handynummer ist freiwillig und hilft dich zu kontaktieren (Für manche Fahrten ist sie Pflicht)",
+    },
   }),
   name: "AddressStep",
   displayName: "Adresse / Nummer",
-  validations: { },
+  validations: {},
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
   },
@@ -185,7 +159,7 @@ export default {
 
       if (!searchString) return;
 
-      if (searchString.indexOf(' ') >= 0) return;
+      if (searchString.indexOf(" ") >= 0) return;
 
       if (searchString && searchString.length <= 1) return;
 
@@ -213,39 +187,6 @@ export default {
       const response = await axios.get(path);
 
       return response.data;
-    },
-    getSingleZipCode(zipCode) {
-      this.callSingleZipCode(zipCode)
-        .then((res) => {
-          this.zipCodeResponse = res;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.isZipLoading = false;
-        });
-    },
-    send() {
-      axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
-        .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
-        })
-        .catch(() => {
-          this.showError = true;
-          console.log("Fehler");
-        });
-    },
-    beforeTabShow() {
-      this.getSingleZipCode(this.data.zipCode);
-      this.onRefresh();
     },
   },
 };

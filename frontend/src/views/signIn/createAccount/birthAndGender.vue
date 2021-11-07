@@ -83,7 +83,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 import moment from "moment";
 import { required } from "vuelidate/lib/validators";
@@ -195,23 +194,6 @@ export default {
     validate() {
       this.$v.$touch();
       this.valid = !this.$v.$error;
-    },
-    send() {
-      axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
-        .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
-        })
-        .catch(() => {
-          this.showError = true;
-          console.log("Fehler");
-        });
     },
     prevStep() {
       this.$emit("prevStep");

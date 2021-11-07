@@ -89,10 +89,7 @@
                       </v-icon>
                     </template>
                     <span>
-                      {{
-                        "Trage bitte den Fahrtennamen " +
-                        "des_der Teilnehmer_in ein."
-                      }}
+                      {{ tooltip.scoutName }}
                     </span>
                   </v-tooltip>
                 </template>
@@ -129,7 +126,7 @@
             @nextStep="nextStep()"
             @prevStep="prevStep"
             @submitStep="submitStep()"
-              @ignore="onIngoredClicked"
+            @ignore="onIngoredClicked"
           />
         </v-container>
       </v-card>
@@ -138,12 +135,14 @@
 </template>
 
 <script>
-import axios from "axios"
 import { mapGetters } from "vuex";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
-import { required, email } from "vuelidate/lib/validators";
-//import { helpers } from 'vuelidate/lib/validators'
-//import Tooltip from "../../../components/tooltip/tooltip.vue"
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+} from "vuelidate/lib/validators";
 import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
@@ -163,35 +162,11 @@ export default {
       lastname: null,
       scoutname: null,
       mail: null,
-      stamm: null,
-      group: null,
-      username: null,
-      birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      gender: null,
-      address: null,
-      zipcode: null,
-      city: null,
-      additionalAddress: null,
-      phone: null,
-    },
-    data: {
-      groups: [{ id: 1, name: "Raubvögel" }],
-      genders: [
-        { id: 1, label: "weiblich" },
-        { id: 2, label: "männlich" },
-        { id: 3, label: "non-binär" },
-      ],
-      valid: true,
-      isLoading: true,
     },
     tooltip: {
       scoutName: "Gib hier bitte deinen Namen oder deinen Fahrtennamen ein.",
       email:
         "Die E-Mail nutzen wir für die Kommunikation mit dem Tool und für Rückfragen.",
-      mobileNumber:
-        "Die Handynummer ist freiwillig und hilft dich zu kontaktieren (Für manche Fahrten ist sie Pflicht)",
     },
     showError: false,
     showSuccess: false,
@@ -202,6 +177,7 @@ export default {
     initialData: {
       firstname: {
         required,
+        maxLength: maxLength(24),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z-]*$/);
           return regex.test(value);
@@ -209,12 +185,15 @@ export default {
       },
       lastname: {
         required,
+        maxLength: maxLength(24),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z-]*$/);
           return regex.test(value);
         },
       },
       scoutname: {
+        maxLength: maxLength(12),
+        minLength: minLength(2),
         alphaCustom: (value) => {
           const regex = new RegExp(/^[a-zA-Z0-9-äöüß]*$/);
           return regex.test(value);
@@ -227,14 +206,15 @@ export default {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
     firstNameErrors() {
       const errors = [];
-      //const alpha = helpers.regex('alpha', /^[a-zA-Z-]*$/);
-      //const alphaAndNumeric = helpers.regex('alphaAndNumeric', /^[a-zA-Z0-9-]*$/);
       if (!this.$v.initialData.firstname.$dirty) return errors;
       if (
         !this.$v.initialData.firstname.required ||
         !this.$v.initialData.firstname.alphaCustom
       ) {
         errors.push("Es muss ein valider Vorname eingegeben werden.");
+      }
+      if (!this.$v.initialData.firstname.maxLength) {
+        errors.push("Der Vorname darf nicht länger als 24 Zeichen sein.");
       }
       return errors;
     },
@@ -247,6 +227,9 @@ export default {
       ) {
         errors.push("Es muss ein valider Nachname eingegeben werden.");
       }
+      if (!this.$v.initialData.lastname.maxLength) {
+        errors.push("Der Nachname darf nicht länger als 24 Zeichen sein.");
+      }
       return errors;
     },
     scoutNameErrors() {
@@ -255,6 +238,14 @@ export default {
       if (!this.$v.initialData.scoutname.alphaCustom) {
         errors.push(
           "Es muss ein valider Fahrtenname (ohne Sonderzeichen) eingegeben werden."
+        );
+      }
+      if (
+        !this.$v.initialData.scoutname.maxLength ||
+        !this.$v.initialData.scoutname.minLength
+      ) {
+        errors.push(
+          "Der Fahrtenname muss zwischen 2 und 12 Zeichen lang sein."
         );
       }
       return errors;
@@ -274,23 +265,6 @@ export default {
   methods: {
     getData() {
       return this.initialData;
-    },
-    send() {
-      axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
-        .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
-        })
-        .catch(() => {
-          this.showError = true;
-          console.log("Fehler");
-        });
     },
   },
 };

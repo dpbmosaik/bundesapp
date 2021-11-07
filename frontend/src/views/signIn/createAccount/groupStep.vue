@@ -16,7 +16,7 @@
                 dense
                 v-model="initialData.stamm"
                 :error-messages="stammErrors"
-                :items="data.stamm"
+                :items="data.staemme"
                 item-text="name"
                 item-value="id"
                 label="Stammesname"
@@ -46,7 +46,7 @@
             @nextStep="nextStep()"
             @prevStep="prevStep"
             @submitStep="submitStep()"
-              @ignore="onIngoredClicked"
+            @ignore="onIngoredClicked"
           />
         </v-container>
       </v-card>
@@ -59,7 +59,6 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 import { required } from "vuelidate/lib/validators";
-//import Tooltip from "../../../components/tooltip/tooltip.vue"
 import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
@@ -74,40 +73,12 @@ export default {
     isZipLoading: false,
     zipCodeResponse: [],
     initialData: {
-      firstname: null,
-      lastname: null,
-      scoutname: null,
-      mail: null,
       stamm: null,
       group: null,
-      username: null,
-      birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      gender: null,
-      address: null,
-      zipcode: null,
-      city: null,
-      additionalAddress: null,
-      phone: null,
     },
     data: {
-      stamm: [{ id: 1, name: "Raubvögel" }],
+      staemme: [{ id: 1, name: "Raubvögel" }],
       groups: [{ id: 1, name: "Meute Tschil" }],
-      genders: [
-        { id: 1, label: "weiblich" },
-        { id: 2, label: "männlich" },
-        { id: 3, label: "non-binär" },
-      ],
-      valid: true,
-      isLoading: true,
-    },
-    tooltip: {
-      scoutName: "Gib hier bitte deinen Namen oder deinen Fahrtennamen ein.",
-      email:
-        "Die E-Mail nutzen wir für die Kommunikation mit dem Tool und für Rückfragen.",
-      mobileNumber:
-        "Die Handynummer ist freiwillig und hilft dich zu kontaktieren (Für manche Fahrten ist sie Pflicht)",
     },
     showError: false,
     showSuccess: false,
@@ -118,8 +89,7 @@ export default {
   validations: {
     initialData: {
       stamm: { required },
-      group: { required },
-    }
+    },
   },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
@@ -136,22 +106,20 @@ export default {
     getData() {
       return this.initialData;
     },
-    send() {
+    getStaemme() {
       axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
+        .get(`${this.API_URL}auth/scout-hierarchy/`)
         .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
+          this.data.staemme = response.data;
         })
         .catch(() => {
           this.showError = true;
           console.log("Fehler");
         });
+    },
+    beforeTabShow() {
+      this.getStaemme();
+      this.onRefresh();
     },
   },
 };
