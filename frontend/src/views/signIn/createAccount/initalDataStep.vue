@@ -203,7 +203,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getJwtData"]),
+    ...mapGetters(["isAuthenticated", "getJwtData", "username"]),
     firstNameErrors() {
       const errors = [];
       if (!this.$v.initialData.firstname.$dirty) return errors;
@@ -260,6 +260,11 @@ export default {
         errors.push("Es muss eine valide Email eingegeben werden.");
       }
       return errors;
+    },
+    mounted() {
+      console.log("test" + this.initialData.scoutname)
+      this.$store.commit('setUsername', this.initialData.scoutname);
+      return null
     },
   },
   methods: {

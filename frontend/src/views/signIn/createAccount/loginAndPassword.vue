@@ -100,7 +100,6 @@
 <script>
 import { mapGetters } from "vuex";
 import {required, sameAs, minLength} from 'vuelidate/lib/validators';
-import axios from "axios";
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 //import Tooltip from "../../../components/tooltip/tooltip.vue"
 
@@ -115,41 +114,13 @@ export default {
     isZipLoading: false,
     zipCodeResponse: [],
     initialData: {
-      firstname: null,
-      lastname: null,
-      scoutname: null,
-      mail: null,
-      stamm: null,
-      group: null,
-      username: null,
+      username: null,//this.username,
       password: null,
       passwordB: null,
-      birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      gender: null,
-      address: null,
-      zipcode: null,
-      city: null,
-      additionalAddress: null,
-      phone: null,
     },
     data: {
-      groups: [{ id: 1, name: "Raubvögel" }],
-      genders: [
-        { id: 1, label: "weiblich" },
-        { id: 2, label: "männlich" },
-        { id: 3, label: "non-binär" },
-      ],
       valid: true,
       isLoading: true,
-    },
-    tooltip: {
-      scoutName: "Gib hier bitte deinen Namen oder deinen Fahrtennamen ein.",
-      email:
-        "Die E-Mail nutzen wir für die Kommunikation mit dem Tool und für Rückfragen.",
-      mobileNumber:
-        "Die Handynummer ist freiwillig und hilft dich zu kontaktieren (Für manche Fahrten ist sie Pflicht)",
     },
         showPW: false,
         showPWB: false,
@@ -163,7 +134,7 @@ export default {
     showSuccess: false,
     timeout: 7000,
   }),
-  name: "StepInitalData",
+  name: "LoginAndPassword",
   displayName: "Passwort",
   validations: {
     initialData:{
@@ -177,7 +148,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getJwtData"]),
+    ...mapGetters(["isAuthenticated", "getJwtData", "username"]),
     passwordErrors() {
       const errors = [];
       if (!this.$v.initialData.password.$dirty) return errors;
@@ -206,23 +177,6 @@ export default {
     changeEye(){
 
     },
-    send() {
-      axios
-        .post(
-          `${this.API_URL}basic/registration/?code=${this.getCodeParam}`,
-          this.initialData
-        )
-        .then((response) => {
-          this.$router.push({
-            name: "registrationCreate",
-            content: response,
-          });
-        })
-        .catch(() => {
-          this.showError = true;
-          console.log("Fehler");
-        });
-    },
     prevStep() {
       this.$emit("prevStep");
     },
@@ -233,6 +187,11 @@ export default {
       }
       this.$emit("nextStep");
     },
+    getData() {
+      return this.initialData;
+    },
+    beforeTabShow() {
+    }
   },
 };
 </script>

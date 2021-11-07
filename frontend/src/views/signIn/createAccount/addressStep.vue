@@ -80,7 +80,6 @@
               <v-text-field
                 filled
                 dense
-                :error-messages="phoneErrors"
                 label="Telefonnummer"
                 required
               >

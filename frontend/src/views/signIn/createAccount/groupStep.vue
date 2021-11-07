@@ -92,7 +92,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getJwtData"]),
+    ...mapGetters(["isAuthenticated", "getJwtData", "username"]),
     stammErrors() {
       const errors = [];
       if (!this.$v.initialData.stamm.$dirty) return errors;
@@ -100,6 +100,10 @@ export default {
         errors.push("Es muss ein Stamm ausgewählt werden.");
       }
       return errors;
+    },
+    mounted() {
+      this.$store.commit('setUsername', this.username+"@"+this.stamm);
+      return null
     },
   },
   methods: {
@@ -119,7 +123,6 @@ export default {
     },
     beforeTabShow() {
       this.getStaemme();
-      this.onRefresh();
     },
   },
 };

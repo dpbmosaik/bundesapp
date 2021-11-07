@@ -103,6 +103,7 @@ export default {
       let groupData = this.$refs.GroupStep[0].getData();
       let birthAndGenderData = this.$refs.BirthAndGender[0].getData();
       let addressData = this.$refs.AddressStep[0].getData();
+      let loginData = this.$refs.LoginAndPassword[0].getData();
 
       let allData = {
         firstname: initialData.firstname,
@@ -117,8 +118,8 @@ export default {
         street: addressData.street,
         additionalAddress: addressData.additionalAddress,
         phone: addressData.phone,
-        username: initialData.firstname + initialData.scoutname,
-        password: "start123",
+        username: loginData.username,
+        password: loginData.password,
       };
       this.send(allData);
     },
