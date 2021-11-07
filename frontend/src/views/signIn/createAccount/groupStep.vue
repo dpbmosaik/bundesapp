@@ -112,7 +112,7 @@ export default {
     },
     getStaemme() {
       axios
-        .get(`${this.API_URL}auth/scout-hierarchy/`)
+        .get(`${this.API_URL}/auth/scout-hierarchy/`)
         .then((response) => {
           this.data.staemme = response.data;
         })

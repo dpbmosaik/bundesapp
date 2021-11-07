@@ -86,7 +86,7 @@ export default {
     },
     send(allData) {
       axios
-        .post(`${this.API_URL}auth/register/`, allData)
+        .post(`${this.API_URL}/auth/register/`, allData)
         .then((response) => {
           this.$router.push({
             name: "registrationCreate",
