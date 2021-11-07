@@ -1,163 +1,63 @@
 <template>
-  <div>
-    <h1> Startseite </h1>
-    <v-card>
-      <v-toolbar
-        :color=this.farbe
-        dark
-        flat
+  <v-container fluid>
+    <v-row align="center" justify="center">
+      <v-card
+        outlined
+        elevation="3"
+        fluid
+        justify="center"
+        max-width="40%"
+        min-width="400"
+        class="pa-4"
       >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-        <v-toolbar-title>Your Dashboard</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-
-        <template v-slot:extension>
-          <v-tabs
-            farbe="light-green darken-3"
-            v-model="tab"
-            align-with-title
-            show-arrows
-          >
-            <v-tabs-slider color="light-green lighten-1"></v-tabs-slider>
-
-            <v-tab
-              v-for="item in items"
-              :key="item"
-            >
-              {{ item }}  
-            </v-tab>
-          </v-tabs>
-        </template>
-      </v-toolbar>
-
-      <v-tabs-items v-model="tab">
-        <v-tab-item
-          v-for="item in items"
-          :key="item"
-        >
-          <v-card flat>
-            {{getInhalt(item)}}
-            <v-img src="@/assets/wandern.jpg" 
-            aspect-ratio="1" 
-            v-on:click=atClick() 
-            v-if= "item==items[0]"
-            >
-           
-            <div class="centered">
-                  Click
-              </div>
-            </v-img>
-          </v-card>
-          
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
-    
-
-    <!-- <v-img
-      aspect-ratio="1"
-      src="@/assets/aussicht.jpg"
-    ></v-img> -->
-      <v-row>
-    <v-col
-      v-for="n in 4"
-      :key="n"
-      class="d-flex child-flex"
-      cols="6"
-    >
-    <!-- {{getPicture(n)}} -->
-      <v-img
-        aspect-ratio="1"
-        :src="getPicture(n)"
-        class="grey lighten-2"
-      >
-        <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            align="center"
-            justify="center"
-          >
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
+        <v-container fluid>
+          <v-row justify="center">
+            <h2 class="ma-4">Melde dich bei der Bundesapp an!</h2>
+            <p class="ma-2" style="color: #b8bcca">
+              Die Bundesapp ist ein Service des Deutschen Pfafinderbundes Mosaik
+            </p>
           </v-row>
-        </template>
-      </v-img>
-    </v-col>
-  </v-row>
-  </div>
+          <v-row class="pa-3">
+            <v-text-field filled dense label="Benutzername"> </v-text-field>
+          </v-row>
+          <v-row class="pt-3 px-3">
+            <v-text-field filled append-icon="mdi-eye-off" label="Passwort">
+            </v-text-field>
+          </v-row>
+          <v-row justify="center">
+            <v-btn
+              large
+              block
+              depressed
+              style="background-color: #0048d9; color: white"
+              >
+              Anmelden
+            </v-btn
+            >
+          </v-row>
+          <v-row justify="center">
+            <v-divider class="my-6"></v-divider>
+          </v-row>
+          <v-row justify="center">
+            <v-btn @click="onCreateAccoutClicked" large block outlined>
+              Account Erstellen
+            </v-btn>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
-    data () {
-      return {
-        tab: null,
-        items: [
-          'Start', 'Anmelden','Registrieren','Wiki','Kalender','Inspirator','Pfinder',
-        ],
-        farbe : "light-green darken-3"
-      }
-    },
-    methods:{
-      atClick(){
-        this.farbe="green lighten-2"
-      },
-      getInhalt(item){
-        let text
-        switch (item) {
-          case this.items[0]:
-            text= "Es gibt keine Inhlat1, sry";
-            break;
-          case this.items[1]:
-            text="Es gibt keine Inhlat2, sry";
-            break;
-          case this.items[2]:
-            text= "Es gibt keine Inhlat3, sry";
-            break;
-          case this.items[4]:
-            text= "Es gibt keine Inhlat4, sry";
-            break;
-          default:
-            text="Es gibt keine Inhlat, sry";
-        }return  text;    
-      },
-      getPicture(num){
-        switch (num) {
-          case 1:
-            return  require('@/assets/wiese.jpg')
-          case 2:
-            return  require('@/assets/aussicht.jpg')
-          case 3:
-            return  require('@/assets/feuer.jpg')
-          case 4:
-            return  require('@/assets/wandern.jpg')
-        }
-      }
+  methods: {
+        onCreateAccoutClicked() {
+      this.$router.push({ name: 'SignInCreateAccountMain' });
     },
   }
+};
 </script>
 
-<style>
-.centered {
-  background-color:rgba(0, 255, 64, 0);
-  color:rgb(247, 245, 245);
-  font-weight:bolder;
-  font-size: 200px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+<style scope>
 </style>
