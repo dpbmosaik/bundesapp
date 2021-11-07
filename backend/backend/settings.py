@@ -155,7 +155,7 @@ AUTHENTICATION_BACKENDS = (
     'backend.OIDCAuthentication.MyOIDCAB',
     'django.contrib.auth.backends.ModelBackend',
 )
-# https://auth.anmelde-tool.de/auth/realms/Hagis-Spielwiese
+
 BASE_URI = env('BASE_URI')
 BASE_REALM_URI = f'{BASE_URI}/realms/{env("OIDC_RP_REALMNAME")}'
 OIDC_AUTH_URI = f'{BASE_REALM_URI}/{env("OIDC_RP_CLIENT_ID")}/'
