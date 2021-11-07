@@ -114,7 +114,7 @@ export default {
     isZipLoading: false,
     zipCodeResponse: [],
     initialData: {
-      username: null,//this.username,
+      username: "",
       password: null,
       passwordB: null,
     },
@@ -187,10 +187,14 @@ export default {
       }
       this.$emit("nextStep");
     },
+    submitStep() {
+      this.$emit("submit");
+    },
     getData() {
       return this.initialData;
     },
     beforeTabShow() {
+      //console.log(this.username);
     }
   },
 };

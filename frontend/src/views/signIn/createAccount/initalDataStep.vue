@@ -123,7 +123,7 @@
           <prev-next-buttons
             :position="position"
             :max-pos="maxPos"
-            @nextStep="nextStep()"
+            @nextStep="nextStep"
             @prevStep="prevStep"
             @submitStep="submitStep()"
             @ignore="onIngoredClicked"
@@ -262,12 +262,16 @@ export default {
       return errors;
     },
     mounted() {
-      console.log("test" + this.initialData.scoutname)
-      this.$store.commit('setUsername', this.initialData.scoutname);
-      return null
+      this.setUsername();
+      return null;
     },
   },
   methods: {
+    setUsername() {
+      console.log("scoutname" + this.initialData.scoutname)
+      this.$store.commit('setUsername', this.initialData.scoutname);
+      this.$emit("nextStep");
+    },
     getData() {
       return this.initialData;
     },
