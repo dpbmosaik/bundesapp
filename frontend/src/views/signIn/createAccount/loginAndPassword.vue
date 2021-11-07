@@ -17,6 +17,7 @@
                 v-model="initialData.username"
                 label="Anzeigename"
                 required
+                :error-messages="usernameErrors"
                 @input="$v.initialData.username.$touch()"
                 @blur="$v.initialData.username.$touch()"
               >
@@ -144,7 +145,10 @@ export default {
       },
       passwordB:{
         sameAsPassword:sameAs('password')
-      }
+      },
+      username: {
+        required,
+      },
     }
   },
   computed: {
@@ -168,6 +172,14 @@ export default {
       }
       return errors;
     },
+    usernameErrors() {
+      const errors = [];
+      if (!this.$v.initialData.username.$dirty) return errors;
+      if (!this.$v.initialData.username.required) {
+        errors.push("Passwort ist erforderlich.");
+      }
+      return errors;  
+    }
   },
   methods: {
     validate() {
