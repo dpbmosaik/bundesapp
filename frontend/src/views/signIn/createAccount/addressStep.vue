@@ -79,7 +79,9 @@
             <v-col>
               <v-text-field
                 filled
+                v-model="initialData.phoneNumber"
                 dense
+                :error-messages="phoneNumberErrors"
                 label="Telefonnummer"
                 required
               >
@@ -115,8 +117,18 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "axios";
+import {
+  integer,
+  minValue,
+} from 'vuelidate/lib/validators';
 import PrevNextButtons from "../../../components/button/PrevNextButtonsSteps.vue";
 import { stepMixin } from "@/mixins/stepMixin.js";
+
+const phoneNumStartValidator = (number) => {
+  if (!number) return true;
+  return number.startsWith('0');
+};
+
 
 export default {
   mixins: [stepMixin],
@@ -131,11 +143,7 @@ export default {
     zipCodeResponse: [],
     search: null,
     initialData: {
-      address: null,
-      zipcode: null,
-      city: null,
-      additionalAddress: null,
-      phone: null,
+      phoneNumber: null,
     },
     showError: false,
     showSuccess: false,
@@ -147,9 +155,32 @@ export default {
   }),
   name: "AddressStep",
   displayName: "Adresse / Nummer",
-  validations: {},
+  validations: {
+    initialData: {
+      phoneNumber: {
+        integer,
+        minValue: minValue(1),
+        phoneNumStartValidator,
+      },
+    }
+  },
   computed: {
     ...mapGetters(["isAuthenticated", "getJwtData"]),
+
+    phoneNumberErrors() {
+      const errors = [];
+      if (!this.$v.initialData.phoneNumber.$dirty) return errors;
+      if (
+        !this.$v.initialData.phoneNumber.integer || // eslint-disable-line
+        !this.$v.initialData.phoneNumber.minValue // eslint-disable-line
+      ) {
+        errors.push('Telefonnummer darf nur aus Zahlen bestehen.'); // eslint-disable-line
+      }
+      if (!this.$v.initialData.phoneNumber.phoneNumStartValidator) {
+        errors.push('Die Telefonnummer muss mit 0 beginnen.');
+      }
+      return errors;
+    },
   },
   watch: {
     search(searchString) {
