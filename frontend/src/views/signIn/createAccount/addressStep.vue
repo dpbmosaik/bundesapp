@@ -213,7 +213,7 @@ export default {
     },
     customText: (item) => `${item.zipCode} — ${item.city}`,
     async getZipCodeMapping(searchString) {
-      const path = `${this.API_URL}auth/zip-code/?zip_city=${searchString}`;
+      const path = `${this.API_URL}/auth/zip-code/?zip_city=${searchString}`;
       const response = await axios.get(path);
 
       return response.data;
