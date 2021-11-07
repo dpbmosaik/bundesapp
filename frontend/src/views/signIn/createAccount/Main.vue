@@ -4,7 +4,7 @@
       <v-stepper-header editable>
         <template v-for="(step2, index2) in steps">
           <template>
-            <v-stepper-step editable :key="index2" :step="index2 + 1">
+            <v-stepper-step editable :key="`key1-${index2}`" :step="index2 + 1">
               {{ step2.displayName }}
             </v-stepper-step>
             <v-divider :key="index2"></v-divider>
