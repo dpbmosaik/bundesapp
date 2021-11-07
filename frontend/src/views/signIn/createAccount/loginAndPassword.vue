@@ -2,21 +2,13 @@
   <v-container fluid>
     <v-row align="center" justify="center">
       <v-card
-        outlined
-        elevation="3"
-        fluid
         justify="center"
         max-width="60%"
         min-width="400"
         class="pa-4"
+        flat
       >
         <v-container fluid>
-          <v-row justify="center">
-            <h2 class="ma-4">Account erstellen</h2>
-            <p class="ma-2" style="color: #b8bcca">
-              Die Bundesapp ist ein Service des Deutschen Pfafinderbundes Mosaik
-            </p>
-          </v-row>
           <v-row class="pa-3">
             <v-col>
               <v-text-field
@@ -172,7 +164,7 @@ export default {
     timeout: 7000,
   }),
   name: "StepInitalData",
-  displayName: "Account",
+  displayName: "Passwort",
   validations: {
     initialData:{
       password:{

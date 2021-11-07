@@ -1,19 +1,31 @@
 <template>
   <v-row justify="center">
-    <v-btn v-if="position > 1" class="mr-5" @click="$emit('prevStep')"> Zurück </v-btn>
+    <v-btn v-if="position > 1" class="mr-5" @click="$emit('prevStep')">
+      <v-icon left> mdi-chevron-left  </v-icon>
+      Zurück
+    </v-btn>
     <v-btn v-if="position < maxPos" color="primary" @click="$emit('nextStep')">
       Weiter
+      <v-icon right> mdi-chevron-right </v-icon>
     </v-btn>
-    <v-btn icon v-if="position < maxPos" color="primary" @click="$emit('ignore')">
+    <v-btn
+      icon
+      v-if="position < maxPos"
+      color="primary"
+      @click="$emit('ignore')"
+    >
       <v-icon right> mdi-debug-step-over </v-icon>
     </v-btn>
-    <v-btn v-else color="primary" @click="$emit('submitStep')"> Abschließen </v-btn>
+    <v-btn v-else color="success" @click="$emit('submitStep')">
+      Abschließen
+      <v-icon right >mdi-content-save</v-icon>
+    </v-btn>
   </v-row>
 </template>
 
 <script>
 export default {
-  props: ['position', 'maxPos'],
+  props: ["position", "maxPos"],
 };
 </script>
 

@@ -4,6 +4,7 @@
       <Header />
     </v-app-bar>
     <v-navigation-drawer
+      :mini-variant.sync="isMobile"
       app
       permanent
       width="300"
@@ -78,6 +79,9 @@ export default {
   },
   computed: {
     ...mapGetters(["signedIn", "user", 'language']),
+    isMobile() {
+      return this.$vuetify.breakpoint.mdAndDown;
+    },
     filteredItems() {
       return this.items;
     },

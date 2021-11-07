@@ -1,8 +1,17 @@
 <template>
   <div>
     <v-stepper v-model="currentStep">
+      <v-stepper-header editable>
+        <template v-for="(step2, index2) in steps">
+          <template>
+            <v-stepper-step editable :key="index2" :step="index2 + 1">
+              {{ step2.displayName }}
+            </v-stepper-step>
+            <v-divider :key="index2"></v-divider>
+          </template>
+        </template>
+      </v-stepper-header>
       <template v-for="(step, index) in steps">
-      
         <v-divider :key="index"></v-divider>
 
         <v-stepper-items :key="`stepper-items-${index}`">
@@ -19,15 +28,6 @@
             />
           </v-stepper-content>
         </v-stepper-items>
-        <v-stepper-step
-          alt-labels
-          class="mt-12"
-          :key="`stepper-${index}`"
-          :complete="currentStep > index + 1"
-          :step="index + 1"
-        >
-          {{ `${step.displayName}` }}
-        </v-stepper-step>
       </template>
     </v-stepper>
   </div>
@@ -55,13 +55,17 @@ export default {
   }),
   computed: {
     steps() {
-      return [InitialDataStep, GroupStep, BirthAndGender, AddressStep, LoginAndPassword];
+      return [
+        InitialDataStep,
+        GroupStep,
+        BirthAndGender,
+        AddressStep,
+        LoginAndPassword,
+      ];
     },
   },
   methods: {
-    onRegistrationConfirmed() {
-      
-    },
+    onRegistrationConfirmed() {},
     nextStep() {
       this.currentStep += 1;
       this.callOnBeforeTab(this.currentStep - 1);
@@ -72,18 +76,17 @@ export default {
     },
     callOnBeforeTab(step) {
       const nextStepName = this.steps[step].name;
-      if (this.$refs[nextStepName]
-        && this.$refs[nextStepName].length
-        && this.$refs[nextStepName][0].beforeTabShow) {
+      if (
+        this.$refs[nextStepName] &&
+        this.$refs[nextStepName].length &&
+        this.$refs[nextStepName][0].beforeTabShow
+      ) {
         this.$refs[nextStepName][0].beforeTabShow();
       }
     },
     send(allData) {
       axios
-        .post(
-          `${this.API_URL}auth/register/`,
-          allData
-        )
+        .post(`${this.API_URL}auth/register/`, allData)
         .then((response) => {
           this.$router.push({
             name: "registrationCreate",
@@ -114,11 +117,11 @@ export default {
         street: addressData.street,
         additionalAddress: addressData.additionalAddress,
         phone: addressData.phone,
-        username: initialData.firstname+initialData.scoutname,
-        password: 'start123'
-      }
-      this.send(allData)
-    }
+        username: initialData.firstname + initialData.scoutname,
+        password: "start123",
+      };
+      this.send(allData);
+    },
   },
 };
 </script>

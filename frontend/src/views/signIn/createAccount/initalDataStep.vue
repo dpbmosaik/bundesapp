@@ -2,21 +2,13 @@
   <v-container fluid>
     <v-row align="center" justify="center">
       <v-card
-        outlined
-        elevation="3"
-        fluid
         justify="center"
         max-width="60%"
         min-width="400"
         class="pa-4"
+        flat
       >
         <v-container fluid>
-          <v-row justify="center">
-            <h2 class="ma-4">Account erstellen</h2>
-            <p class="ma-2" style="color: #b8bcca">
-              Die Bundesapp ist ein Service des Deutschen Pfafinderbundes Mosaik
-            </p>
-          </v-row>
           <v-row class="pa-3">
             <v-col>
               <v-text-field
@@ -155,7 +147,7 @@ import { required, email } from "vuelidate/lib/validators";
 import { stepMixin } from "@/mixins/stepMixin.js";
 
 export default {
-  displayName: 'Name',
+  displayName: 'Persönliches',
   props: ["isOpen", "position", "maxPos"],
   components: { PrevNextButtons },
   mixins: [stepMixin],
