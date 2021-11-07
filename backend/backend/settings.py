@@ -36,6 +36,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    'api.dev.bundesapp.org'
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -32,17 +32,19 @@ class RegistrationViewSet(viewsets.ViewSet):
         serializers = RegisterSerializer(data=request.data)
         serializers.is_valid(raise_exception=True)
 
+        # data.get(key) returns a None object when the key in the dictionary does not exist
+        # keycloak ignores key with empty values so no further check is required here
         try:
-            new_user = keycloak_admin.create_user({"email": serializers.data['mail'],
-                                                   "username": serializers.data['username'],
-                                                   "firstName": serializers.data['firstname'],
-                                                   "lastName": serializers.data['lastname'],
+            new_user = keycloak_admin.create_user({"email": serializers.data.get('mail'),
+                                                   "username": serializers.data.get('username'),
+                                                   "firstName": serializers.data.get('firstname'),
+                                                   "lastName": serializers.data.get('lastname'),
                                                    "enabled": True,
                                                    "credentials": [
-                                                       {"value": serializers.data['password'], "type": "password", }
+                                                       {"value": serializers.data.get('password'), "type": "password", }
                                                    ],
                                                    "attributes": {
-                                                       "birthdate": serializers.data['birthdate'],
+                                                       "birthdate": serializers.data.get('birthdate'),
                                                        "gender": serializers.data.get('gender'),
                                                        "city": serializers.data.get('city'),
                                                        "address": serializers.data.get('address'),
@@ -54,7 +56,7 @@ class RegistrationViewSet(viewsets.ViewSet):
                                                    }}, exist_ok=False)
             return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
         except KeycloakGetError:
-            return Response({'status': 'failed', 'error': 'already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'status': 'failed', 'error': 'user already exists'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'status': 'failed', 'error': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
