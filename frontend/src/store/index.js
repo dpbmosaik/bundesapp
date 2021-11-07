@@ -8,10 +8,19 @@ export default new Vuex.Store({
   state: {
     accessToken: null,
     refreshToken: null,
+    username: null,
   },
   getters: {
     isAuthenticated(state) {
       return !!state.accessToken;
+    },
+    username(state) {
+      return state.username;
+    },
+  },
+  setters: {
+    setUsername(state, newData) {
+      state.username = newData;
     },
   },
   actions: {

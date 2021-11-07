@@ -19,7 +19,7 @@ Place the `.env` file next to the settings.py
 
 Mac, Linux:
 
-`python manage.py loaddata data/data/*.json`
+`python manage.py loaddata data/*.json`
 
 Windows: 
 
