@@ -14,8 +14,8 @@ ecdsa==0.17.0
 idna==3.3
 josepy==1.10.0
 mozilla-django-oidc==2.0.0
-psycopg2==2.8.6
-psycopg2-binary==2.8.6
+psycopg2==2.9.2
+psycopg2-binary==2.9.2
 pyasn1==0.4.8
 pycparser==2.20
 pyOpenSSL==21.0.0
