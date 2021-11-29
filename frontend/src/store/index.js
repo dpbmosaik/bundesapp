@@ -1,31 +1,12 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate'; // eslint-disable-line
+import { createStore } from 'vuex'
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
-    accessToken: null,
-    refreshToken: null,
-    username: null,
   },
-  getters: {
-    isAuthenticated(state) {
-      return !!state.accessToken;
-    },
-    username(state) {
-      return state.username;
-    },
-  },
-  setters: {
-    setUsername(state, newData) {
-      state.username = newData;
-    },
+  mutations: {
   },
   actions: {
   },
   modules: {
-  },
-  plugins: [createPersistedState()],
-});
+  }
+})

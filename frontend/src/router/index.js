@@ -1,67 +1,44 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-import LandingStartMain from '@/views/landing/start/Main.vue'
-
-import AboutContactMain from '@/views/about/contact/Main.vue'
-import AboutImpressumMain from '@/views/about/impressum/Main.vue'
-import AboutPrivacyMain from '@/views/about/privacy/Main.vue'
-
-import SignInCreateAccountMain from '@/views/signIn/createAccount/Main.vue'
-import SignInUpdateAccountMain from '@/views/signIn/updateAccount/Main.vue'
-
-import MasterDataStammMain from '@/views/masterData/stamm/Main.vue'
-import MasterDataRingMain from '@/views/masterData/ring/Main.vue'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHashHistory } from 'vue-router'
+import Home from '../views/Home.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'LandingStartMain',
-    component: LandingStartMain
-  },
-
-  {
-    path: '/about/contact',
-    name: 'AboutContactMain',
-    component: AboutContactMain
+    name: 'Home',
+    component: Home
   },
   {
-    path: '/about/impressum',
-    name: 'AboutImpressumMain',
-    component: AboutImpressumMain
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/about/privacy',
-    name: 'AboutPrivacyMain',
-    component: AboutPrivacyMain
-  },
-
-  {
-    path: '/sign-up/create-account',
-    name: 'SignInCreateAccountMain',
-    component: SignInCreateAccountMain
+    path: '/register',
+    name: 'Register',
+    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
   },
   {
-    path: '/sign-up/update-account',
-    name: 'SignInUpdateAccountMain',
-    component: SignInUpdateAccountMain
-  },
-
-  {
-    path: '/master-data/stamm',
-    name: 'MasterDataStammMain',
-    component: MasterDataStammMain
+    path: '/contact',
+    name: 'Contact',
+    component: () => import(/* webpackChunkName: "contact" */ '../views/Contact.vue')
   },
   {
-    path: '/master-data/ring',
-    name: 'MasterDataRingMain',
-    component: MasterDataRingMain
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+  },
+  {
+    path: '/demo',
+    name: 'Demo',
+    component: () => import(/* webpackChunkName: "login" */ '../views/Demo.vue')
   }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
 })
 
