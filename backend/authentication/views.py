@@ -58,7 +58,9 @@ class RegistrationViewSet(viewsets.ViewSet):
         except KeycloakGetError:
             return Response({'status': 'failed', 'error': 'user already exists'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'status': 'failed', 'error': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(f"Error within registration:\n{e}")
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ScoutHierarchyViewSet(viewsets.ReadOnlyModelViewSet):
