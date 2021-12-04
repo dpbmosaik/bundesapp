@@ -3,7 +3,7 @@
 For Ubuntu 18.04 you need postgresql as dependency for psycopg2
 
 ```
-sudo apt install postgresql libpq-dev
+sudo apt install libpq-dev
 ```
 
 
