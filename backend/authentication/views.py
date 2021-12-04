@@ -26,7 +26,16 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
 
 
 # Create your views here.
-class RegistrationViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ViewSet):
+
+    def get(self, request, *args, **kwargs):
+        # serializers = RegisterSerializer(data=request.data)
+        # serializers.is_valid(raise_exception=True)
+        # user = keycloak_admin.get_user(user_id=keycload_id)
+        user_id = request.GET['user_id']
+        user = keycloak_admin.get_user(user_id)
+        print(user)
+        return Response({'status': 'ok', 'user': user_id}, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         serializers = RegisterSerializer(data=request.data)
