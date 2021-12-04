@@ -1,3 +1,15 @@
+# Setup postgresql libs
+You need postgresql as dependency for psycopg2
+
+For Ubuntu 18.04
+```
+sudo apt install postgresql libpq-dev
+```
+For Arch based
+```
+package: libpqxx
+```
+
 # create venv
 `virtualenv venv`
 
