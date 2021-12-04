@@ -19,9 +19,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, 'backend', '.env'))
 keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
                                username=env('KEYCLOAK_ADMIN_USER'),
                                password=env('KEYCLOAK_ADMIN_PASSWORD'),
-                               realm_name=env('OIDC_RP_REALMNAME'),
-                               client_id=env('KEYCLOAK_ADMIN_CLIENT_ID'),
-                               client_secret_key=env('KEYCLOAK_ADMIN_SECRET'),
+                               realm_name=env('KEYCLOAK_APP_REALM'),
+                               user_realm_name='master',
                                verify=True)
 
 
