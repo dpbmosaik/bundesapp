@@ -1,6 +1,7 @@
 <template>
   <div class="register">
     <h1>This is a Register page</h1>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -8,7 +9,7 @@
 export default {
   data() {
     return {
-      
+
     }
   }
 }

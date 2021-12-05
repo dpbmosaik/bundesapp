@@ -18,37 +18,39 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
-  },
-  {
-    path: '/register/1',
-    name: 'Register1',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFirstStep.vue')
-  },
-  {
-    path: '/register/2',
-    name: 'Register2',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSecondStep.vue')
-  },
-  {
-    path: '/register/3',
-    name: 'Register3',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterThirdStep.vue')
-  },
-  {
-    path: '/register/4',
-    name: 'Register4',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFourthStep.vue')
-  },
-  {
-    path: '/register/5',
-    name: 'Register5',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFifthStep.vue')
-  },
-  {
-    path: '/register/6',
-    name: 'Register6',
-    component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSixthStep.vue')
+    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
+    children: [
+      {
+        path: '/register/1',
+        name: 'Register1',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFirstStep.vue')
+      },
+      {
+        path: '/register/2',
+        name: 'Register2',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSecondStep.vue')
+      },
+      {
+        path: '/register/3',
+        name: 'Register3',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterThirdStep.vue')
+      },
+      {
+        path: '/register/4',
+        name: 'Register4',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFourthStep.vue')
+      },
+      {
+        path: '/register/5',
+        name: 'Register5',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFifthStep.vue')
+      },
+      {
+        path: '/register/6',
+        name: 'Register6',
+        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSixthStep.vue')
+      },
+    ]
   },
   {
     path: '/contact',
