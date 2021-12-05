@@ -25,7 +25,23 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
 
 
 # Create your views here.
-class RegistrationViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ViewSet):
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.GET['user_id']
+        if user_id:
+            try:
+                user = keycloak_admin.get_user(user_id)
+                return Response({'status': 'ok', 'user': user}, status=status.HTTP_200_OK)
+            except KeycloakGetError:
+                return Response({'status': 'failed', 'error': 'no user with user_id'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print(f"Error when getting user with id {user_id}:\n{e}")
+                return Response({'status': 'failed', 'error': 'internal server error'},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({'status': 'failed', 'error': 'no user_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request, *args, **kwargs):
         serializers = RegisterSerializer(data=request.data)
