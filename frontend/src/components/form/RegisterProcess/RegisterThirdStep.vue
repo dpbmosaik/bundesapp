@@ -1,11 +1,9 @@
 <template>
-  <CardTemplate>
-
-  </CardTemplate>
+  <p>3</p>
 </template>
 
 <script>
-import CardTemplate from "./RegisterComponents/CardTemplate.vue"
+
 
 
 export default {
@@ -15,7 +13,7 @@ export default {
     }
   },
   components: {
-    CardTemplate,
+
   }
 }
 </script>

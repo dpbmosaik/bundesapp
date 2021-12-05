@@ -19,6 +19,7 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
+    redirect: { name: 'Register1' },
     children: [
       {
         path: '/register/1',

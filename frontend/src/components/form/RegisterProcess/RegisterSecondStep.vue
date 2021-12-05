@@ -1,5 +1,5 @@
 <template>
-  <CardTemplate>
+  <div>
     <br>
     <!-- Stamm selector -->
     <div>
@@ -24,13 +24,11 @@
         <option>Meute</option>
       </select>
     </div>
+    </div>
 
-  </CardTemplate>
 </template>
 
 <script>
-import CardTemplate from "./RegisterComponents/CardTemplate.vue"
-
 
 export default {
   data() {
@@ -39,7 +37,7 @@ export default {
     }
   },
   components: {
-    CardTemplate,
+   
   },
 }
 </script>
