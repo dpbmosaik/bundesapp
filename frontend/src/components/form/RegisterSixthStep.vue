@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <h1>This is a Register page</h1>
+    <h1>This is the Register page 6</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      
+      password: ''
     }
   }
 }
