@@ -1,7 +1,7 @@
-from mozilla_django_oidc.auth import OIDCAuthenticationBackend
-from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
 from django.db import transaction
+from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 
 
 class MyOIDCAB(OIDCAuthenticationBackend):
@@ -9,17 +9,10 @@ class MyOIDCAB(OIDCAuthenticationBackend):
     def create_user(self, claims):
         user = super(MyOIDCAB, self).create_user(claims)
         user.username = claims.get('sub', '')
-        user.first_name = claims.get('given_name', '')
-        user.last_name = claims.get('family_name', '')
         user.save()
-
         return user
 
     def update_user(self, user, claims):
-        user.first_name = claims.get('given_name', '')
-        user.last_name = claims.get('family_name', '')
-        user.save()
-
         return user
 
     def update_groups(self, user, claims):
@@ -40,10 +33,6 @@ class MyOIDCAB(OIDCAuthenticationBackend):
         them in a dict.
         """
         userinfo = super().get_userinfo(access_token, id_token, payload)
-        # accessinfo = self.verify_token(access_token, nonce=payload.get('nonce'))
-        # roles = accessinfo.get('realm_access', {}).get('roles', [])
-        #
-        # userinfo['roles'] = roles
         return userinfo
 
     def filter_users_by_claims(self, claims):

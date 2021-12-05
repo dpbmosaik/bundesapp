@@ -1,3 +1,5 @@
+from backend.OIDCAuthentication import MyOIDCAB
+
 from .serializers import RegisterSerializer, ScoutHierarchySerializer, ZipCodeSerializer, ScoutOrgaLevelSerializer, \
     EatHabitTypeSerializer
 from django.db.models import Q
@@ -11,6 +13,7 @@ from keycloak import KeycloakAdmin, KeycloakGetError
 import environ
 from django.conf import settings
 import os
+from rest_framework.permissions import IsAuthenticated
 
 BASE_DIR = getattr(settings, "BASE_DIR", None)
 env = environ.Env()
@@ -23,24 +26,11 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
                                user_realm_name='master',
                                verify=True)
 
+auth = MyOIDCAB()
+
 
 # Create your views here.
-class UsersViewSet(viewsets.ViewSet):
-    def get(self, request, *args, **kwargs):
-        user_id = request.GET['user_id']
-        if user_id:
-            try:
-                user = keycloak_admin.get_user(user_id)
-                return Response({'status': 'ok', 'user': user}, status=status.HTTP_200_OK)
-            except KeycloakGetError:
-                return Response({'status': 'failed', 'error': 'no user with user_id'},
-                                status=status.HTTP_400_BAD_REQUEST)
-            except Exception as e:
-                print(f"Error when getting user with id {user_id}:\n{e}")
-                return Response({'status': 'failed', 'error': 'internal server error'},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            return Response({'status': 'failed', 'error': 'no user_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
+class RegisterViewSet(viewsets.ViewSet):
 
     def search_group_tree_for_name(self, tree, name):
         for group in tree:
@@ -92,6 +82,24 @@ class UsersViewSet(viewsets.ViewSet):
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
+
+
+class UserViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+
+        try:
+            user = auth.get_userinfo(request.auth, None, None)
+            print(user)
+            return Response({'status': 'ok', 'user': user}, status=status.HTTP_200_OK)
+        except KeycloakGetError:
+            return Response({'status': 'failed', 'error': 'no user with user_id'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"Error getting user:\n{e}")
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ScoutHierarchyViewSet(viewsets.ReadOnlyModelViewSet):

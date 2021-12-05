@@ -6,7 +6,7 @@ roles = [
     {'name': 'CanChangeBelow',
      'description': 'Man kann damit Personen hierarisch untergeordneten in Gruppe einsortieren'},
     {'name': 'CanChangeSameLevel',
-     'description': 'Man kann damit Personen hierarisch auf dem selbel Level in Gruppe einsortieren'},
+     'description': 'Man kann damit Personen hierarisch auf dem selben Level in Gruppe einsortieren'},
     {'name': 'CanChangeAll',
      'description': 'Man kann damit alle Personen in alle Gruppe einsortieren'},
     {'name': 'CanVerifyAll',
