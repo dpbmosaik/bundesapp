@@ -1,24 +1,14 @@
 import json
-import pathlib
+from keycloak_login_admin import BASE_DIR, keycloak_admin
 
-import environ
-from keycloak import KeycloakAdmin
 from treelib import Node, Tree
 
-env = environ.Env()
-
-BASE_DIR = pathlib.Path(__file__).parent.parent.resolve()
-environ.Env.read_env(BASE_DIR / 'backend' / '.env')
-
-keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
-                               username=env('KEYCLOAK_ADMIN_USER'),
-                               password=env('KEYCLOAK_ADMIN_PASSWORD'),
-                               realm_name=env('KEYCLOAK_APP_REALM'),
-                               user_realm_name='master',
-                               verify=True)
+admin_groups = [{'name': '0_Führer_in'},
+                {'name': '1_Stv. Führer_in'},
+                {'name': '2_Schatzmeister_in'}]
 
 data_source = BASE_DIR / 'data' / '1_scoutHierarchy.json'
-with open(data_source) as json_file:
+with open(data_source, encoding="utf-8") as json_file:
     data = json.load(json_file)
 
 tree = Tree()
@@ -41,8 +31,13 @@ def get_path(tree: Tree, path: str, node: Node) -> str:
 def recursively_add_groups(tree: Tree, parent_id: str, node: Node) -> dict:
     group = {'name': node.tag}
     keycloak_admin.create_group(payload=group, parent=parent_id, skip_exists=True)
+
     path = get_path(tree, '', node)
     parent_id = keycloak_admin.get_group_by_path(path, search_in_subgroups=True)['id']
+
+    for admin_group in admin_groups:
+        keycloak_admin.create_group(payload=admin_group, parent=parent_id, skip_exists=True)
+
     if not tree.children(node.identifier):
         return
 

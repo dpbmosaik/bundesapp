@@ -26,7 +26,6 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
 
 # Create your views here.
 class UsersViewSet(viewsets.ViewSet):
-
     def get(self, request, *args, **kwargs):
         user_id = request.GET['user_id']
         if user_id:
@@ -81,7 +80,7 @@ class UsersViewSet(viewsets.ViewSet):
                                                        "address": serializers.data.get('address'),
                                                        "zipcode": serializers.data.get('zipcode'),
                                                        "phone": serializers.data.get('phone'),
-                                                       "additional_adress": serializers.data.get('additional_adress'),
+                                                       "additional_address": serializers.data.get('additional_address'),
                                                        "stamm": serializers.data.get('stamm'),
                                                        "group": serializers.data.get('group'),
                                                    }}, exist_ok=False)

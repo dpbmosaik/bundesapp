@@ -13,7 +13,7 @@ class RegisterSerializer(serializers.Serializer):
     zipcode = serializers.CharField(required=False)
     city = serializers.CharField(required=False)
     phone = serializers.CharField(required=False)
-    additional_adress = serializers.CharField(required=False)
+    additional_address = serializers.CharField(required=False)
     stamm = serializers.CharField()
     group = serializers.CharField(required=False)
     username = serializers.CharField()
