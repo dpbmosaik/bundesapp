@@ -6,7 +6,7 @@
       "created_at": null,
       "updated_at": null,
       "level": 3,
-      "name": "DPB-Mosaik",
+      "name": "DPBM",
       "zip_code": null,
       "parent": null
     }
@@ -404,7 +404,7 @@
       "level": 5,
       "name": "Stamm Crismeke",
       "zip_code": 3300,
-      "parent": 22
+      "parent": 20
     }
   },
   {
