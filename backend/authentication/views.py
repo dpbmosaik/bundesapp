@@ -1,3 +1,4 @@
+from .ExtendedKeycloakAdmin import ExtendedKeyCloakAdmin
 from backend.OIDCAuthentication import MyOIDCAB
 
 from .serializers import RegisterSerializer, ScoutHierarchySerializer, ZipCodeSerializer, ScoutOrgaLevelSerializer, \
@@ -20,7 +21,7 @@ BASE_DIR = getattr(settings, "BASE_DIR", None)
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, 'backend', '.env'))
 
-keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
+keycloak_admin = ExtendedKeyCloakAdmin(server_url=env('BASE_URI'),
                                username=env('KEYCLOAK_ADMIN_USER'),
                                password=env('KEYCLOAK_ADMIN_PASSWORD'),
                                realm_name=env('KEYCLOAK_APP_REALM'),
@@ -105,6 +106,41 @@ class UserViewSet(viewsets.ViewSet):
             print(f"Error getting user:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class VerfiedUsersViewSet(viewsets.ViewSet):
+
+    def ectract_info(self, users):
+        response = []
+        for user in users:
+            response.append({
+                "user_id": user.get("id"),
+                "firstname": user.get("firstname", ""),
+                "lastname": user.get("lastname", ""),
+                "scout_name": user.get("username")
+            })
+        return response
+
+
+    def list(self, request, *args, **kwargs):
+        try:
+            verified_users = keycloak_admin.get_users_by_attribute({}, query_attr={"verified": True})
+        except Exception as e:
+            print(f"Error within registration:\n{e}")
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'status': 'ok', 'users': self.ectract_info(verified_users)}, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None):
+        try:
+            verified_users = keycloak_admin.get_group_members_by_attribute(pk, {}, query_attr={"verified": True})
+        except KeycloakGetError:
+            return Response({'status': 'failed', 'error': 'group not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(f"Error within registration:\n{e}")
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'status': 'ok', 'users': self.ectract_info(verified_users)}, status=status.HTTP_200_OK)
 
 
 class ScoutGroupsViewSet(viewsets.ViewSet):
