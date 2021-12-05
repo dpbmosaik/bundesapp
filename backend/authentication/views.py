@@ -1,16 +1,19 @@
-from .serializers import RegisterSerializer, ScoutHierarchySerializer, ZipCodeSerializer, ScoutOrgaLevelSerializer, \
-    EatHabitTypeSerializer
-from django.db.models import Q
-from django_filters import FilterSet, CharFilter
-from rest_framework import status, viewsets
-from rest_framework.exceptions import PermissionDenied
-from django.core.exceptions import PermissionDenied
-from rest_framework.response import Response
-from .models import ScoutHierarchy, ZipCode, ScoutOrgaLevel, EatHabitType
-from keycloak import KeycloakAdmin, KeycloakGetError
+import os
+
 import environ
 from django.conf import settings
-import os
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django_filters import FilterSet, CharFilter
+from keycloak import KeycloakAdmin, KeycloakGetError
+from rest_framework import status, viewsets
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
+
+from .api_models import GroupTreeNode, Group
+from .models import ScoutHierarchy, ZipCode, ScoutOrgaLevel, EatHabitType
+from .serializers import RegisterSerializer, ScoutHierarchySerializer, ZipCodeSerializer, ScoutOrgaLevelSerializer, \
+    EatHabitTypeSerializer
 
 BASE_DIR = getattr(settings, "BASE_DIR", None)
 env = environ.Env()
@@ -26,7 +29,6 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
 
 # Create your views here.
 class UserViewSet(viewsets.ViewSet):
-
     def get(self, request, *args, **kwargs):
         user_id = request.GET['user_id']
         if user_id:
@@ -76,6 +78,30 @@ class UserViewSet(viewsets.ViewSet):
             print(f"Error within registration:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class GroupViewSet(viewsets.ViewSet):
+    def get(self, request, *args, **kwargs):
+        groups = keycloak_admin.get_groups()
+
+        def create_tree_node(kc_group, node: GroupTreeNode):
+            node.group = Group(id=kc_group['id'], name=kc_group['name'], type='Stamm',
+                               permissions='write')
+            for kc_child_group in kc_group['subGroups']:
+                child_node = GroupTreeNode()
+                child_node.sub_groups = []
+                create_tree_node(kc_group=kc_child_group, node=child_node)
+                node.sub_groups.append(child_node)
+
+        for kc_group in groups:
+            root_node = GroupTreeNode()
+            root_node.sub_groups = []
+            create_tree_node(kc_group, root_node)
+
+        return Response(data=root_node.json().encode('utf-8'), status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        pass
 
 
 class ScoutHierarchyViewSet(viewsets.ReadOnlyModelViewSet):

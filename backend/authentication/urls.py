@@ -4,6 +4,7 @@ from rest_framework import routers
 
 router = routers.SimpleRouter()
 router.register(r'user', views.UserViewSet, basename="user")
+router.register(r'groups', views.GroupViewSet, basename="groups")
 router.register(r'scout-hierarchy', views.ScoutHierarchyViewSet)
 router.register(r'zip-code', views.ZipCodeViewSet)
 router.register(r'eat-habit-type', views.EatHabitTypeViewSet)
