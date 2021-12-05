@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from .ExtendedKeycloakAdmin import ExtendedKeyCloakAdmin
 from backend.OIDCAuthentication import MyOIDCAB
 
@@ -120,28 +122,59 @@ class VerfiedUsersViewSet(viewsets.ViewSet):
             })
         return response
 
+    def remove_duplications(self, arr):
+        return [dict(t) for t in {tuple(d.items()) for d in arr}]
 
     def list(self, request, *args, **kwargs):
-        try:
-            verified_users = keycloak_admin.get_users_by_attribute({}, query_attr={"verified": True})
-        except Exception as e:
-            print(f"Error within registration:\n{e}")
-            return Response({'status': 'failed', 'error': 'internal server error'},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        """
+        List all unverified people that you are allowed to verify
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        CAN_VERFIY_ALL_ROLE = "can_verfiy_all"
+        CAN_VERFIY_ALL_UPPER_GROUP = "can_verfiy_upper_group"
 
-        return Response({'status': 'ok', 'users': self.ectract_info(verified_users)}, status=status.HTTP_200_OK)
+        user_id = "289e812f-c231-4434-bd34-305d422b75e3" #Can verify all
+        user_id = "edae4972-b154-441e-9c97-8c5afb154e99" #Can verify artus
 
-    def retrieve(self, request, pk=None):
-        try:
-            verified_users = keycloak_admin.get_group_members_by_attribute(pk, {}, query_attr={"verified": True})
-        except KeycloakGetError:
-            return Response({'status': 'failed', 'error': 'group not found'}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            print(f"Error within registration:\n{e}")
-            return Response({'status': 'failed', 'error': 'internal server error'},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response({'status': 'ok', 'users': self.ectract_info(verified_users)}, status=status.HTTP_200_OK)
+        groups_of_user = keycloak_admin.get_user_groups(user_id)
+        can_verfiy_all = False
+        verifiable_group = []
+        for user_group in groups_of_user:
+            roles = keycloak_admin.get_group_realm_roles(user_group["id"])
+            roles = [role["name"] for role in roles]
 
+            if CAN_VERFIY_ALL_ROLE in roles:
+                can_verfiy_all = True
+
+            if CAN_VERFIY_ALL_UPPER_GROUP in roles:
+                group_path = Path(user_group["path"])
+                upper_group = keycloak_admin.get_group_by_path(str(group_path.parent), search_in_subgroups=True)
+                verifiable_group.extend(keycloak_admin.get_all_subgroups(upper_group))
+        verifiable_group = set(verifiable_group)
+
+        if can_verfiy_all:
+            try:
+                verifiable_users = keycloak_admin.get_users_by_attribute({}, query_attr={"verified": False})
+            except Exception as e:
+                return Response({'status': 'failed', 'error': 'internal server error'},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        elif verifiable_group:
+            verifiable_users = []
+            for verifiable_group in verifiable_group:
+                try:
+                    verifiable_users.extend(keycloak_admin.get_group_members_by_attribute(verifiable_group,
+                                                                                        query_attr={"verified": False}))
+                except Exception as e:
+                    return Response({'status': 'failed', 'error': 'internal server error'},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            verifiable_users = []
+
+        verifiable_users = self.remove_duplications(self.ectract_info(verifiable_users))
+        return Response({'status': 'ok', 'users': verifiable_users}, status=status.HTTP_200_OK)
 
 class ScoutGroupsViewSet(viewsets.ViewSet):
 

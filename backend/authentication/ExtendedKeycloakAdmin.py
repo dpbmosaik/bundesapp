@@ -89,3 +89,22 @@ class ExtendedKeyCloakAdmin(KeycloakAdmin):
             results.extend(partial_results)
             page += 1
         return results
+
+    def get_all_subgroups(self, group):
+        """
+        Utility function to iterate through nested group structures
+
+        GroupRepresentation
+        https://www.keycloak.org/docs-api/8.0/rest-api/#_grouprepresentation
+
+        :param name: group (GroupRepresentation)
+        :param path: group path (string)
+
+        :return: Keycloak server response (GroupRepresentation)
+        """
+
+        groups = []
+        for subgroup in group["subGroups"]:
+            groups.extend(self.get_all_subgroups(subgroup))
+        groups.append(group["id"])
+        return groups
