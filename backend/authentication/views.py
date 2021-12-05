@@ -43,9 +43,25 @@ class UserViewSet(viewsets.ViewSet):
         else:
             return Response({'status': 'failed', 'error': 'no user_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def search_group_tree_for_name(self, tree, name):
+        for group in tree:
+            if group["name"] == name:
+                return group
+            if group["subGroups"]:
+                res = self.search_group_tree_for_name(group["subGroups"], name)
+                if res:
+                    return res
+
     def create(self, request, *args, **kwargs):
         serializers = RegisterSerializer(data=request.data)
         serializers.is_valid(raise_exception=True)
+
+        # find group_id by group_name
+        all_groups = keycloak_admin.get_groups()
+        group = self.search_group_tree_for_name(all_groups, serializers.data.get('stamm'))
+        group_id = group["id"] if group else ''
+        if not group_id:
+            return Response({'status': 'failed', 'error': "group doesn't exist"}, status=status.HTTP_400_BAD_REQUEST)
 
         # data.get(key) returns a None object when the key in the dictionary does not exist
         # keycloak ignores key with empty values so no further check is required here
@@ -69,13 +85,14 @@ class UserViewSet(viewsets.ViewSet):
                                                        "stamm": serializers.data.get('stamm'),
                                                        "group": serializers.data.get('group'),
                                                    }}, exist_ok=False)
-            return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
-        except KeycloakGetError:
-            return Response({'status': 'failed', 'error': 'user already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            keycloak_admin.group_user_add(user_id=new_user, group_id=group_id)
+        except KeycloakGetError as e:
+            return Response({'status': 'failed', 'error': f'{e}'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(f"Error within registration:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
 
 
 class ScoutHierarchyViewSet(viewsets.ReadOnlyModelViewSet):
