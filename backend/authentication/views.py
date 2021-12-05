@@ -134,11 +134,11 @@ class VerfiedUsersViewSet(viewsets.ViewSet):
         :param kwargs:
         :return:
         """
-        CAN_VERFIY_ALL_ROLE = "can_verfiy_all"
-        CAN_VERFIY_ALL_UPPER_GROUP = "can_verfiy_upper_group"
+        CAN_VERFIY_ALL_ROLE = "CanVerifyAll"
+        CAN_VERFIY_ALL_UPPER_GROUP = "CanVerifyBelow"
 
-        user_id = "289e812f-c231-4434-bd34-305d422b75e3"  # Can verify all
-        user_id = "edae4972-b154-441e-9c97-8c5afb154e99"  # Can verify artus
+        #Get id from kwargs until we can use the django user
+        user_id = request.user
 
         groups_of_user = keycloak_admin.get_user_groups(user_id)
         can_verfiy_all = False
