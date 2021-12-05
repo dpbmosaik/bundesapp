@@ -164,7 +164,7 @@
                     Externe Services
                 </h3>
                 <div class="space-y-1" role="group" aria-labelledby="projects-headline">
-                    <a v-for="item in secondaryNavigation" :key="item.name" :href="item.href" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                    <a v-for="item in secondaryNavigation" target=_blank rel=noopener :key="item.name" :href="item.href" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
                     <span class="truncate flex-1">
                         {{ item.name }}
                     </span>
@@ -350,10 +350,10 @@ const navigation = [
 ];
 
 const secondaryNavigation = [
-  { name: "Heimabendinspirator", href: "#" },
-  { name: "Cloud", href: "#" },
-  { name: "Kalender", href: "#" },
-  { name: "Chat", href: "#" },
+  { name: "Heimabendinspirator", href: "https://inspirator.dpbm.de/" },
+  { name: "Cloud", href: "https://cloud.bundesapp.org/" },
+  // { name: "Kalender", href: "#" },
+  { name: "Chat", href: "https://chat.bundesapp.org/" },
 ];
 
 
