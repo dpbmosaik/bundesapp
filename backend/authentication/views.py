@@ -24,11 +24,11 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, 'backend', '.env'))
 
 keycloak_admin = ExtendedKeyCloakAdmin(server_url=env('BASE_URI'),
-                               username=env('KEYCLOAK_ADMIN_USER'),
-                               password=env('KEYCLOAK_ADMIN_PASSWORD'),
-                               realm_name=env('KEYCLOAK_APP_REALM'),
-                               user_realm_name='master',
-                               verify=True)
+                                       username=env('KEYCLOAK_ADMIN_USER'),
+                                       password=env('KEYCLOAK_ADMIN_PASSWORD'),
+                                       realm_name=env('KEYCLOAK_APP_REALM'),
+                                       user_realm_name='master',
+                                       verify=True)
 
 auth = MyOIDCAB()
 
@@ -109,6 +109,7 @@ class UserViewSet(viewsets.ViewSet):
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class VerfiedUsersViewSet(viewsets.ViewSet):
 
     def ectract_info(self, users):
@@ -136,8 +137,8 @@ class VerfiedUsersViewSet(viewsets.ViewSet):
         CAN_VERFIY_ALL_ROLE = "can_verfiy_all"
         CAN_VERFIY_ALL_UPPER_GROUP = "can_verfiy_upper_group"
 
-        user_id = "289e812f-c231-4434-bd34-305d422b75e3" #Can verify all
-        user_id = "edae4972-b154-441e-9c97-8c5afb154e99" #Can verify artus
+        user_id = "289e812f-c231-4434-bd34-305d422b75e3"  # Can verify all
+        user_id = "edae4972-b154-441e-9c97-8c5afb154e99"  # Can verify artus
 
         groups_of_user = keycloak_admin.get_user_groups(user_id)
         can_verfiy_all = False
@@ -155,26 +156,24 @@ class VerfiedUsersViewSet(viewsets.ViewSet):
                 verifiable_group.extend(keycloak_admin.get_all_subgroups(upper_group))
         verifiable_group = set(verifiable_group)
 
-        if can_verfiy_all:
-            try:
+        try:
+            if can_verfiy_all:
                 verifiable_users = keycloak_admin.get_users_by_attribute({}, query_attr={"verified": False})
-            except Exception as e:
-                return Response({'status': 'failed', 'error': 'internal server error'},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        elif verifiable_group:
-            verifiable_users = []
-            for verifiable_group in verifiable_group:
-                try:
+            elif verifiable_group:
+                verifiable_users = []
+                for verifiable_group in verifiable_group:
                     verifiable_users.extend(keycloak_admin.get_group_members_by_attribute(verifiable_group,
-                                                                                        query_attr={"verified": False}))
-                except Exception as e:
-                    return Response({'status': 'failed', 'error': 'internal server error'},
-                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            verifiable_users = []
+                                                                                          query_attr={
+                                                                                              "verified": False}))
+            else:
+                verifiable_users = []
+        except Exception as e:
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         verifiable_users = self.remove_duplications(self.ectract_info(verifiable_users))
         return Response({'status': 'ok', 'users': verifiable_users}, status=status.HTTP_200_OK)
+
 
 class ScoutGroupsViewSet(viewsets.ViewSet):
 
