@@ -33,8 +33,12 @@ const routes = [
   {
     path: '/demo',
     name: 'Demo',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Demo.vue')
-  }
+    component: () => import(/* webpackChunkName: "demo" */ '../views/Demo.vue')
+  },
+  // Separated into two routes so that you can also programmatically
+  // direct the user to the /404 if missing some data, etc.
+  { path: '/404', component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue') },
+  { path: '/:pathMatch(.*)*', redirect: '/404' }
 ]
 
 const router = createRouter({
