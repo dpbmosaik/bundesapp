@@ -25,7 +25,7 @@ keycloak_admin = KeycloakAdmin(server_url=env('BASE_URI'),
 
 
 # Create your views here.
-class UserViewSet(viewsets.ViewSet):
+class UsersViewSet(viewsets.ViewSet):
 
     def get(self, request, *args, **kwargs):
         user_id = request.GET['user_id']
