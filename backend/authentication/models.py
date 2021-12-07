@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from backend.storage_backends import PrivateMediaStorage, PublicMediaStorage
 
 
 class TimeStampMixin(models.Model):
@@ -65,3 +66,13 @@ class EatHabitType(TimeStampMixin):
 
     def __str__(self):
         return self.name
+
+
+class Upload(models.Model):
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(storage=PublicMediaStorage())
+
+
+class UploadPrivate(models.Model):
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(storage=PrivateMediaStorage())

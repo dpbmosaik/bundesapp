@@ -1,9 +1,11 @@
 from django.contrib import admin
 
-from .models import ScoutHierarchy, ZipCode, ScoutOrgaLevel, EatHabitType
+from .models import ScoutHierarchy, ZipCode, ScoutOrgaLevel, EatHabitType, Upload, UploadPrivate
 
 admin.site.register(ScoutOrgaLevel)
 admin.site.register(EatHabitType)
+admin.site.register(Upload)
+admin.site.register(UploadPrivate)
 
 
 @admin.register(ScoutHierarchy)

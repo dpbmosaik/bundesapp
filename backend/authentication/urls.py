@@ -9,6 +9,7 @@ router.register(r'scout-hierarchy', views.ScoutHierarchyViewSet)
 router.register(r'zip-code', views.ZipCodeViewSet)
 router.register(r'eat-habit-type', views.EatHabitTypeViewSet)
 router.register(r'scout-orga-level', views.ScoutOrgaLevelViewSet)
+router.register(r'upload-profile-photo', views.ProfileImageUpload, basename='upload')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
