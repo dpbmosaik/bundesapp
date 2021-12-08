@@ -153,7 +153,7 @@ class ProfileImageUpload(viewsets.ViewSet):
             upload.save()
             image_url = upload.file.url
             print(image_url)
-            return HttpResponseRedirect(image_url)
+            return Response({'successful': 'True', 'url': image_url}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({'successful': 'False', 'url': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

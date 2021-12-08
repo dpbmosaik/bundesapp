@@ -5,6 +5,7 @@ import Register from '../views/Register.vue';
 import Contact from '../views/Contact.vue';
 import Login from "../views/Login";
 import Demo from '../views/Demo.vue';
+import ProfileImageUpload from "../components/upload/ProfileImageUpload";
 
 const routes = [
     {
@@ -36,6 +37,11 @@ const routes = [
         path: '/demo',
         name: 'Demo',
         component: Demo
+    },
+    {
+        path: '/upload-profile-image',
+        name: 'UploadProfileImage',
+        component: ProfileImageUpload
     }
 ]
 
