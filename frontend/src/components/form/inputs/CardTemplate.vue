@@ -9,26 +9,24 @@
         <slot></slot>
 
         <!-- Navigation Buttons -->
-        <div class="flex flex-row py-2" :class="isFirst() ? 'justify-end' : 'justify-between'">
-          <button @click="navigatePrevious" v-show="!isFirst()">
-            Zurück
-          </button>
+        <div class="flex flex-row py-8" :class="isFirst() ? 'justify-end' : 'justify-between'">
 
-          <button @click="navigateNext">
-            {{ nextButtonText() }}
-          </button>
+          <SecondaryButton v-show="!isFirst()" :target="navigatePrevious" content="Zurück" size="s" />
+
+          <PrimaryButton :content="nextButtonText()" :target="navigateNext" size="s" :disabled="!currentStepDone" />
+
         </div>
 
         <!-- The Progessbar -->
           <nav aria-label="Progress">
-            <ol role="list" class="flex items-center justify-between">
+            <ol role="list" class="flex items-center justify-between py-4">
               <li v-for="(step, stepIdx) in steps" :key="step.name" :class="[stepIdx !== steps.length - 1 ? 'flex-1' : '', 'relative']">
                 
                 <template v-if="step.status === 'complete'">
                   <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                    <div class="h-0.5 w-full bg-indigo-600" />
+                    <div class="h-0.5 w-full bg-dpbm-blue" />
                   </div>
-                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full hover:bg-indigo-900">
+                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-dpbm-blue rounded-full hover:bg-dpbm-blue-dark">
                     <CheckIcon class="w-5 h-5 text-white" aria-hidden="true" />
                     <span class="sr-only">{{ step.name }}</span>
                   </button>
@@ -38,8 +36,8 @@
                   <div class="absolute inset-0 flex items-center" aria-hidden="true">
                     <div class="h-0.5 w-full bg-gray-200" />
                   </div>
-                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full" aria-current="step">
-                    <span class="h-2.5 w-2.5 bg-indigo-600 rounded-full" aria-hidden="true" />
+                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-dpbm-blue rounded-full" aria-current="step">
+                    <span class="h-2.5 w-2.5 bg-dpbm-blue rounded-full" aria-hidden="true" />
                     <span class="sr-only">{{ step.name }}</span>
                   </button>
                 </template>
@@ -64,6 +62,8 @@
 
 <script>
 import { CheckIcon } from '@heroicons/vue/solid'
+import PrimaryButton  from './../../buttons/PrimaryButton.vue'
+import SecondaryButton from './../../buttons/SecondaryButton.vue'
 
 const steps = [
   { name: 'Step 1', href: '#', status: 'current', step: 1 },
@@ -93,6 +93,8 @@ export default {
       const currentRoute = this.$route.path;
       let registerStep = currentRoute.charAt(currentRoute.length-1)
 
+      console.log(this.$store.state.register)
+
       this.$router.push({path: '/register/' + (++registerStep)})
       this.updateStepper()
     },
@@ -118,6 +120,22 @@ export default {
     }
   },
   computed: {
+    currentStepDone() {
+      const currentRoute = this.$route.path;
+      let registerStep = currentRoute.charAt(currentRoute.length-1)
+      switch (registerStep) {
+        case '1':
+          // console.log(this.$store.state.register.stepsDone.step1)
+          return this.$store.state.register.stepsDone.step1
+       
+        default:
+          break;
+      }
+      
+      return false
+    }
+  },
+  watch: {
 
   },
   setup() {
@@ -127,7 +145,8 @@ export default {
   },
   components: {
     CheckIcon,
-    
+    PrimaryButton,
+    SecondaryButton
   }
 }
 </script>
