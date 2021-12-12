@@ -7,7 +7,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'Button',
+  name: 'NormalButton',
   props: {
     target: String,
     content: String,

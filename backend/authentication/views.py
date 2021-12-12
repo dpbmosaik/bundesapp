@@ -83,7 +83,7 @@ class RegisterViewSet(viewsets.ViewSet):
             print(f"Error within registration:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
+        return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_201_CREATED)
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -153,7 +153,7 @@ class ProfileImageUpload(viewsets.ViewSet):
             upload.save()
             image_url = upload.file.url
             print(image_url)
-            return Response({'successful': 'True', 'url': image_url}, status=status.HTTP_200_OK)
+            return Response({'successful': 'True', 'url': image_url}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
             return Response({'successful': 'False', 'url': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -218,7 +218,7 @@ if env.bool('USE_S3'):
     AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
     AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_CUSTOM_DOMAIN = 'cdn.dev.bundesapp.org'
+    AWS_S3_CUSTOM_DOMAIN = env('AWS_CLOUDFRONT_CDN_URL')
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     # s3 static settings
     STATIC_LOCATION = 'static'
@@ -231,9 +231,7 @@ if env.bool('USE_S3'):
     # s3 private media settings
     PRIVATE_MEDIA_LOCATION = 'private'
     PRIVATE_FILE_STORAGE = 'backend.storage_backends.PrivateMediaStorage'
-    # with open(os.path.join(BASE_DIR, 'backend', 'lol'), encoding='ascii') as aws_cert:
-    #     AWS_CLOUDFRONT_KEY = aws_cert.read()
-    # AWS_CLOUDFRONT_KEY_ID = env('AWS_CLOUDFRONT_KEY_ID')
+    PRIVATE_MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PRIVATE_MEDIA_LOCATION}/'
 else:
     STATIC_URL = '/staticfiles/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

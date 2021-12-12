@@ -1,6 +1,6 @@
 <template>
 	<TransitionRoot as="template" :show="showModal">
-		<Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="onHide">
+		<Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="hide">
 			<div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 				<TransitionChild
 						as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
@@ -17,37 +17,30 @@
 						leave-from="opacity-100 translate-y-0 sm:scale-100"
 						leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
 					<div
-							class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden
-          shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+							class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
 						<div>
-							<div class="text-center my-4">
-								<DialogTitle as="h1" class="font-bold uppercase text-xl leading-1 text-black-900">
-									OK?
-								</DialogTitle>
+							<div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+								<XCircleIcon class="h-12 w-12 text-red-600" aria-hidden="true"/>
+							</div>
+							<div class="mt-3 text-center sm:mt-5">
 								<DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
-									Schau nochmal drüber, ob das so passt
+									Ups, es ist ein Fehler aufgetreten
 								</DialogTitle>
+								<div class="mt-2">
+									<p class="text-sm text-gray-500">
+										{{ errorMessage }}
+									</p>
+								</div>
 							</div>
 						</div>
-						<span class="inline-block relative">
-                  <img class="rounded-full" alt="Profil-Bild" :src="cropImg"/>
-                </span>
-						<div class="flex items-center justify-center my-4 space-x-0.5">
+						<div class="mt-5 sm:mt-6">
 							<button
-									class="text-black-500 bg-transparent border border-red-500
-                  hover:bg-red-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3
-                  rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
 									type="button"
-									@click.prevent="onHide(false)">
+									class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4
+                      py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none
+                      focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+									@click="hide">
 								Zurück
-							</button>
-							<button
-									class="text-black-500 bg-transparent border border-green-500
-                   hover:bg-green-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3
-                   rounded-r outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
-									type="button"
-									@click.prevent="onHide(true)">
-								Passt So
 							</button>
 						</div>
 					</div>
@@ -59,6 +52,7 @@
 <script>
 
 import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
+import {XCircleIcon} from '@heroicons/vue/outline'
 
 export default {
 	name: "ErrorModal",
@@ -68,30 +62,23 @@ export default {
 		DialogTitle,
 		TransitionChild,
 		TransitionRoot,
+		XCircleIcon,
 	},
-	emits: ['onConfirmed'],
 	data() {
 		return {
 			showModal: false,
-			message: '',
-			cropImg: Image,
+			errorMessage: '',
 		}
 	},
 	methods: {
-		onShow(image) {
-			this.cropImg = image;
+		show(message) {
+			this.errorMessage = message;
 			this.showModal = true
 		},
-		onHide(succesful) {
-			this.showModal = false;
-			console.log('emit');
-			this.$emit('onConfirmed', succesful);
-		},
+		hide() {
+			this.showModal = false
+			this.errorMessage = '';
+		}
 	},
 }
 </script>
-
-<style>
-
-
-</style>

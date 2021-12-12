@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Register from '@/views/Register.vue';
 import Contact from '@/views/Contact.vue';
 import Login from '@/views/Login';
 import Demo from '@/views/Demo.vue';
+import ProfileImageUpload from "@/components/upload/ProfileImageUpload";
 
 const routes = [
   {
@@ -21,7 +22,7 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
-    redirect: { name: 'Register1' },
+    redirect: {name: 'Register1'},
     children: [
       {
         path: '/register/1',
@@ -55,6 +56,11 @@ const routes = [
       },
     ]
   },
+    {
+    path: '/upload-profile-image',
+    name: 'UploadProfileImage',
+    component: ProfileImageUpload,
+  },
   {
     path: '/contact',
     name: 'Contact',
@@ -69,12 +75,12 @@ const routes = [
     path: '/demo',
     name: 'Demo',
     component: Demo,
-	},
+  },
   {
     path: '/app',
     name: 'App',
     component: () => import(/* webpackChunkName: "main-app" */ '../views/Main.vue'),
-    redirect: { name: 'Dashboard' },
+    redirect: {name: 'Dashboard'},
     children: [
       {
         path: 'dashboard',
@@ -115,12 +121,12 @@ const routes = [
   },
   // Separated into two routes so that you can also programmatically
   // direct the user to the /404 if missing some data, etc.
-  { path: '/404', component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue') },
-  { path: '/:pathMatch(.*)*', redirect: '/404' }
+  {path: '/404', component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue')},
+  {path: '/:pathMatch(.*)*', redirect: '/404'}
 ]
 
 const router = createRouter({
-	history: createWebHistory(),
+  history: createWebHistory(),
   base: process.env.BASE_URL,
   routes
 })
