@@ -61,9 +61,9 @@
 </template>
 
 <script>
-import { CheckIcon } from '@heroicons/vue/solid'
-import PrimaryButton  from '@/common/components/buttons/PrimaryButton.vue'
-import SecondaryButton from '@/common/components/buttons/SecondaryButton.vue'
+import { CheckIcon } from '@heroicons/vue/solid';
+import PrimaryButton  from '@/components/buttons/PrimaryButton.vue';
+import SecondaryButton from '@/components/buttons/SecondaryButton.vue';
 
 const steps = [
   { name: 'Step 1', href: '#', status: 'current', step: 1 },
