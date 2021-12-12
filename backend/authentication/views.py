@@ -94,9 +94,27 @@ class UsersViewSet(viewsets.ViewSet):
         return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
 
 
-class ScoutHierarchyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ScoutHierarchy.objects.all().exclude(level=6)
-    serializer_class = ScoutHierarchySerializer
+class ScoutGroupsViewSet(viewsets.ViewSet):
+    def list(self, request, *args, **kwargs):
+        try:
+            all_groups = keycloak_admin.get_groups()
+        except KeycloakGetError as e:
+            return Response({'status': 'failed', 'error': f'{e}'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"Error when fetching staemme:\n{e}")
+            return Response({'status': 'failed', 'error': 'internal server error'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        scout_groups = self.search_group_tree_for_scout_group(all_groups)
+        return Response({'status': 'ok', 'scout_groups': sorted(scout_groups)}, status=status.HTTP_200_OK)
+
+    def search_group_tree_for_scout_group(self, tree):
+        scout_groups = []
+        for group in tree:
+            if "Stamm" in group["name"]:
+                scout_groups.append(group["name"])
+            elif group["subGroups"]:
+                scout_groups += self.search_group_tree_for_scout_group(group["subGroups"])
+        return scout_groups
 
 
 class ZipCodeSearchFilter(FilterSet):
