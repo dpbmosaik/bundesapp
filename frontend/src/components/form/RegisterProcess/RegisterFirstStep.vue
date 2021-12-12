@@ -15,7 +15,7 @@
       :label="inputField.label"
       :placeholder="inputField.placeholder"
       :validation="inputField.validation"
-      :tooltip="iinputFieldtem.tooltip"
+      :tooltip="inputField.tooltip"
       :value="this.$store.state[inputField.name]"
       @input="getInputValue(inputField.name); checkIfStepIsDone()"
       :ref="inputField.name"
