@@ -407,11 +407,12 @@ export default {
       }
     },
     onLogoutClicked() {
-      this.$keycloak.logoutFn();
+    debugger; //eslint-disable-line
+      console.log('this.$keycloak');
+      console.log(this.$keycloak);
 
       this.$store.commit("clearTokens");
       this.$store.commit("clearUserinfo");
-      this.$store.commit("isAuth", false);
 
       this.$router.push({ name: "Home" });
     },

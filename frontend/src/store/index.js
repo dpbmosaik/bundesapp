@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import VueJwtDecode from 'vue-jwt-decode';
+import createPersistedState from 'vuex-persistedstate'; // eslint-disable-line
 
 export default createStore({
   state: {
@@ -46,7 +47,7 @@ export default createStore({
       return {};
     },
     isAuth(state) {
-      return state.isAuth;
+      return !!state.accessToken;
     }
   },
   mutations: {
@@ -89,4 +90,5 @@ export default createStore({
   },
   actions: {},
   modules: {},
+  plugins: [createPersistedState()],
 });
