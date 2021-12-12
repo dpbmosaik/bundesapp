@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import sys
+
 import environ
 from pathlib import Path
 
@@ -220,7 +222,6 @@ if env.bool('USE_S3'):
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     # s3 static settings
     STATIC_LOCATION = 'static'
-    # custom_domain = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     STATICFILES_STORAGE = 'backend.storage_backends.StaticStorage'
     # s3 public media settings
@@ -239,3 +240,7 @@ else:
     MEDIA_URL = '/mediafiles/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
     # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# Test setup
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'

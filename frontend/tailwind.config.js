@@ -1,7 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-    purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         extend: {
             fontFamily: {
@@ -17,11 +17,6 @@ module.exports = {
                 '-10': '-10',
             }
         },
-    },
-    darkMode: false, // or 'media' or 'class'
-    variants: {
-        extend: {},
-        opacity: ({after}) => after(['disabled'])
     },
     plugins: [
         require('@tailwindcss/typography'),
