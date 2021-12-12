@@ -4,7 +4,7 @@
 
     <div class="mt-1 relative rounded-md shadow-sm">
       <!-- v-on event should be changed to oninvalid once setup -->
-      <input :type="inputType" :name="inputType" :id="inputType" class="block w-full pr-10 sm:text-sm rounded-md" :class="{'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500': error}" :placeholder="placeholder" aria-invalid="true" aria-describedby="email-error"/>
+      <input :id="inputType" :type="inputType" :name="inputType" class="block w-full pr-10 sm:text-sm rounded-md" :class="{'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500': error}" :placeholder="placeholder" aria-invalid="true" aria-describedby="email-error"/>
       
       <div v-if="error" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -29,11 +29,6 @@ import {
 
 export default {
   name: "TextInputField",
-  data() {
-    return {
-      error: false,
-    }
-  },
   components: {
       ExclamationCircleIcon,
       // QuestionMarkCircleIcon,
@@ -52,6 +47,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      error: false,
+    }
   },
   methods: {
 

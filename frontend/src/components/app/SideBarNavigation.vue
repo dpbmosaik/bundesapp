@@ -99,8 +99,8 @@
                 </div>
                 <div class="space-y-1 p-2">
                   <h3
-                    class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
                     id="projects-headline"
+                    class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
                   >
                     Externe Services
                   </h3>
@@ -187,8 +187,8 @@
             </div>
             <div class="space-y-1 p-2">
               <h3
-                class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
                 id="projects-headline"
+                class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
               >
                 Externe Services
               </h3>
@@ -199,9 +199,9 @@
               >
                 <a
                   v-for="item in secondaryNavigation"
+                  :key="item.name"
                   target="_blank"
                   rel="noopener"
-                  :key="item.name"
                   :href="item.href"
                   class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
                 >
@@ -305,11 +305,11 @@
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
-                      @click="logOut"
                       :class="[
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                       ]"
+                      @click="logOut"
                     >
                       Ausloggen
                     </button>
@@ -432,6 +432,7 @@ export default {
       newNotifications,
     };
   },
+  computed: {},
   methods: {
     isCurrent: function (name) {
       const currentPage = this.$route.name;
@@ -444,6 +445,5 @@ export default {
       console.log("Logged Out");
     },
   },
-  computed: {},
 };
 </script>

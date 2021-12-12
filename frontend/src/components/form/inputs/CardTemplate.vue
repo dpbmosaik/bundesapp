@@ -26,7 +26,7 @@
                   <div class="absolute inset-0 flex items-center" aria-hidden="true">
                     <div class="h-0.5 w-full bg-dpbm-blue" />
                   </div>
-                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-dpbm-blue rounded-full hover:bg-dpbm-blue-dark">
+                  <button class="relative w-8 h-8 flex items-center justify-center bg-dpbm-blue rounded-full hover:bg-dpbm-blue-dark" @click="navigateToStep(stepIdx + 1)">
                     <CheckIcon class="w-5 h-5 text-white" aria-hidden="true" />
                     <span class="sr-only">{{ step.name }}</span>
                   </button>
@@ -36,7 +36,7 @@
                   <div class="absolute inset-0 flex items-center" aria-hidden="true">
                     <div class="h-0.5 w-full bg-gray-200" />
                   </div>
-                  <button @click="navigateToStep(stepIdx + 1)" class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-dpbm-blue rounded-full" aria-current="step">
+                  <button class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-dpbm-blue rounded-full" aria-current="step" @click="navigateToStep(stepIdx + 1)">
                     <span class="h-2.5 w-2.5 bg-dpbm-blue rounded-full" aria-hidden="true" />
                     <span class="sr-only">{{ step.name }}</span>
                   </button>
@@ -76,6 +76,35 @@ const steps = [
 
 export default {
   name: "CardTemplate",
+  components: {
+    CheckIcon,
+    PrimaryButton,
+    SecondaryButton
+  },
+  setup() {
+    return {
+      steps
+    }
+  },
+  computed: {
+    currentStepDone() {
+      const currentRoute = this.$route.path;
+      let registerStep = currentRoute.charAt(currentRoute.length-1)
+      switch (registerStep) {
+        case '1':
+          // console.log(this.$store.state.register.stepsDone.step1)
+          return this.$store.state.register.stepsDone.step1
+       
+        default:
+          break;
+      }
+      
+      return false
+    }
+  },
+  watch: {
+
+  },
   methods: {
     nextButtonText() {
       if (
@@ -118,35 +147,6 @@ export default {
         steps[arrayIndex].status = 'complete';
       }
     }
-  },
-  computed: {
-    currentStepDone() {
-      const currentRoute = this.$route.path;
-      let registerStep = currentRoute.charAt(currentRoute.length-1)
-      switch (registerStep) {
-        case '1':
-          // console.log(this.$store.state.register.stepsDone.step1)
-          return this.$store.state.register.stepsDone.step1
-       
-        default:
-          break;
-      }
-      
-      return false
-    }
-  },
-  watch: {
-
-  },
-  setup() {
-    return {
-      steps
-    }
-  },
-  components: {
-    CheckIcon,
-    PrimaryButton,
-    SecondaryButton
   }
 }
 </script>

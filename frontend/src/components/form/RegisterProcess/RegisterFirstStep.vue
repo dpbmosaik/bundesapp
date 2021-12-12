@@ -10,16 +10,16 @@
     <Input 
       v-for="inputField in inputFields"
       :key="inputField.name"
+      :ref="inputField.name"
       :name="inputField.name"
-      :inputType="inputField.inputType"
+      :input-type="inputField.inputType"
       :label="inputField.label"
       :placeholder="inputField.placeholder"
       :validation="inputField.validation"
       :tooltip="inputField.tooltip"
-      :value="this.$store.state[inputField.name]"
+      :value="$store.state[inputField.name]"
+      :store-value="$store.state.register[inputField.name]"
       @input="getInputValue(inputField.name); checkIfStepIsDone()"
-      :ref="inputField.name"
-      :storeValue="this.$store.state.register[inputField.name]"
      />
 
   </div>
@@ -64,6 +64,9 @@ const inputFields = [
 ]
 
 export default {
+  components: {
+    Input
+  },
   setup() {
     return {
      inputFields
@@ -73,37 +76,6 @@ export default {
     return {
       data: {}
     }
-  },
-  components: {
-    Input
-  },
-  methods: {
-    getInputValue(inputField) {
-
-        this[inputField] = this.$refs[inputField].value
-
-        // console.log(inputField + ': ' + this.$refs[inputField].value)
-
-    },
-    checkIfStepIsDone() {
-      let stepDone = [];
-      for (const input of inputFields) {
-        
-        if (input.validation.includes('required')) {
-          // only check required fields
-          stepDone.push(this.$refs[input.name].isValid)
-        } else if (this.$refs[input.name].value !== '') {
-          // check non required fields that are not empty
-          stepDone.push(this.$refs[input.name].isValid)
-        }
-      }
-      console.log(stepDone)
-      if (!stepDone.includes(false)) {
-        // if all inputs are valid mutate state to step1 done is true
-        
-        this.$store.commit('changeStateOfFirstStep', {value: true})
-      }
-    },
   },
   computed: {
     firstname: {
@@ -136,6 +108,34 @@ export default {
       },
       set(value) {
         this.$store.commit('setRegisterEmail', {email: value})
+      }
+    },
+  },
+  methods: {
+    getInputValue(inputField) {
+
+        this[inputField] = this.$refs[inputField].value
+
+        // console.log(inputField + ': ' + this.$refs[inputField].value)
+
+    },
+    checkIfStepIsDone() {
+      let stepDone = [];
+      for (const input of inputFields) {
+        
+        if (input.validation.includes('required')) {
+          // only check required fields
+          stepDone.push(this.$refs[input.name].isValid)
+        } else if (this.$refs[input.name].value !== '') {
+          // check non required fields that are not empty
+          stepDone.push(this.$refs[input.name].isValid)
+        }
+      }
+      console.log(stepDone)
+      if (!stepDone.includes(false)) {
+        // if all inputs are valid mutate state to step1 done is true
+        
+        this.$store.commit('changeStateOfFirstStep', {value: true})
       }
     },
   }

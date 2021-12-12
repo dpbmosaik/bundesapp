@@ -7,13 +7,13 @@
 
 
 export default {
+  components: {
+
+  },
   data() {
     return {
       group: '',
     }
-  },
-  components: {
-
   }
 }
 </script>

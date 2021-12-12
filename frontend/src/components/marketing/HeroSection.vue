@@ -139,18 +139,18 @@
                 </span>
                 <span class="inline-flex rounded-md shadow">
                   <button
-                    type="button"
                     v-if="!isAuth"
-                    @click="onLogInClicked"
+                    type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
+                    @click="onLogInClicked"
                   >
                     {{ buttons.login.name }}
                   </button>
                   <button
-                    type="button"
                     v-else
-                    @click="onLogoutClicked"
+                    type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
+                    @click="onLogoutClicked"
                   >
                     {{ buttons.logout.name }}
                   </button>
@@ -207,18 +207,18 @@
                   </p>
                 </div>
                 <button
-                  type="button"
                   v-if="!isAuth"
-                  @click="onLogInClicked"
+                  type="button"
                   class="block w-full px-5 py-3 text-center font-medium text-dpbm-blue bg-gray-50 hover:bg-gray-100 hover:text-dpbm-blue-dark"
+                  @click="onLogInClicked"
                 >
                   {{ buttons.login.name }}
                 </button>
                 <button
-                  type="button"
                   v-else
-                  @click="onLogoutClicked"
+                  type="button"
                   class="block w-full px-5 py-3 text-center font-medium text-dpbm-blue bg-gray-50 hover:bg-gray-100 hover:text-dpbm-blue-dark"
+                  @click="onLogoutClicked"
                 >
                   {{ buttons.logout.name }}
                 </button>
@@ -379,15 +379,15 @@ export default {
     SecondaryButton,
     PrimaryButton,
   },
-  data() {
-    return {
-      authenticated: false,
-    };
-  },
   setup() {
     return {
       navigation,
       buttons,
+    };
+  },
+  data() {
+    return {
+      authenticated: false,
     };
   },
   computed: {
