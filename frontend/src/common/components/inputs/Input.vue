@@ -47,14 +47,17 @@ export default {
   },
   props: {
       inputType: {
-          type: String,
-          default: 'text'
+        type: String,
+        default: 'text'
       },
       label: {
-          type: String,
-          default: ''
+        type: String,
+        default: ''
       },
-      name: String,
+      name: {
+        type: String,
+        default: ''
+      },
       placeholder: {
           type: String,
           default: ''
@@ -72,7 +75,8 @@ export default {
         default: ''
       },
       storeValue : {
-        type: String
+        type: String,
+        default: ''
       }
   },
   data() {

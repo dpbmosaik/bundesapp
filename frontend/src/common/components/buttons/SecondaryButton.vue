@@ -37,8 +37,14 @@
 export default {
   name: 'SecondaryButton',
   props: {
-    target: String,
-    content: String,
+    target: {
+      type: String,
+      default: ''
+    }, 
+    content: {
+      type: String,
+      default: ''
+    }, 
     size: {
       default: 's',
       type: String
