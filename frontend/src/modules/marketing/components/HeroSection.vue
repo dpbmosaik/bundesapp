@@ -349,8 +349,8 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { mapGetters } from "vuex";
 
 import { MenuIcon, XIcon } from "@heroicons/vue/outline";
-import SecondaryButton from "@/common/components/buttons/SecondaryButton.vue";
-import PrimaryButton from "@/common/components/buttons/PrimaryButton.vue";
+import SecondaryButton from "@/components/buttons/SecondaryButton.vue";
+import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
 
 const navigation = [
   { name: "Features", href: "#features" },

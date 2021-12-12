@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import InstagramIcon from '@/common/components/icons/InstagramIcon.vue'
-import GithubIcon from '@/common/components/icons/GithubIcon.vue'
+import InstagramIcon from '@/components/icons/InstagramIcon.vue';
+import GithubIcon from '@/components/icons/GithubIcon.vue';
 
 const currentYear = new Date().getFullYear();
 

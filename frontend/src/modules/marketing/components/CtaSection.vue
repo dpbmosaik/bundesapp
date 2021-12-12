@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import SecondaryButton from "@/common/components/buttons/SecondaryButton.vue";
-import PrimaryButton from "@/common/components/buttons/PrimaryButton.vue";
+import SecondaryButton from "@/components/buttons/SecondaryButton.vue";
+import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
 
 const buttons = {
   start: { name: "Leg los", href: "/register" },
