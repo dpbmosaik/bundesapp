@@ -71,6 +71,7 @@ const navigation = {
 }
 
 export default {
+  name: 'FooterMain',
   setup() {
     return {
       navigation,
