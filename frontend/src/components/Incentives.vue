@@ -48,7 +48,7 @@
     ]
 
 export default {
-  name: 'Incentives',
+  name: 'IncentivesMain',
   setup() {
     return {
     incentives,
