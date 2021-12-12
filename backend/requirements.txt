@@ -7,6 +7,7 @@ colorama==0.4.4
 cryptography==35.0.0
 Django==3.2.9
 django-cors-headers==3.10.0
+django-ebhealthcheck==2.0.1
 django-environ==0.8.1
 django-filter==21.1
 djangorestframework==3.12.4

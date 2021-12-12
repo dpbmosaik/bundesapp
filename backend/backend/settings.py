@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'mozilla_django_oidc',
     'authentication',
-    'bundesapp'
+    'bundesapp',
+    'ebhealthcheck.apps.EBHealthCheckConfig',
 ]
 
 MIDDLEWARE = [
