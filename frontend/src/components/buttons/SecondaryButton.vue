@@ -11,6 +11,15 @@
         </a>
       </span>
 
+      <span v-else-if="typeof target === 'function'">
+        <button v-if="size === 's'" @click="target" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light">
+          {{ content }}
+        </button>
+        <button v-else-if="size === 'l'" @click="target" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+          {{ content }}
+        </button>
+      </span>
+
       <span v-else>
         <router-link v-if="size === 's'" :to="target" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light">{{ content }}</router-link>
         <router-link v-else-if="size === 'l'" :to="target" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">{{ content }}</router-link>

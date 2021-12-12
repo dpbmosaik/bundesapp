@@ -3,7 +3,7 @@ from . import views
 from rest_framework import routers
 
 router = routers.SimpleRouter()
-router.register(r'user', views.UserViewSet, basename="user")
+router.register(r'users', views.UsersViewSet, basename="users")
 router.register(r'scout-hierarchy', views.ScoutHierarchyViewSet)
 router.register(r'zip-code', views.ZipCodeViewSet)
 router.register(r'eat-habit-type', views.EatHabitTypeViewSet)
