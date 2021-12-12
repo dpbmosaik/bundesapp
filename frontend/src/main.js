@@ -4,8 +4,8 @@ import router from './router';
 import store from './store';
 import './index.css';
 import VueKeycloakJs from '@dsb-norge/vue-keycloak-js';
-import keycl from './auth/keycloak';
-import auth from './auth';
+import keycl from '@/modules/auth/helpers/keycloak.js';
+import auth from '@/modules/auth/helpers/index.js';
 
 auth.interceptorsSetup(store, router);
 
