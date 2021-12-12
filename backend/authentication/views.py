@@ -14,6 +14,7 @@ import environ
 from django.conf import settings
 import os
 from rest_framework.permissions import IsAuthenticated
+from django.core.mail import send_mail
 
 BASE_DIR = getattr(settings, "BASE_DIR", None)
 env = environ.Env()
@@ -75,6 +76,16 @@ class RegisterViewSet(viewsets.ViewSet):
                                                        "group": serializers.data.get('group'),
                                                    }}, exist_ok=False)
             keycloak_admin.group_user_add(user_id=new_user, group_id=group_id)
+            if send_mail(
+                'Deine Registrierung bei BundesApp',
+                'bla blub',
+                'test@BdP-DPV.de',
+                [serializers.data.get('mail')],
+                fail_silently=False,
+            ) == 0:
+                print(f"Error with email-delivery!")
+                return Response({'status': 'failed', 'error': 'internal server error'},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except KeycloakGetError as e:
             return Response({'status': 'failed', 'error': f'{e}'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
