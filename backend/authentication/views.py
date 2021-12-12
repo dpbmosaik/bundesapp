@@ -104,16 +104,16 @@ class ScoutGroupsViewSet(viewsets.ViewSet):
             print(f"Error when fetching staemme:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        scout_groups = self.search_group_tree_for_scout_group(all_groups)
+        scout_groups = self.search_group_tree_for_scout_groups(all_groups)
         return Response({'status': 'ok', 'scout_groups': sorted(scout_groups)}, status=status.HTTP_200_OK)
 
-    def search_group_tree_for_scout_group(self, tree):
+    def search_group_tree_for_scout_groups(self, tree):
         scout_groups = []
         for group in tree:
             if "Stamm" in group["name"]:
                 scout_groups.append(group["name"])
             elif group["subGroups"]:
-                scout_groups += self.search_group_tree_for_scout_group(group["subGroups"])
+                scout_groups += self.search_group_tree_for_scout_groups(group["subGroups"])
         return scout_groups
 
 
