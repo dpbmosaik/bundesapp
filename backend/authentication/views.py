@@ -1,4 +1,5 @@
 from backend.OIDCAuthentication import MyOIDCAB
+from django.http import HttpResponseRedirect
 
 from .serializers import RegisterSerializer, ScoutHierarchySerializer, ZipCodeSerializer, ScoutOrgaLevelSerializer, \
     EatHabitTypeSerializer
@@ -14,6 +15,7 @@ import environ
 from django.conf import settings
 import os
 from rest_framework.permissions import IsAuthenticated
+from .models import Upload, UploadPrivate
 
 BASE_DIR = getattr(settings, "BASE_DIR", None)
 env = environ.Env()
@@ -81,14 +83,13 @@ class RegisterViewSet(viewsets.ViewSet):
             print(f"Error within registration:\n{e}")
             return Response({'status': 'failed', 'error': 'internal server error'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_200_OK)
+        return Response({'status': 'ok', 'user': new_user}, status=status.HTTP_201_CREATED)
 
 
 class UserViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
-
         try:
             user = auth.get_userinfo(request.auth, None, None)
             print(user)
@@ -135,3 +136,24 @@ class ScoutOrgaLevelViewSet(viewsets.ModelViewSet):
 class EatHabitTypeViewSet(viewsets.ModelViewSet):
     queryset = EatHabitType.objects.all()
     serializer_class = EatHabitTypeSerializer
+
+
+class ProfileImageUpload(viewsets.ViewSet):
+
+    def create(self, request, *args, **kwargs):
+        image_file = request.FILES.get('file', '')
+        image_type = request.POST.get('image_type', 'private')
+        if image_file is None:
+            return Response({'successful': 'False', 'url': ''}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            if image_type == 'private':
+                upload = UploadPrivate(file=image_file)
+            else:
+                upload = Upload(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+            print(image_url)
+            return Response({'successful': 'True', 'url': image_url}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response({'successful': 'False', 'url': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
