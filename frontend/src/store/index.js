@@ -11,6 +11,29 @@ export default createStore({
     accessToken: null,
     refreshToken: null,
     isAuth: false,
+    register: {
+      firstname: '',
+      lastname: '',
+      scoutname: '',
+      email: '',
+      stamm: '',
+      group: '',
+      birthdate: '',
+      gender: '',
+      street: '',
+      zipCode: '',
+      additional: '',
+      phone: '',
+      password: '',
+      stepsDone: {
+        step1: false,
+        step2: false,
+        step3: false,
+        step4: false,
+        step5: false,
+        step6: false,
+      }
+    },
   },
   getters: {
     userinfo(state) {
@@ -27,6 +50,21 @@ export default createStore({
     }
   },
   mutations: {
+    setRegisterFirstName(state, payload) {
+      state.register.firstname = payload.firstname
+    },
+    setRegisterLastName(state, payload) {
+      state.register.lastname = payload.lastname
+    },
+    setRegisterScoutName(state, payload) {
+      state.register.scoutname = payload.scoutname
+    },
+    setRegisterEmail(state, payload) {
+      state.register.email = payload.email
+    },
+    changeStateOfFirstStep(state, payload) {
+      state.register.stepsDone.step1 = payload.value
+    },
     setUserinfo(state, userinfo) {
       state.userinfo = userinfo;
     },

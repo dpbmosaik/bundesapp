@@ -12,17 +12,9 @@
           >Fange jetzt an Zeit zu sparen</span
         >
       </h2>
-      <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0 gap-4">
-        <PrimaryButton
-          :target="buttons.start.href"
-          :content="buttons.start.name"
-          size="l"
-        />
-        <SecondaryButton
-          :target="buttons.contact.href"
-          :content="buttons.contact.name"
-          size="l"
-        />
+      <div class="mt-8 flex lg:mt-0 lg:shrink-0 gap-4">
+        <PrimaryButton :target="buttons.start.href" :content="buttons.start.name" size="l" />
+        <SecondaryButton :target="buttons.contact.href" :content="buttons.contact.name" size="l" />
       </div>
     </div>
   </div>
