@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CardTemplate from "../components/form/inputs/CardTemplate.vue";
+import CardTemplate from "@/common/components/form/inputs/CardTemplate.vue";
 
 export default {
   name: "RegisterMain",

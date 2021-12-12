@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
-import Register from '@/views/Register.vue';
-import Contact from '@/views/Contact.vue';
-import Login from '@/views/Login';
-import Demo from '@/views/Demo.vue';
+import Home from '@/modules/views/Home.vue';
+import About from '@/modules/views/About.vue';
+import Register from '@/modules/views/Register.vue';
+import Contact from '@/modules/views/Contact.vue';
+import Login from '@/modules/views/Login';
+import Demo from '@/modules/views/Demo.vue';
 
 const routes = [
   {
@@ -26,32 +26,32 @@ const routes = [
       {
         path: '/register/1',
         name: 'Register1',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFirstStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterFirstStep.vue')
       },
       {
         path: '/register/2',
         name: 'Register2',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSecondStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterSecondStep.vue')
       },
       {
         path: '/register/3',
         name: 'Register3',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterThirdStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterThirdStep.vue')
       },
       {
         path: '/register/4',
         name: 'Register4',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFourthStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterFourthStep.vue')
       },
       {
         path: '/register/5',
         name: 'Register5',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterFifthStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterFifthStep.vue')
       },
       {
         path: '/register/6',
         name: 'Register6',
-        component: () => import(/* webpackChunkName: "register" */ '../components/form/RegisterProcess/RegisterSixthStep.vue')
+        component: () => import(/* webpackChunkName: "register" */ '@/common/components/form/RegisterProcess/RegisterSixthStep.vue')
       },
     ]
   },
@@ -73,49 +73,49 @@ const routes = [
   {
     path: '/app',
     name: 'App',
-    component: () => import(/* webpackChunkName: "main-app" */ '../views/Main.vue'),
+    component: () => import(/* webpackChunkName: "main-app" */ '@/modules/views/Main.vue'),
     redirect: { name: 'Dashboard' },
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '../components/app/Dashboard.vue')
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/common/components/app/Dashboard.vue')
       },
       {
         path: 'mitglieder',
         name: 'Mitgliederverwaltung',
-        component: () => import(/* webpackChunkName: "mitglieder" */ '../components/app/Members.vue')
+        component: () => import(/* webpackChunkName: "mitglieder" */ '@/common/components/app/Members.vue')
       },
       {
         path: 'gruppen',
         name: 'Gruppenverwaltung',
-        component: () => import(/* webpackChunkName: "Gruppen" */ '../components/app/Groups.vue')
+        component: () => import(/* webpackChunkName: "Gruppen" */ '@/common/components/app/Groups.vue')
       },
       {
         path: 'verwaltung',
         name: 'Verwaltung',
-        component: () => import(/* webpackChunkName: "Verwaltung" */ '../components/app/Management.vue')
+        component: () => import(/* webpackChunkName: "Verwaltung" */ '@/common/components/app/Management.vue')
       },
       {
         path: 'analytics',
         name: 'Analytics',
-        component: () => import(/* webpackChunkName: "Analytics" */ '../components/app/Analytics.vue')
+        component: () => import(/* webpackChunkName: "Analytics" */ '@/common/components/app/Analytics.vue')
       },
       {
         path: 'profil',
         name: 'Profil',
-        component: () => import(/* webpackChunkName: "profil" */ '../components/app/Profile.vue')
+        component: () => import(/* webpackChunkName: "profil" */ '@/common/components/app/Profile.vue')
       },
       {
         path: 'einstellungen',
         name: 'Einstellungen',
-        component: () => import(/* webpackChunkName: "einstellungen" */ '../components/app/Settings.vue')
+        component: () => import(/* webpackChunkName: "einstellungen" */ '@/common/components/app/Settings.vue')
       },
     ]
   },
   // Separated into two routes so that you can also programmatically
   // direct the user to the /404 if missing some data, etc.
-  { path: '/404', component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue') },
+  { path: '/404', component: () => import(/* webpackChunkName: "NotFound" */ '@/modules/views/NotFound.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/404' }
 ]
 

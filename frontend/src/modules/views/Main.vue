@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SideBarNavigation from "../components/app/SideBarNavigation.vue";
+import SideBarNavigation from "@/common/components/app/SideBarNavigation.vue";
 
 export default {
   name: "MainMain",
