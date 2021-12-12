@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Input from "../inputs/Input.vue"
+import Input from "@/common/components/inputs/Input.vue"
 
 const inputFields = [
   {

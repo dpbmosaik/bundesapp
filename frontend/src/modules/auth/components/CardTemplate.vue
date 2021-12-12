@@ -62,8 +62,8 @@
 
 <script>
 import { CheckIcon } from '@heroicons/vue/solid'
-import PrimaryButton  from './../../buttons/PrimaryButton.vue'
-import SecondaryButton from './../../buttons/SecondaryButton.vue'
+import PrimaryButton  from '@/common/components/buttons/PrimaryButton.vue'
+import SecondaryButton from '@/common/components/buttons/SecondaryButton.vue'
 
 const steps = [
   { name: 'Step 1', href: '#', status: 'current', step: 1 },
