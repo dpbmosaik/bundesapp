@@ -1,28 +1,19 @@
 <template>
-    <SideBarNavigation>
-
-        <router-view></router-view>
-
-    </SideBarNavigation>
+  <SideBarNavigation>
+    <router-view></router-view>
+  </SideBarNavigation>
 </template>
 
 <script>
-
-
-import SideBarNavigation from '../components/app/SideBarNavigation.vue'
-
-
+import SideBarNavigation from "../components/app/SideBarNavigation.vue";
 
 export default {
+  name: "MainMain",
   components: {
-    SideBarNavigation
+    SideBarNavigation,
   },
   setup() {
-
-
-    return {
-
-    }
+    return {};
   },
-}
+};
 </script>

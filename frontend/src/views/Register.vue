@@ -1,5 +1,7 @@
 <template>
-  <div class="register flex justify-center items-center content-center h-screen bg-gray-50">
+  <div
+    class="register flex justify-center items-center content-center h-screen bg-gray-50"
+  >
     <CardTemplate>
       <router-view></router-view>
     </CardTemplate>
@@ -7,16 +9,15 @@
 </template>
 
 <script>
-import CardTemplate from '../components/form/inputs/CardTemplate.vue'
+import CardTemplate from "../components/form/inputs/CardTemplate.vue";
 
 export default {
+  name: "RegisterMain",
   data() {
-    return {
-
-    }
+    return {};
   },
   components: {
-    CardTemplate
-  }
-}
+    CardTemplate,
+  },
+};
 </script>

@@ -59,49 +59,68 @@
             <div class="mt-5 flex-1 h-0 overflow-y-auto">
               <nav class="px-2 space-y-1 h-full flex flex-col justify-between">
                 <div class="px-2 space-y-1">
-                    <router-link
+                  <router-link
                     v-for="item in navigation"
                     :key="item.name"
                     :to="item.href"
                     :class="[
-                        isCurrent(item.name)
+                      isCurrent(item.name)
                         ? 'bg-gray-100 text-gray-900'
                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md',
+                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                     ]"
-                    >
+                  >
                     <component
-                        :is="item.icon"
-                        :class="[
+                      :is="item.icon"
+                      :class="[
                         item.current
-                            ? 'text-gray-500'
-                            : 'text-gray-400 group-hover:text-gray-500',
+                          ? 'text-gray-500'
+                          : 'text-gray-400 group-hover:text-gray-500',
                         'mr-4 flex-shrink-0 h-6 w-6',
-                        ]"
-                        aria-hidden="true"
+                      ]"
+                      aria-hidden="true"
                     />
                     <span class="flex-1">
-                        {{ item.name }}
+                      {{ item.name }}
                     </span>
 
-                    <span v-if="item.count" :class="[item.current ? 'bg-white' : 'bg-gray-100 group-hover:bg-gray-200', 'ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full']">
-                        {{ item.count }}
+                    <span
+                      v-if="item.count"
+                      :class="[
+                        item.current
+                          ? 'bg-white'
+                          : 'bg-gray-100 group-hover:bg-gray-200',
+                        'ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full',
+                      ]"
+                    >
+                      {{ item.count }}
                     </span>
-                    </router-link>
+                  </router-link>
                 </div>
                 <div class="space-y-1 p-2">
-                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider" id="projects-headline">
-                        Externe Services
-                    </h3>
-                    <div class="space-y-1" role="group" aria-labelledby="projects-headline">
-                        <a v-for="item in secondaryNavigation" :key="item.name" :href="item.href" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
-                        <span class="truncate">
-                            {{ item.name }}
-                        </span>
-                        </a>
-                    </div>
+                  <h3
+                    class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    id="projects-headline"
+                  >
+                    Externe Services
+                  </h3>
+                  <div
+                    class="space-y-1"
+                    role="group"
+                    aria-labelledby="projects-headline"
+                  >
+                    <a
+                      v-for="item in secondaryNavigation"
+                      :key="item.name"
+                      :href="item.href"
+                      class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      <span class="truncate">
+                        {{ item.name }}
+                      </span>
+                    </a>
+                  </div>
                 </div>
-
               </nav>
             </div>
           </div>
@@ -128,51 +147,72 @@
         <div class="mt-5 flex-grow flex flex-col">
           <nav class="flex-1 px-2 pb-4 space-y-1 flex flex-col justify-between">
             <div class="px-2 space-y-1">
-                <router-link
+              <router-link
                 v-for="item in navigation"
                 :key="item.name"
                 :to="item.href"
                 :class="[
-                    isCurrent(item.name)
+                  isCurrent(item.name)
                     ? 'bg-gray-100 text-gray-900'
                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                 ]"
-                >
+              >
                 <component
-                    :is="item.icon"
-                    :class="[
+                  :is="item.icon"
+                  :class="[
                     item.current
-                        ? 'text-gray-500'
-                        : 'text-gray-400 group-hover:text-gray-500',
+                      ? 'text-gray-500'
+                      : 'text-gray-400 group-hover:text-gray-500',
                     'mr-3 flex-shrink-0 h-6 w-6',
-                    ]"
-                    aria-hidden="true"
+                  ]"
+                  aria-hidden="true"
                 />
-                    <span class="flex-1">
-                        {{ item.name }}
-                    </span>
+                <span class="flex-1">
+                  {{ item.name }}
+                </span>
 
-                    <span v-if="item.count" :class="[item.current ? 'bg-white' : 'bg-gray-100 group-hover:bg-gray-200', 'ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full']">
-                        {{ item.count }}
-                    </span>
-                </router-link>
-
+                <span
+                  v-if="item.count"
+                  :class="[
+                    item.current
+                      ? 'bg-white'
+                      : 'bg-gray-100 group-hover:bg-gray-200',
+                    'ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full',
+                  ]"
+                >
+                  {{ item.count }}
+                </span>
+              </router-link>
             </div>
             <div class="space-y-1 p-2">
-                <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider" id="projects-headline">
-                    Externe Services
-                </h3>
-                <div class="space-y-1" role="group" aria-labelledby="projects-headline">
-                    <a v-for="item in secondaryNavigation" target=_blank rel=noopener :key="item.name" :href="item.href" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
-                    <span class="truncate flex-1">
-                        {{ item.name }}
-                    </span>
-                    <span>
-                        <ChevronRightIcon class="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    </a>
-                </div>
+              <h3
+                class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                id="projects-headline"
+              >
+                Externe Services
+              </h3>
+              <div
+                class="space-y-1"
+                role="group"
+                aria-labelledby="projects-headline"
+              >
+                <a
+                  v-for="item in secondaryNavigation"
+                  target="_blank"
+                  rel="noopener"
+                  :key="item.name"
+                  :href="item.href"
+                  class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                >
+                  <span class="truncate flex-1">
+                    {{ item.name }}
+                  </span>
+                  <span>
+                    <ChevronRightIcon class="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </a>
+              </div>
             </div>
           </nav>
         </div>
@@ -190,7 +230,7 @@
         </button>
         <div class="flex-1 px-4 flex justify-between">
           <div class="flex-1 flex">
-              <!-- Search Field -->
+            <!-- Search Field -->
             <!-- <form class="w-full flex md:ml-0" action="#" method="GET">
               <label for="search-field" class="sr-only">Search</label>
               <div
@@ -264,13 +304,15 @@
                     </router-link>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <button 
+                    <button
                       @click="logOut"
                       :class="[
-                          active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700 w-full text-left',
-                        ]"
-                    >Ausloggen</button>
+                        active ? 'bg-gray-100' : '',
+                        'block px-4 py-2 text-sm text-gray-700 w-full text-left',
+                      ]"
+                    >
+                      Ausloggen
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -280,7 +322,6 @@
       </div>
 
       <slot></slot>
-
     </div>
   </div>
 </template>
@@ -308,27 +349,27 @@ import {
   XIcon,
   MenuAlt2Icon,
   SearchIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
 } from "@heroicons/vue/outline";
 
 const newNotifications = [
-    {
-        person: '',
-        action: '',
-        date: ''
-    }
+  {
+    person: "",
+    action: "",
+    date: "",
+  },
 ];
 
 const navigation = [
-  { 
+  {
     name: "Dashboard",
     href: "/app/dashboard",
-    icon: HomeIcon
+    icon: HomeIcon,
   },
   {
     name: "Mitgliederverwaltung",
     href: "/app/mitglieder/",
-    icon: UsersIcon
+    icon: UsersIcon,
   },
   {
     name: "Gruppenverwaltung",
@@ -340,12 +381,12 @@ const navigation = [
     name: "Verwaltung",
     href: "/app/verwaltung",
     icon: ArchiveIcon,
-    count: 1
+    count: 1,
   },
   {
     name: "Analytics",
     href: "/app/analytics",
-    icon: ChartBarIcon
+    icon: ChartBarIcon,
   },
 ];
 
@@ -356,7 +397,6 @@ const secondaryNavigation = [
   { name: "Chat", href: "https://chat.bundesapp.org/" },
 ];
 
-
 const userNavigation = [
   { name: "Dein Profil", href: "/app/profil" },
   { name: "Einstellungen", href: "/app/einstellungen" },
@@ -364,7 +404,7 @@ const userNavigation = [
 ];
 
 export default {
-  name: "Side Bar Navigation",
+  name: "SideBarNavigation",
   components: {
     Dialog,
     DialogOverlay,
@@ -379,7 +419,7 @@ export default {
     MenuItem,
     MenuAlt2Icon,
     SearchIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
   },
   setup() {
     const sidebarOpen = ref(false);
@@ -389,23 +429,21 @@ export default {
       secondaryNavigation,
       sidebarOpen,
       userNavigation,
-      newNotifications
+      newNotifications,
     };
   },
   methods: {
-      isCurrent: function(name) {
-        const currentPage = this.$route.name;
-        if (currentPage == name) {
-          return true
-        }
-        return false
-      },
-      logOut: function() {
-        console.log('Logged Out')
+    isCurrent: function (name) {
+      const currentPage = this.$route.name;
+      if (currentPage == name) {
+        return true;
       }
+      return false;
+    },
+    logOut: function () {
+      console.log("Logged Out");
+    },
   },
-  computed: {
-
-  }
+  computed: {},
 };
 </script>

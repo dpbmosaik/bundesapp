@@ -1,3 +1,10 @@
 <template>
-    <p>Settings Page</p>
+  <p>Settings Page</p>
 </template>
+
+
+<script>
+export default {
+  name: "SettingsMain",
+};
+</script>

@@ -165,7 +165,6 @@ OIDC_AUTH_URI = f'{BASE_REALM_URI}/{env("OIDC_RP_CLIENT_ID")}/'
 OIDC_CALLBACK_PUBLIC_URI = f'{BASE_REALM_URI}/'
 OIDC_RP_CLIENT_ID = env('OIDC_RP_CLIENT_ID')
 OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET_BACKEND')
-# OIDC_DRF_AUTH_BACKEND = 'mozilla_django_oidc.auth.OIDCAuthenticationBackend'
 OIDC_OP_TOKEN_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/token'
 OIDC_OP_USER_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/userinfo'
 OIDC_OP_AUTHORIZATION_ENDPOINT = f'{BASE_REALM_URI}/protocol/openid-connect/auth'

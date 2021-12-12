@@ -45,7 +45,7 @@
 <script>
 
 export default {
-  name: 'Quote',
+  name: 'QuoteMain',
 }
 
 </script>

@@ -89,7 +89,7 @@ const features = [
 ]
 
 export default {
-    name: 'Features',
+    name: 'FeaturesMain',
   setup() {
     return {
       features,

@@ -24,7 +24,7 @@ import CtaSection from '../components/marketing/CtaSection.vue'
 import Footer from '../components/marketing/Footer.vue'
 
 export default {
-  name: 'Home',
+  name: 'HomeMain',
   components: {
     HeroSection,
     Incentives,
