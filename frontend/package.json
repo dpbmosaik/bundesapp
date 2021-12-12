@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "vue-cli-service lint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "lint": "vue-cli-service lint --ext .js,.vue --fix src",
     "format": "prettier .  --write",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
