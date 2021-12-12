@@ -13,11 +13,11 @@ import CardTemplate from "../components/form/inputs/CardTemplate.vue";
 
 export default {
   name: "RegisterMain",
-  data() {
-    return {};
-  },
   components: {
     CardTemplate,
+  },
+  data() {
+    return {};
   },
 };
 </script>

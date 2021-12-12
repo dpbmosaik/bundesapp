@@ -3,21 +3,21 @@
       
       <!-- External Websites -->
       <span v-if="typeof target === 'string' && target.startsWith('http')">
-        <a target="_blank" rel="noopener" v-if="size === 's'" :href="target" class="btn-s" :class="disabled ? 'btn-bg-disabled pointer-events-none' : 'btn-bg'">
+        <a v-if="size === 's'" target="_blank" rel="noopener" :href="target" class="btn-s" :class="disabled ? 'btn-bg-disabled pointer-events-none' : 'btn-bg'">
           {{ content }}
         </a>
 
-        <a target="_blank" rel="noopener" v-else-if="size === 'l'" :href="target" class="btn-l" :class="disabled ? 'btn-bg-disabled pointer-events-none' : 'btn-bg'">
+        <a v-else-if="size === 'l'" target="_blank" rel="noopener" :href="target" class="btn-l" :class="disabled ? 'btn-bg-disabled pointer-events-none' : 'btn-bg'">
           {{ content }}
         </a>
       </span>
 
       <!-- Actions -->
       <span v-else-if="typeof target === 'function'">
-        <button v-if="size === 's'" @click="target" class="btn-s" :class="disabled ? 'btn-bg-disabled' : 'btn-bg'" :disabled="disabled">
+        <button v-if="size === 's'" class="btn-s" :class="disabled ? 'btn-bg-disabled' : 'btn-bg'" :disabled="disabled" @click="target">
           {{ content }}
         </button>
-        <button v-else-if="size === 'l'" @click="target" class="btn-l" :class="disabled ? 'btn-bg-disabled' : 'btn-bg'" :disabled="disabled">
+        <button v-else-if="size === 'l'" class="btn-l" :class="disabled ? 'btn-bg-disabled' : 'btn-bg'" :disabled="disabled" @click="target">
           {{ content }}
         </button>
       </span>

@@ -1,17 +1,17 @@
 <template>
 
   <div class="border-none py-3">
-    <label :for="name" class="block text-sm font-medium text-gray-700">{{ label }} <span v-show="this.validation.includes('required')" class="text-red-500">*</span></label>
+    <label :for="name" class="block text-sm font-medium text-gray-700">{{ label }} <span v-show="validation.includes('required')" class="text-red-500">*</span></label>
     <div class="mt-1 relative rounded-md shadow-sm">
 
       <input
-        v-on:blur="checkValidation"
         v-model="value"
         :type="inputType"
         :name="name"
-        :class="this.errors.length ? 'border-red-300' : 'border-gray-300'"
+        :class="errors.length ? 'border-red-300' : 'border-gray-300'"
         class="shadow-sm focus:ring-dpbm-blue focus:border-dpbm-blue block w-full sm:text-sm rounded-md"
         :placeholder="placeholder"
+        @blur="checkValidation"
       />
       
       <div v-show="tooltip.length" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -21,9 +21,9 @@
     </div>
 
     <p
-      v-show="this.errors.length"
-      class="mt-2 text-sm text-red-600"
+      v-show="errors.length"
       id="email-error"
+      class="mt-2 text-sm text-red-600"
     >
       {{ errors[0] }} <!-- Only Show one Error at a time -->
     </p>
@@ -42,13 +42,8 @@ import { QuestionMarkCircleIcon } from '@heroicons/vue/solid'
 
 export default {
   name: "TextInputField",
-  data() {
-    return {
-      value: this.storeValue,
-      // valueInStore: this.storeValue,
-      errors: [],
-      isValid: false
-    }
+  components: {
+    QuestionMarkCircleIcon
   },
   props: {
       inputType: {
@@ -79,6 +74,17 @@ export default {
       storeValue : {
         type: String
       }
+  },
+  data() {
+    return {
+      value: this.storeValue,
+      // valueInStore: this.storeValue,
+      errors: [],
+      isValid: false
+    }
+  },
+  computed: {
+     
   },
   methods: {
     checkValidation() {
@@ -212,12 +218,6 @@ export default {
       
       return false
     },
-  },
-  computed: {
-     
-  },
-  components: {
-    QuestionMarkCircleIcon
   },
 }
 </script>
