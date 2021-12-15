@@ -12,8 +12,9 @@ export default createStore({
       bund: ''
     },
     accessToken: null,
-    refreshToken: null,
     isAuth: false,
+    isAuthFailed: false,
+    isAuthPending: false,
     register: {
       firstname: '',
       lastname: '',
@@ -49,7 +50,7 @@ export default createStore({
       return {}
     },
     isAuth (state) {
-      return !!state.accessToken
+      return state.isAuth
     }
   },
   mutations: {
@@ -74,6 +75,12 @@ export default createStore({
     setIsAuth (state, value) {
       state.isAuth = value
     },
+    setIsAuthFailed (state, value) {
+      state.isAuthFailed = value
+    },
+    setIsAuthPending (state, value) {
+      state.isAuthPending = value
+    },
     clearUserinfo (state) {
       state.userinfo = {
         fahrtenname: '',
@@ -83,13 +90,11 @@ export default createStore({
     },
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    setTokens: function (state, access, refresh) {
+    setToken: function (state, access) {
       state.accessToken = access
-      state.refreshToken = refresh
     },
-    clearTokens (state) {
+    clearToken (state) {
       state.accessToken = null
-      state.refreshToken = null
     }
   },
   actions: {},

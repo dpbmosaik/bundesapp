@@ -139,6 +139,13 @@
                 </span>
                 <span class="inline-flex rounded-md shadow">
                   <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
+                    @click="test"
+                  >
+                    Test
+                  </button>
+                  <button
                     v-if="!isAuth"
                     type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
@@ -351,6 +358,7 @@ import { mapGetters } from 'vuex'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'
 import SecondaryButton from '@/components/buttons/SecondaryButton.vue'
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+import { getKeycloak } from '@/plugin/keycloak'
 
 const navigation = [
   { name: 'Features', href: '#features' },
@@ -393,25 +401,30 @@ export default {
   computed: {
     ...mapGetters(['isAuth', 'userinfo']),
     givenName () {
-      return this.userinfo && this.userinfo.given_name
+      return this.userinfo && this.userinfo.preferred_username
     }
   },
   methods: {
     onLogInClicked () {
       console.log('this.$keycloak')
-      console.log(this.$keycloak)
-      if (this.$keycloak.loginFn) {
-        this.$keycloak.loginFn()
+      console.log(getKeycloak())
+      if (getKeycloak().login()) {
+        getKeycloak().login()
       } else {
-        debugger; //eslint-disable-line
+        debugger //eslint-disable-line
       }
     },
+    test () {
+      // console.log(this.$keycloak)
+      // console.log(this.$keycloak.authenticated)
+      console.log('Auth ' + this.isAuth)
+    },
     onLogoutClicked () {
-      this.$keycloak.logoutFn()
+      getKeycloak().logout()
 
-      this.$store.commit('clearTokens')
+      this.$store.commit('clearToken')
       this.$store.commit('clearUserinfo')
-      this.$store.commit('isAuth', false)
+      this.$store.commit('setIsAuth', false)
 
       this.$router.push({ name: 'Home' })
     }
