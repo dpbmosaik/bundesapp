@@ -8,7 +8,7 @@ import './index.css'
 import auth from '@/modules/auth/helpers/index.js'
 import { vueKeycloak } from '@/plugin/keycloak'
 
-auth.interceptorsSetup(store, router)
+auth.interceptorsSetup()
 
 const vueOptions = {
   initOptions: {

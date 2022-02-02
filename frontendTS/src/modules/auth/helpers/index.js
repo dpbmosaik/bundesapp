@@ -1,18 +1,19 @@
 import axios from 'axios'
+import { getToken } from '@/plugin/keycloak'
 
 export default {
-  user: {
-    authenticated: false
-  },
-
-  interceptorsSetup (store) {
-    axios.interceptors.request.use((config) => {
-      const { accessToken } = store.state
-      console.log(`accestoken is: ${accessToken}`)
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}` // eslint-disable-line no-param-reassign
+  interceptorsSetup () {
+    axios.interceptors.request.use(
+      async config => {
+        const token = await getToken()
+        config.headers = {
+          Authorization: `Bearer ${token}`
+        }
+        return config
+      },
+      error => {
+        Promise.reject(error)
       }
-      return config
-    }, (err) => Promise.reject(err))
+    )
   }
 }
