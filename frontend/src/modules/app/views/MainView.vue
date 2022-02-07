@@ -5,15 +5,15 @@
 </template>
 
 <script>
-import SideBarNavigation from "@/layouts/SideBarNavigation.vue";
+import SideBarNavigation from '@/layouts/SideBarNavigation.vue'
 
 export default {
-  name: "MainMain",
+  name: 'MainMain',
   components: {
-    SideBarNavigation,
+    SideBarNavigation
   },
-  setup() {
-    return {};
-  },
-};
+  setup () {
+    return {}
+  }
+}
 </script>

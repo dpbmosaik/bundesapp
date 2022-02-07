@@ -6,7 +6,6 @@
 
 <script>
 export default {
-  name: 'ContactMain',
+  name: 'ContactMain'
 }
 </script>
-

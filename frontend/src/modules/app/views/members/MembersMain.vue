@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  name: "MemberMain",
-};
+  name: 'MemberMain'
+}
 </script>

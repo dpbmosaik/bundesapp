@@ -42,58 +42,58 @@ const features = [
   {
     name: 'Mitgliederverwaltung',
     description: 'Consequuntur omnis dicta cumque, inventore atque ab dolores aspernatur tempora ab doloremque.',
-    icon: UserGroupIcon,
+    icon: UserGroupIcon
   },
   {
     name: 'Dateiablage',
     description:
       'Corporis quisquam nostrum nulla veniam recusandae temporibus aperiam officia incidunt at distinctio ratione.',
-    icon: CollectionIcon,
+    icon: CollectionIcon
   },
   {
     name: 'Chat',
     description:
       'Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.',
-    icon: ChatIcon,
+    icon: ChatIcon
   },
   {
     name: 'Wiki',
     description:
       'Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.',
-    icon: InformationCircleIcon,
+    icon: InformationCircleIcon
   },
   {
     name: 'Kalender',
     description:
       'Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.',
-    icon: CalendarIcon,
+    icon: CalendarIcon
   },
   {
     name: 'Anmeldungen',
     description:
       'Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.',
-    icon: DocumentAddIcon,
+    icon: DocumentAddIcon
   },
   {
     name: 'Verwaltung',
     description:
       'Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.',
-    icon: CubeIcon,
+    icon: CubeIcon
   },
   {
     name: 'Anbindung an weitere Services',
     description:
       'Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.',
-    icon: PlusCircleIcon,
+    icon: PlusCircleIcon
   }
 ]
 
 export default {
-    name: 'FeaturesMain',
-  setup() {
+  name: 'FeaturesMain',
+  setup () {
     return {
-      features,
+      features
     }
-  },
+  }
 }
 </script>

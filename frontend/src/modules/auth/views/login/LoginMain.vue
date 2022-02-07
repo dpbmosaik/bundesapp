@@ -56,30 +56,26 @@
           </div>
         </form>
 
-
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
-
-
 export default {
   name: 'LogIn',
   components: {
-    
+
   },
-  setup() {
+  setup () {
     return {
-      
+
     }
   },
-  data() {
+  data () {
     return {
       email: '',
       password: '',
@@ -87,10 +83,10 @@ export default {
     }
   },
   methods: {
-    login: function(e) {
-      const email = this.email; //string
-      const password = this.password; //string
-      const rememberMe = this.rememberMe; //true/false
+    login: function (e) {
+      const email = this.email // string
+      const password = this.password // string
+      const rememberMe = this.rememberMe // true/false
 
       console.log(e)
       console.log(email)

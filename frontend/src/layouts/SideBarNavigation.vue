@@ -327,7 +327,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref } from 'vue'
 import {
   Dialog,
   DialogOverlay,
@@ -336,8 +336,8 @@ import {
   MenuItems,
   MenuItem,
   TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
+  TransitionRoot
+} from '@headlessui/vue'
 import {
   HomeIcon,
   BellIcon,
@@ -349,62 +349,62 @@ import {
   XIcon,
   MenuAlt2Icon,
   SearchIcon,
-  ChevronRightIcon,
-} from "@heroicons/vue/outline";
+  ChevronRightIcon
+} from '@heroicons/vue/outline'
 
 const newNotifications = [
   {
-    person: "",
-    action: "",
-    date: "",
-  },
-];
+    person: '',
+    action: '',
+    date: ''
+  }
+]
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: "/app/dashboard",
-    icon: HomeIcon,
+    name: 'Dashboard',
+    href: '/app/dashboard',
+    icon: HomeIcon
   },
   {
-    name: "Mitgliederverwaltung",
-    href: "/app/mitglieder/",
-    icon: UsersIcon,
+    name: 'Mitgliederverwaltung',
+    href: '/app/mitglieder/',
+    icon: UsersIcon
   },
   {
-    name: "Gruppenverwaltung",
-    href: "/app/gruppen",
+    name: 'Gruppenverwaltung',
+    href: '/app/gruppen',
     icon: UserGroupIcon,
-    count: 3,
+    count: 3
   },
   {
-    name: "Verwaltung",
-    href: "/app/verwaltung",
+    name: 'Verwaltung',
+    href: '/app/verwaltung',
     icon: ArchiveIcon,
-    count: 1,
+    count: 1
   },
   {
-    name: "Analytics",
-    href: "/app/analytics",
-    icon: ChartBarIcon,
-  },
-];
+    name: 'Analytics',
+    href: '/app/analytics',
+    icon: ChartBarIcon
+  }
+]
 
 const secondaryNavigation = [
-  { name: "Heimabendinspirator", href: "https://inspirator.dpbm.de/" },
-  { name: "Cloud", href: "https://cloud.bundesapp.org/" },
+  { name: 'Heimabendinspirator', href: 'https://inspirator.dpbm.de/' },
+  { name: 'Cloud', href: 'https://cloud.bundesapp.org/' },
   // { name: "Kalender", href: "#" },
-  { name: "Chat", href: "https://chat.bundesapp.org/" },
-];
+  { name: 'Chat', href: 'https://chat.bundesapp.org/' }
+]
 
 const userNavigation = [
-  { name: "Dein Profil", href: "/app/profil" },
-  { name: "Einstellungen", href: "/app/einstellungen" },
+  { name: 'Dein Profil', href: '/app/profil' },
+  { name: 'Einstellungen', href: '/app/einstellungen' }
   // { name: "Abmelden", href: logOut },
-];
+]
 
 export default {
-  name: "SideBarNavigation",
+  name: 'SideBarNavigation',
   components: {
     Dialog,
     DialogOverlay,
@@ -419,31 +419,31 @@ export default {
     MenuItem,
     MenuAlt2Icon,
     SearchIcon,
-    ChevronRightIcon,
+    ChevronRightIcon
   },
-  setup() {
-    const sidebarOpen = ref(false);
+  setup () {
+    const sidebarOpen = ref(false)
 
     return {
       navigation,
       secondaryNavigation,
       sidebarOpen,
       userNavigation,
-      newNotifications,
-    };
+      newNotifications
+    }
   },
   computed: {},
   methods: {
     isCurrent: function (name) {
-      const currentPage = this.$route.name;
-      if (currentPage == name) {
-        return true;
+      const currentPage = this.$route.name
+      if (currentPage === name) {
+        return true
       }
-      return false;
+      return false
     },
     logOut: function () {
-      console.log("Logged Out");
-    },
-  },
-};
+      console.log('Logged Out')
+    }
+  }
+}
 </script>

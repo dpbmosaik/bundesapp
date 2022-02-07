@@ -7,6 +7,6 @@
 <script>
 
 export default {
-  name: "InstagramIcon",
-};
+  name: 'InstagramIcon'
+}
 </script>

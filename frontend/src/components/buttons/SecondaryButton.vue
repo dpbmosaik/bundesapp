@@ -40,11 +40,11 @@ export default {
     target: {
       type: String,
       default: ''
-    }, 
+    },
     content: {
       type: String,
       default: ''
-    }, 
+    },
     size: {
       default: 's',
       type: String

@@ -5,11 +5,11 @@
     <div class="mt-1 relative rounded-md shadow-sm">
       <!-- v-on event should be changed to oninvalid once setup -->
       <input :id="inputType" :type="inputType" :name="inputType" class="block w-full pr-10 sm:text-sm rounded-md" :class="{'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500': error}" :placeholder="placeholder" aria-invalid="true" aria-describedby="email-error"/>
-      
+
       <div v-if="error" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
       </div>
-      
+
       <!-- <div v-else class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <QuestionMarkCircleIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </div> -->
@@ -22,16 +22,16 @@
 </template>
 
 <script>
-import { 
-  ExclamationCircleIcon, 
+import {
+  ExclamationCircleIcon
   // QuestionMarkCircleIcon
 } from '@heroicons/vue/solid'
 
 export default {
-  name: "TextInputField",
+  name: 'TextInputField',
   components: {
-      ExclamationCircleIcon,
-      // QuestionMarkCircleIcon,
+    ExclamationCircleIcon
+    // QuestionMarkCircleIcon,
   },
   props: {
     label: String,
@@ -41,20 +41,20 @@ export default {
     },
     inputType: {
       type: String,
-      default: "text",
+      default: 'text'
     },
     isRequired: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
+  data () {
     return {
-      error: false,
+      error: false
     }
   },
   methods: {
 
-  },
+  }
 }
 </script>

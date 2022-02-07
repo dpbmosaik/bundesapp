@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  name: "AnalyticsMain",
-};
+  name: 'AnalyticsMain'
+}
 </script>

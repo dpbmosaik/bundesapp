@@ -21,7 +21,7 @@
           <nav aria-label="Progress">
             <ol role="list" class="flex items-center justify-between py-4">
               <li v-for="(step, stepIdx) in steps" :key="step.name" :class="[stepIdx !== steps.length - 1 ? 'flex-1' : '', 'relative']">
-                
+
                 <template v-if="step.status === 'complete'">
                   <div class="absolute inset-0 flex items-center" aria-hidden="true">
                     <div class="h-0.5 w-full bg-dpbm-blue" />
@@ -54,16 +54,16 @@
 
               </li>
             </ol>
-          </nav>   
-        
+          </nav>
+
       </div>
   </div>
 </template>
 
 <script>
-import { CheckIcon } from '@heroicons/vue/solid';
-import PrimaryButton  from '@/components/buttons/PrimaryButton.vue';
-import SecondaryButton from '@/components/buttons/SecondaryButton.vue';
+import { CheckIcon } from '@heroicons/vue/solid'
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+import SecondaryButton from '@/components/buttons/SecondaryButton.vue'
 
 const steps = [
   { name: 'Step 1', href: '#', status: 'current', step: 1 },
@@ -71,34 +71,34 @@ const steps = [
   { name: 'Step 3', href: '#', status: 'upcoming', step: 3 },
   { name: 'Step 4', href: '#', status: 'upcoming', step: 4 },
   { name: 'Step 5', href: '#', status: 'upcoming', step: 5 },
-  { name: 'Step 6', href: '#', status: 'upcoming', step: 6 },
+  { name: 'Step 6', href: '#', status: 'upcoming', step: 6 }
 ]
 
 export default {
-  name: "CardTemplate",
+  name: 'CardTemplate',
   components: {
     CheckIcon,
     PrimaryButton,
     SecondaryButton
   },
-  setup() {
+  setup () {
     return {
       steps
     }
   },
   computed: {
-    currentStepDone() {
-      const currentRoute = this.$route.path;
-      let registerStep = currentRoute.charAt(currentRoute.length-1)
+    currentStepDone () {
+      const currentRoute = this.$route.path
+      const registerStep = currentRoute.charAt(currentRoute.length - 1)
       switch (registerStep) {
         case '1':
           // console.log(this.$store.state.register.stepsDone.step1)
           return this.$store.state.register.stepsDone.step1
-       
+
         default:
-          break;
+          break
       }
-      
+
       return false
     }
   },
@@ -106,7 +106,7 @@ export default {
 
   },
   methods: {
-    nextButtonText() {
+    nextButtonText () {
       if (
         this.$route.name === 'Register6'
       ) {
@@ -115,36 +115,36 @@ export default {
 
       return 'Weiter'
     },
-    isFirst() {
+    isFirst () {
       return this.$route.name === 'Register1'
     },
-    navigateNext() {
-      const currentRoute = this.$route.path;
-      let registerStep = currentRoute.charAt(currentRoute.length-1)
+    navigateNext () {
+      const currentRoute = this.$route.path
+      let registerStep = currentRoute.charAt(currentRoute.length - 1)
 
       console.log(this.$store.state.register)
 
-      this.$router.push({path: '/register/' + (++registerStep)})
+      this.$router.push({ path: '/register/' + (++registerStep) })
       this.updateStepper()
     },
-    navigatePrevious() {
-      const currentRoute = this.$route.path;
-      let registerStep = currentRoute.charAt(currentRoute.length-1)
+    navigatePrevious () {
+      const currentRoute = this.$route.path
+      let registerStep = currentRoute.charAt(currentRoute.length - 1)
 
-      this.$router.push({path: '/register/' + (--registerStep)})
+      this.$router.push({ path: '/register/' + (--registerStep) })
     },
-    navigateToStep(step) {
-      this.$router.push({path: '/register/' + (step)})
+    navigateToStep (step) {
+      this.$router.push({ path: '/register/' + (step) })
     },
-    updateStepper() {
-      const currentRoute = this.$route.path;
-      let registerStep = currentRoute.charAt(currentRoute.length-1)
+    updateStepper () {
+      const currentRoute = this.$route.path
+      const registerStep = currentRoute.charAt(currentRoute.length - 1)
 
-      const currentActiveStep = steps.find(obj => obj.status == 'current');
-      const arrayIndex = steps.indexOf(currentActiveStep);
-      if (arrayIndex + 1 == registerStep) {
-        steps[arrayIndex + 1].status = 'current';
-        steps[arrayIndex].status = 'complete';
+      const currentActiveStep = steps.find(obj => obj.status === 'current')
+      const arrayIndex = steps.indexOf(currentActiveStep)
+      if (arrayIndex + 1 === registerStep) {
+        steps[arrayIndex + 1].status = 'current'
+        steps[arrayIndex].status = 'complete'
       }
     }
   }

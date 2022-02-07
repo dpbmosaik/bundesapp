@@ -32,12 +32,12 @@
 
 export default {
   components: {
-   
+
   },
-  data() {
+  data () {
     return {
       stamm: ''
     }
-  },
+  }
 }
 </script>

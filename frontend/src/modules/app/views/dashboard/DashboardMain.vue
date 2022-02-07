@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  name: "DashboardMain",
-};
+  name: 'DashboardMain'
+}
 </script>

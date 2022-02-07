@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import CardTemplate from "@/modules/auth/components/CardTemplate.vue";
+import CardTemplate from '@/modules/auth/components/CardTemplate.vue'
 
 export default {
-  name: "RegisterMain",
+  name: 'RegisterMain',
   components: {
-    CardTemplate,
+    CardTemplate
   },
-  data() {
-    return {};
-  },
-};
+  data () {
+    return {}
+  }
+}
 </script>

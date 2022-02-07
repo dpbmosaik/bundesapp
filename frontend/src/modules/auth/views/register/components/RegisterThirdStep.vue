@@ -4,15 +4,13 @@
 
 <script>
 
-
-
 export default {
   components: {
 
   },
-  data() {
+  data () {
     return {
-      group: '',
+      group: ''
     }
   }
 }

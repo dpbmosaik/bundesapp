@@ -2,9 +2,8 @@
   <p>Settings Page</p>
 </template>
 
-
 <script>
 export default {
-  name: "SettingsMain",
-};
+  name: 'SettingsMain'
+}
 </script>

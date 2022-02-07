@@ -21,24 +21,24 @@
 </template>
 
 <script>
-import SecondaryButton from "@/components/buttons/SecondaryButton.vue";
-import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
+import SecondaryButton from '@/components/buttons/SecondaryButton.vue'
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
 
 const buttons = {
-  start: { name: "Leg los", href: "/register" },
-  contact: { name: "Kontakt", href: "/contact" },
-};
+  start: { name: 'Leg los', href: '/register' },
+  contact: { name: 'Kontakt', href: '/contact' }
+}
 
 export default {
-  name: "CtaSection",
+  name: 'CtaSection',
   components: {
     SecondaryButton,
-    PrimaryButton,
+    PrimaryButton
   },
-  setup() {
+  setup () {
     return {
-      buttons,
-    };
-  },
-};
+      buttons
+    }
+  }
+}
 </script>

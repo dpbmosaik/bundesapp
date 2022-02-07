@@ -7,7 +7,7 @@
       Die Bundesapp ist ein Service des Deutschen Pfadfinder Bund Mosaik.
     </p>
 
-    <Input 
+    <Input
       v-for="inputField in inputFields"
       :key="inputField.name"
       :ref="inputField.name"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Input from "@/components/inputs/Input.vue"
+import Input from '@/components/inputs/Input.vue'
 
 const inputFields = [
   {
@@ -35,7 +35,7 @@ const inputFields = [
     label: 'Vorname',
     placeholder: 'Mara',
     validation: ['alpha', 'required'],
-    tooltip: 'Vorname',
+    tooltip: 'Vorname'
   },
   {
     name: 'lastname',
@@ -43,7 +43,7 @@ const inputFields = [
     label: 'Nachname',
     placeholder: 'Musterfrau',
     validation: ['alpha', 'required'],
-    tooltip: 'Nachname',
+    tooltip: 'Nachname'
   },
   {
     name: 'scoutname',
@@ -51,7 +51,7 @@ const inputFields = [
     label: 'Fahrtenname',
     placeholder: 'Mara',
     validation: ['alphanumeric'],
-    tooltip: 'Fahrtenname',
+    tooltip: 'Fahrtenname'
   },
   {
     name: 'email',
@@ -59,70 +59,67 @@ const inputFields = [
     label: 'Email',
     placeholder: 'mara@musterfrau.de',
     validation: ['required', 'email'],
-    tooltip: 'Email',
-  },
+    tooltip: 'Email'
+  }
 ]
 
 export default {
   components: {
     Input
   },
-  setup() {
+  setup () {
     return {
-     inputFields
+      inputFields
     }
   },
-  data() {
+  data () {
     return {
       data: {}
     }
   },
   computed: {
     firstname: {
-      get() {
+      get () {
         return this.$store.state.register.firstname
       },
-      set(value) {
-        this.$store.commit('setRegisterFirstName', {firstname: value})
+      set (value) {
+        this.$store.commit('setRegisterFirstName', { firstname: value })
       }
     },
     lastname: {
-      get() {
+      get () {
         return this.$store.state.register.lastname
       },
-      set(value) {
-        this.$store.commit('setRegisterLastName', {lastname: value})
+      set (value) {
+        this.$store.commit('setRegisterLastName', { lastname: value })
       }
     },
     scoutname: {
-      get() {
+      get () {
         return this.$store.state.register.scoutname
       },
-      set(value) {
-        this.$store.commit('setRegisterScoutName', {scoutname: value})
+      set (value) {
+        this.$store.commit('setRegisterScoutName', { scoutname: value })
       }
     },
     email: {
-      get() {
+      get () {
         return this.$store.state.register.email
       },
-      set(value) {
-        this.$store.commit('setRegisterEmail', {email: value})
+      set (value) {
+        this.$store.commit('setRegisterEmail', { email: value })
       }
-    },
+    }
   },
   methods: {
-    getInputValue(inputField) {
+    getInputValue (inputField) {
+      this[inputField] = this.$refs[inputField].value
 
-        this[inputField] = this.$refs[inputField].value
-
-        // console.log(inputField + ': ' + this.$refs[inputField].value)
-
+      // console.log(inputField + ': ' + this.$refs[inputField].value)
     },
-    checkIfStepIsDone() {
-      let stepDone = [];
+    checkIfStepIsDone () {
+      const stepDone = []
       for (const input of inputFields) {
-        
         if (input.validation.includes('required')) {
           // only check required fields
           stepDone.push(this.$refs[input.name].isValid)
@@ -134,10 +131,10 @@ export default {
       console.log(stepDone)
       if (!stepDone.includes(false)) {
         // if all inputs are valid mutate state to step1 done is true
-        
-        this.$store.commit('changeStateOfFirstStep', {value: true})
+
+        this.$store.commit('changeStateOfFirstStep', { value: true })
       }
-    },
+    }
   }
 }
 </script>

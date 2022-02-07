@@ -1,6 +1,6 @@
 <template>
     <span class="rounded-md shadow">
-      
+
       <!-- External Websites -->
       <span v-if="typeof target === 'string' && target.startsWith('http')">
         <a v-if="size === 's'" target="_blank" rel="noopener" :href="target" class="btn-s" :class="disabled ? 'btn-bg-disabled pointer-events-none' : 'btn-bg'">
@@ -22,7 +22,7 @@
         </button>
       </span>
 
-      <!-- Internal Router Pages --> 
+      <!-- Internal Router Pages -->
       <!-- router links can't be disabled yet -->
       <span v-else>
         <router-link v-if="size === 's'" :to="target" class="btn-s" :class="disabled ? 'btn-bg-disabled' : 'btn-bg'">{{ content }}</router-link>
@@ -42,11 +42,11 @@ export default {
     target: {
       type: String,
       default: ''
-    }, 
+    },
     content: {
       type: String,
       default: ''
-    }, 
+    },
     size: {
       default: 's',
       type: String

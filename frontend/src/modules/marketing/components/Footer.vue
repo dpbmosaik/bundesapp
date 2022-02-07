@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import InstagramIcon from '@/components/icons/InstagramIcon.vue';
-import GithubIcon from '@/components/icons/GithubIcon.vue';
+import InstagramIcon from '@/components/icons/InstagramIcon.vue'
+import GithubIcon from '@/components/icons/GithubIcon.vue'
 
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear()
 
 const navigation = {
   main: [
@@ -35,29 +35,29 @@ const navigation = {
     { name: 'Registrierung', href: '#' },
     { name: 'Demo', href: '#' },
     { name: 'Impressum', href: '#' },
-    { name: 'Datenschutzerklärung', href: '#' },
+    { name: 'Datenschutzerklärung', href: '#' }
   ],
   social: [
     {
       name: 'Instagram',
       href: '#',
-      icon: InstagramIcon,
+      icon: InstagramIcon
     },
     {
       name: 'GitHub',
       href: '#',
       icon: GithubIcon
-    },
-  ],
+    }
+  ]
 }
 
 export default {
   name: 'FooterMain',
-  setup() {
+  setup () {
     return {
       navigation,
       currentYear
     }
-  },
+  }
 }
 </script>

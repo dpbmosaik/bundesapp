@@ -139,6 +139,13 @@
                 </span>
                 <span class="inline-flex rounded-md shadow">
                   <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
+                    @click="test"
+                  >
+                    Test
+                  </button>
+                  <button
                     v-if="!isAuth"
                     type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-dpbm-blue bg-white hover:bg-gray-50 hover:text-dpbm-blue-light"
@@ -345,29 +352,30 @@
 </template>
 
 <script>
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import { mapGetters } from "vuex";
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { mapGetters } from 'vuex'
 
-import { MenuIcon, XIcon } from "@heroicons/vue/outline";
-import SecondaryButton from "@/components/buttons/SecondaryButton.vue";
-import PrimaryButton from "@/components/buttons/PrimaryButton.vue";
+import { MenuIcon, XIcon } from '@heroicons/vue/outline'
+import SecondaryButton from '@/components/buttons/SecondaryButton.vue'
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+import { getKeycloak } from '@/plugin/keycloak'
 
 const navigation = [
-  { name: "Features", href: "#features" },
-  { name: "Ziele", href: "#" },
-  { name: "Team", href: "#team" },
-  { name: "DPBM", href: "#dpbm" },
-  { name: "Kontakt", href: "/contact" },
-  { name: "GitHub", href: "https://github.com/dpbmosaik" },
-];
+  { name: 'Features', href: '#features' },
+  { name: 'Ziele', href: '#' },
+  { name: 'Team', href: '#team' },
+  { name: 'DPBM', href: '#dpbm' },
+  { name: 'Kontakt', href: '/contact' },
+  { name: 'GitHub', href: 'https://github.com/dpbmosaik' }
+]
 
 const buttons = {
-  home: { name: "Home", href: "/" },
-  start: { name: "Leg los", href: "/register" },
-  demo: { name: "Live Demo", href: "/demo" },
-  login: { name: "Log In", href: "/" },
-  logout: { name: "Log Out", href: "/" },
-};
+  home: { name: 'Home', href: '/' },
+  start: { name: 'Leg los', href: '/register' },
+  demo: { name: 'Live Demo', href: '/demo' },
+  login: { name: 'Log In', href: '/' },
+  logout: { name: 'Log Out', href: '/' }
+}
 
 export default {
   components: {
@@ -377,44 +385,49 @@ export default {
     MenuIcon,
     XIcon,
     SecondaryButton,
-    PrimaryButton,
+    PrimaryButton
   },
-  setup() {
+  setup () {
     return {
       navigation,
-      buttons,
-    };
+      buttons
+    }
   },
-  data() {
+  data () {
     return {
-      authenticated: false,
-    };
+      authenticated: false
+    }
   },
   computed: {
-    ...mapGetters(["isAuth", "userinfo"]),
-    givenName() {
-      return this.userinfo && this.userinfo.given_name;
-    },
+    ...mapGetters(['isAuth', 'userinfo']),
+    givenName () {
+      return this.userinfo && this.userinfo.preferred_username
+    }
   },
   methods: {
-    onLogInClicked() {
-      console.log('this.$keycloak');
-      console.log(this.$keycloak);
-      if (this.$keycloak.loginFn) {
-        this.$keycloak.loginFn();
+    onLogInClicked () {
+      console.log('this.$keycloak')
+      console.log(getKeycloak())
+      if (getKeycloak().login()) {
+        getKeycloak().login()
       } else {
-        debugger; //eslint-disable-line
+        debugger //eslint-disable-line
       }
     },
-    onLogoutClicked() {
-      this.$keycloak.logoutFn();
-
-      this.$store.commit("clearTokens");
-      this.$store.commit("clearUserinfo");
-      this.$store.commit("isAuth", false);
-
-      this.$router.push({ name: "Home" });
+    test () {
+      // console.log(this.$keycloak)
+      // console.log(this.$keycloak.authenticated)
+      console.log('Auth ' + this.isAuth)
     },
-  },
-};
+    onLogoutClicked () {
+      getKeycloak().logout()
+
+      this.$store.commit('clearToken')
+      this.$store.commit('clearUserinfo')
+      this.$store.commit('setIsAuth', false)
+
+      this.$router.push({ name: 'Home' })
+    }
+  }
+}
 </script>

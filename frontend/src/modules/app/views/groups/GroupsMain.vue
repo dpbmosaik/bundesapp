@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  name: "GroupsName",
-};
+  name: 'GroupsName'
+}
 </script>

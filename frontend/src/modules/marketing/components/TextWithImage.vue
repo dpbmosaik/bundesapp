@@ -64,6 +64,6 @@
 export default {
   components: {
     // CameraIcon,
-  },
+  }
 }
 </script>
