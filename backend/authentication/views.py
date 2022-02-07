@@ -110,9 +110,9 @@ class UserViewSet(viewsets.ViewSet):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class VerfiedUsersViewSet(viewsets.ViewSet):
+class VerifiedUsersViewSet(viewsets.ViewSet):
 
-    def ectract_info(self, users):
+    def extract_info(self, users):
         response = []
         for user in users:
             response.append({
