@@ -41,7 +41,7 @@ class ExtendedKeyCloakAdmin(KeycloakAdmin):
                 filtered_users.append(user)
         return  filtered_users
 
-    def get_users_by_attribute(self, query=None, query_attr={}):
+    def get_users_by_attribute(self, query=None, query_attr=None):
         """
         Return a list of users, filtered according to query parameters and attr
 
@@ -55,9 +55,16 @@ class ExtendedKeyCloakAdmin(KeycloakAdmin):
         """
         params_path = {"realm-name": self.realm_name}
         path = URL_ADMIN_USERS.format(**params_path)
+
+        if query_attr:
+            if not query:
+                query = {}
+            query_attr_str = ' '.join(f'{key}:{value}' for key,value in query_attr.items())
+            query["q"] = query_attr_str
+
         users = self.__fetch_all(path, query)
 
-        return self.filter_by_attribute(users, query_attr)
+        return users
 
     def __fetch_all(self, url, query=None):
         '''Wrapper function to paginate GET requests
