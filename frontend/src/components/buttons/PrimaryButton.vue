@@ -58,18 +58,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .btn-s {
-    @apply items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white;
-  }
-  .btn-l {
-    @apply w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white md:py-4 md:text-lg md:px-10;
-  }
-  .btn-bg {
-    @apply bg-dpbm-blue hover:bg-dpbm-blue-dark
-  }
-  .btn-bg-disabled {
-    @apply bg-gray-400 cursor-not-allowed
-  }
-</style>

@@ -17,8 +17,6 @@
       :placeholder="inputField.placeholder"
       :validation="inputField.validation"
       :tooltip="inputField.tooltip"
-      :value="$store.state[inputField.name]"
-      :store-value="$store.state.register[inputField.name]"
       @input="getInputValue(inputField.name); checkIfStepIsDone()"
      />
 
@@ -80,34 +78,34 @@ export default {
   computed: {
     firstname: {
       get() {
-        return this.$store.state.register.firstname
+        return '3';
       },
       set(value) {
-        this.$store.commit('setRegisterFirstName', {firstname: value})
+        // this.$store.commit('setRegisterFirstName', {firstname: value})
       }
     },
     lastname: {
       get() {
-        return this.$store.state.register.lastname
+        return '3'; 
       },
       set(value) {
-        this.$store.commit('setRegisterLastName', {lastname: value})
+        // this.$store.commit('setRegisterLastName', {lastname: value})
       }
     },
     scoutname: {
       get() {
-        return this.$store.state.register.scoutname
+        return '7';
       },
       set(value) {
-        this.$store.commit('setRegisterScoutName', {scoutname: value})
+        // this.$store.commit('setRegisterScoutName', {scoutname: value})
       }
     },
     email: {
       get() {
-        return this.$store.state.register.email
+        return '5';
       },
       set(value) {
-        this.$store.commit('setRegisterEmail', {email: value})
+        // this.$store.commit('setRegisterEmail', {email: value})
       }
     },
   },
@@ -135,7 +133,7 @@ export default {
       if (!stepDone.includes(false)) {
         // if all inputs are valid mutate state to step1 done is true
         
-        this.$store.commit('changeStateOfFirstStep', {value: true})
+        // this.$store.commit('changeStateOfFirstStep', {value: true})
       }
     },
   }

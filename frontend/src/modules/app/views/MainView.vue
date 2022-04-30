@@ -1,7 +1,5 @@
 <template>
-  <SideBarNavigation>
     <router-view></router-view>
-  </SideBarNavigation>
 </template>
 
 <script>

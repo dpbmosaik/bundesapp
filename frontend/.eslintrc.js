@@ -4,13 +4,25 @@ module.exports = {
     node: true,
   },
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    "prettier"
+    '@vue/typescript/recommended',
+    'plugin:security/recommended',
+    'prettier',
+    './.eslintrc-auto-import.json',
   ],
-  rules: {},
   parserOptions: {
-    parser: '@babel/eslint-parser',
-    requireConfigFile: false
+    ecmaVersion: 2021,
   },
-};
+  rules: {
+    'no-var': 'error',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'comma-dangle': ['error', 'only-multiline'],
+  },
+  globals: {
+    defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
+    withDefaults: 'readonly',
+  },
+}

@@ -346,7 +346,6 @@
 
 <script>
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import { mapGetters } from "vuex";
 
 import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 import SecondaryButton from "@/components/buttons/SecondaryButton.vue";
@@ -391,7 +390,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isAuth", "userinfo"]),
     givenName() {
       return this.userinfo && this.userinfo.given_name;
     },
@@ -403,15 +401,14 @@ export default {
       if (this.$keycloak.loginFn) {
         this.$keycloak.loginFn();
       } else {
-        debugger; //eslint-disable-line
       }
     },
     onLogoutClicked() {
       this.$keycloak.logoutFn();
 
-      this.$store.commit("clearTokens");
-      this.$store.commit("clearUserinfo");
-      this.$store.commit("isAuth", false);
+      // this.$store.commit("clearTokens");
+      // this.$store.commit("clearUserinfo");
+      // this.$store.commit("isAuth", false);
 
       this.$router.push({ name: "Home" });
     },

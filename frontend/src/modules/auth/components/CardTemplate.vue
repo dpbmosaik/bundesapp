@@ -93,7 +93,7 @@ export default {
       switch (registerStep) {
         case '1':
           // console.log(this.$store.state.register.stepsDone.step1)
-          return this.$store.state.register.stepsDone.step1
+          return '3'; //this.$store.state.register.stepsDone.step1
        
         default:
           break;
@@ -122,7 +122,7 @@ export default {
       const currentRoute = this.$route.path;
       let registerStep = currentRoute.charAt(currentRoute.length-1)
 
-      console.log(this.$store.state.register)
+      // console.log(this.$store.state.register)
 
       this.$router.push({path: '/register/' + (++registerStep)})
       this.updateStepper()
