@@ -1,5 +1,15 @@
 export default [
   {
+    path: '/',
+    component: () =>
+      import(
+        /* webpackChunkName: "dashboard" */ "@/modules/app/views/dashboard/DashboardMain.vue"
+      ),
+    meta: {
+      title: 'Vite + Vue + TypeScript + Tailwind Starter Template',
+    },
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: () =>
