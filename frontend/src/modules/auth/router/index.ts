@@ -40,10 +40,14 @@ export default [
           },
         ]
       },
-    
       {
         path: '/login',
         name: 'Login',
         component: Login,
+      },
+      {
+        path: '/logout',
+        name: 'Logout',
+        component: () => import(/* webpackChunkName: "register" */ '@/modules/auth/views/logout/LogoutMain.vue')
       },
 ]

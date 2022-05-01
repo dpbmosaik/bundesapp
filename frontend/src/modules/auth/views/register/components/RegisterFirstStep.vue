@@ -19,7 +19,6 @@
       :tooltip="inputField.tooltip"
       @input="getInputValue(inputField.name); checkIfStepIsDone()"
      />
-
   </div>
 </template>
 
