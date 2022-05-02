@@ -72,10 +72,10 @@
             <div class="mt-5 flex-1 h-0 overflow-y-auto">
               <nav class="px-2">
                 <div class="space-y-1">
-                  <a
+                  <router-link
+                    :to="{ name: item.href }"
                     v-for="item in navigation"
                     :key="item.name"
-                    :href="item.href"
                     :class="[
                       item.current
                         ? 'bg-gray-100 text-gray-900'
@@ -95,7 +95,7 @@
                       aria-hidden="true"
                     />
                     {{ item.name }}
-                  </a>
+                  </router-link>
                 </div>
               </nav>
             </div>
@@ -150,15 +150,27 @@
             >
               <span class="flex w-full justify-between items-center">
                 <span
+                  v-if="$keycloak && $keycloak.ready"
                   class="flex min-w-0 items-center justify-between space-x-3"
                 >
-                  <span class="flex-1 flex flex-col min-w-0">
+                  <span
+                    class="flex-1 flex flex-col min-w-0"
+                    v-if="$keycloak.authenticated"
+                  >
                     <span class="text-gray-900 text-sm font-medium truncate"
                       >Robert</span
                     >
                     <span class="text-gray-500 text-sm truncate">Admin</span>
                   </span>
+                    <button
+                      v-else
+                      @click="$keycloak.login"
+                      class="text-gray-900 text-sm font-medium truncate"
+                    >
+                      Login
+                    </button>
                 </span>
+              <span v-else> Loading...</span>
                 <SelectorIcon
                   class="
                     flex-shrink-0
@@ -200,24 +212,56 @@
               <div class="py-1">
                 <MenuItem v-slot="{ active }">
                   <a
-                    href="#"
+                    href="/settings/my-profile"
                     :class="[
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm',
                     ]"
-                    >View profile</a
+                    >Mein Profil</a
                   >
                 </MenuItem>
               </div>
               <div class="py-1">
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <button
+                    v-if="
+                      $keycloak && $keycloak.ready && $keycloak.authenticated
+                    "
+                    @click="$keycloak.login()"
                     :class="[
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm',
                     ]"
-                    >Logout</a
+                  >
+                    Login
+                  </button>
+                </MenuItem>
+              </div>
+              <div class="py-1">
+                <MenuItem v-slot="{ active }">
+                  <button
+                    v-if="
+                      $keycloak && $keycloak.ready && $keycloak.authenticated
+                    "
+                    @click="$keycloak.login()"
+                    :class="[
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-sm',
+                    ]"
+                  >
+                    Logout
+                  </button>
+                </MenuItem>
+              </div>
+              <div class="py-1">
+                <MenuItem v-slot="{ active }">
+                  <a
+                    href="/register"
+                    :class="[
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-sm',
+                    ]"
+                    >Registrieren</a
                   >
                 </MenuItem>
               </div>
@@ -237,10 +281,10 @@
         <!-- Navigation -->
         <nav class="px-3 mt-6">
           <div class="space-y-1">
-            <a
+            <router-link
+              :to="{ name: item.href }"
               v-for="item in navigation"
               :key="item.name"
-              :href="item.href"
               :class="[
                 item.current
                   ? 'bg-gray-200 text-gray-900'
@@ -260,7 +304,7 @@
                 aria-hidden="true"
               />
               {{ item.name }}
-            </a>
+            </router-link>
           </div>
         </nav>
       </div>
@@ -388,14 +432,42 @@
                   <div class="py-1">
                     <MenuItem v-slot="{ active }">
                       <a
-                        href="#"
+                        href=""
                         :class="[
                           active
                             ? 'bg-gray-100 text-gray-900'
                             : 'text-gray-700',
                           'block px-4 py-2 text-sm',
                         ]"
-                        >View profile</a
+                        >Mein Profil</a
+                      >
+                    </MenuItem>
+                  </div>
+                  <div class="py-1">
+                    <MenuItem v-slot="{ active }">
+                      <a
+                        href="/login"
+                        :class="[
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
+                          'block px-4 py-2 text-sm',
+                        ]"
+                        >Login</a
+                      >
+                    </MenuItem>
+                  </div>
+                  <div class="py-1">
+                    <MenuItem v-slot="{ active }">
+                      <a
+                        href="/register"
+                        :class="[
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
+                          'block px-4 py-2 text-sm',
+                        ]"
+                        >Registrieren</a
                       >
                     </MenuItem>
                   </div>
@@ -429,8 +501,8 @@
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
+<script lang="ts">
+import { ref, defineComponent } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -442,13 +514,15 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import {
-  ClockIcon,
   HomeIcon,
+  ViewGridIcon,
   MenuAlt1Icon,
-  ViewListIcon,
+  ChartBarIcon,
   XIcon,
-  FolderIcon,
+  UserGroupIcon,
   CalendarIcon,
+  CubeIcon,
+  AdjustmentsIcon,
 } from "@heroicons/vue/outline";
 import {
   ChevronRightIcon,
@@ -459,10 +533,38 @@ import {
 } from "@heroicons/vue/solid";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Login", href: "/login", icon: UsersIcon, current: false },
-  { name: "Register", href: "/register", icon: FolderIcon, current: false },
-  { name: "Landing", href: "/landing", icon: CalendarIcon, current: false },
+  {
+    name: "Dashboard",
+    href: "dashboardMain",
+    icon: ViewGridIcon,
+    current: true,
+  },
+  {
+    name: "Mitglieder",
+    href: "memberMain",
+    icon: UserGroupIcon,
+    current: false,
+  },
+  {
+    name: "Verwaltung",
+    href: "managementMain",
+    icon: HomeIcon,
+    current: false,
+  },
+  {
+    name: "Veranstaltung",
+    href: "eventMain",
+    icon: CalendarIcon,
+    current: false,
+  },
+  { name: "Statstiken", href: "statisticMain", icon: CubeIcon, current: false },
+  { name: "Finanzen", href: "financeMain", icon: ChartBarIcon, current: false },
+  {
+    name: "Administration",
+    href: "adminMain",
+    icon: AdjustmentsIcon,
+    current: false,
+  },
 ];
 
 export default {
@@ -481,6 +583,10 @@ export default {
     SearchIcon,
     SelectorIcon,
     XIcon,
+  },
+  created() {
+    // Should work referencing custom property on 'this' in typescript
+    console.log("App created", this.$keycloak);
   },
   setup() {
     const sidebarOpen = ref(false);

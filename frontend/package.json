@@ -14,9 +14,12 @@
     "test:ci-components": "cypress run-ct"
   },
   "dependencies": {
+    "@dsb-norge/vue-keycloak-js": "^2.1.3-beta",
     "@headlessui/vue": "^1.6.0",
     "@heroicons/vue": "^1.0.6",
     "@vueuse/head": "~0.7",
+    "axios": "^0.27.2",
+    "keycloak-js": "^18.0.0",
     "pinia": "~2.0",
     "vue": "~3.2",
     "vue-router": "~4.0"
