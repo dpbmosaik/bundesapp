@@ -4,7 +4,11 @@
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Avatar: typeof import('./src/components/dashboard/Avatar.vue')['default']
+    AvatarIcon: typeof import('./src/components/dashboard/AvatarIcon.vue')['default']
+    AvatarText: typeof import('./src/components/dashboard/AvatarText.vue')['default']
     Button: typeof import('./src/components/buttons/Button.vue')['default']
+    ButtonFancy: typeof import('./src/components/dashboard/ButtonFancy.vue')['default']
     GithubIcon: typeof import('./src/components/icons/GithubIcon.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Input: typeof import('./src/components/inputs/Input.vue')['default']
@@ -14,6 +18,13 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SecondaryButton: typeof import('./src/components/buttons/SecondaryButton.vue')['default']
     TextInput: typeof import('./src/components/inputs/TextInput.vue')['default']
+    UserActions: typeof import('./src/components/dashboard/UserActions.vue')['default']
+    UserDetails: typeof import('./src/components/dashboard/UserDetails.vue')['default']
+    UserIdentifier: typeof import('./src/components/dashboard/UserIdentifier.vue')['default']
+    UserIdentifierBig: typeof import('./src/components/dashboard/UserIdentifierBig.vue')['default']
+    UserList: typeof import('./src/components/dashboard/UserList.vue')['default']
+    UserListEntry: typeof import('./src/components/dashboard/UserListEntry.vue')['default']
+    UserRolesFancy: typeof import('./src/components/dashboard/UserRolesFancy.vue')['default']
   }
 }
 
