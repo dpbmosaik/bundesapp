@@ -1,0 +1,56 @@
+[
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 1,
+        "fields": {
+            "id": 1,
+            "name": "Pfadfinder_innen",
+            "description": ""
+        }
+    },
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 2,
+        "fields": {
+            "id": 2,
+            "name": "Verband",
+            "description": ""
+        }
+    },
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 3,
+        "fields": {
+            "id": 3,
+            "name": "Bund",
+            "description": ""
+        }
+    },
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 4,
+        "fields": {
+            "id": 4,
+            "name": "Ring/Regional",
+            "description": ""
+        }
+    },
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 5,
+        "fields": {
+            "id": 5,
+            "name": "Stamm",
+            "description": ""
+        }
+    },
+    {
+        "model": "authentication.ScoutOrgaLevel",
+        "pk": 6,
+        "fields": {
+            "id": 6,
+            "name": "Gruppe",
+            "description": ""
+        }
+    }
+]

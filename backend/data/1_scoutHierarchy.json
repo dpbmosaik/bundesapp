@@ -1,0 +1,662 @@
+[
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 2,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 3,
+      "name": "DPBM",
+      "zip_code": null,
+      "parent": null
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 20,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Rhein Lippe",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 21,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Kölner Bucht",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 22,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Bergisches Land",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 23,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Köln",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 24,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Bayern",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 25,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Nord",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 26,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Ring Nord-Ost",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 27,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 4,
+      "name": "Aufbauring Waterkant",
+      "zip_code": null,
+      "parent": 2
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 339,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Adler",
+      "zip_code": 11762,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 340,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Alexander Lion",
+      "zip_code": 9632,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 341,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Apollo",
+      "zip_code": 2695,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 342,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Argonauten",
+      "zip_code": 6238,
+      "parent": 23
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 343,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Condor",
+      "zip_code": 1819,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 344,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Deutschritter",
+      "zip_code": 6238,
+      "parent": 23
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 345,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Draconis",
+      "zip_code": 6202,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 346,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Dumeklemmer",
+      "zip_code": 9414,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 347,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Eulen",
+      "zip_code": 11032,
+      "parent": 25
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 348,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Galaxias",
+      "zip_code": 6245,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 349,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Graf Luckner",
+      "zip_code": 12691,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 350,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Hagazussa",
+      "zip_code": 8956,
+      "parent": 25
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 351,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Hellas",
+      "zip_code": 6221,
+      "parent": 23
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 352,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Hratuga",
+      "zip_code": 9416,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 353,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Iltis",
+      "zip_code": 130,
+      "parent": 26
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 354,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Karthago-Persepolis",
+      "zip_code": 6214,
+      "parent": 23
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 355,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Kliffkieker",
+      "zip_code": 7061,
+      "parent": 26
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 356,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm König Artus",
+      "zip_code": 6480,
+      "parent": 24
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 357,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Landesritter",
+      "zip_code": 3046,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 358,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Landgraf Ludwig IX",
+      "zip_code": 9125,
+      "parent": 27
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 359,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Landgräfin Caroline",
+      "zip_code": 9125,
+      "parent": 27
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 360,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Maximilian Bayer",
+      "zip_code": 10065,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 361,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Mittelerde",
+      "zip_code": 640,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 362,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Möhrenköppe",
+      "zip_code": 402,
+      "parent": 26
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 363,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Crismeke",
+      "zip_code": 3300,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 364,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Pegasus",
+      "zip_code": 11988,
+      "parent": 26
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 365,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Raubvögel",
+      "zip_code": 45,
+      "parent": 24
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 366,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Rheinfranken",
+      "zip_code": 569,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 367,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Rote Corsaren",
+      "zip_code": 10065,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 368,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Roter Milan",
+      "zip_code": 8185,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 369,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Schwarze Löwen",
+      "zip_code": 7854,
+      "parent": 24
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 370,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Seeadler",
+      "zip_code": 749,
+      "parent": 26
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 371,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Silberfüchse",
+      "zip_code": 3076,
+      "parent": 24
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 372,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Sperber",
+      "zip_code": 1819,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 373,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm St. Willigis",
+      "zip_code": 7216,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 374,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Steppenwölfe",
+      "zip_code": 11498,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 375,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Sterk Helmes",
+      "zip_code": 11065,
+      "parent": 20
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 376,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Troja Toscana",
+      "zip_code": 6212,
+      "parent": 23
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 377,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Monte Verita",
+      "zip_code": 4,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 378,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Waldläufer",
+      "zip_code": 4071,
+      "parent": 24
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 379,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Welfen",
+      "zip_code": 2103,
+      "parent": 25
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 380,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Wikinger",
+      "zip_code": 8301,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 381,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Wildgänse",
+      "zip_code": 3155,
+      "parent": 22
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 382,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Wildkatzen",
+      "zip_code": 1819,
+      "parent": 21
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 383,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Salzig",
+      "zip_code": 2103,
+      "parent": 25
+    }
+  },
+  {
+    "model": "authentication.scouthierarchy",
+    "pk": 384,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "level": 5,
+      "name": "Stamm Zugvögel",
+      "zip_code": 6221,
+      "parent": 23
+    }
+  }
+]
