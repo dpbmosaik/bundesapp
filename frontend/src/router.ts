@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AppRouter from '@/modules/app/router/index.js';
 import AuthRouter from '@/modules/auth/router/index.js';
 import AdminRouter from '@/modules/admin/router';
 import DashboardRouter from '@/modules/dashboard/router';
@@ -12,7 +11,6 @@ import StatisticRouter from '@/modules/statistic/router';
 import SettingsRouter from '@/modules/settings/router';
 
 const routes = [
-  ...AppRouter,
   ...AuthRouter,
   ...AdminRouter,
   ...DashboardRouter,
