@@ -150,27 +150,17 @@
             >
               <span class="flex w-full justify-between items-center">
                 <span
-                  v-if="$keycloak && $keycloak.ready"
                   class="flex min-w-0 items-center justify-between space-x-3"
                 >
                   <span
                     class="flex-1 flex flex-col min-w-0"
-                    v-if="$keycloak.authenticated"
                   >
                     <span class="text-gray-900 text-sm font-medium truncate"
                       >Robert</span
                     >
                     <span class="text-gray-500 text-sm truncate">Admin</span>
-                  </span>
-                    <button
-                      v-else
-                      @click="$keycloak.login"
-                      class="text-gray-900 text-sm font-medium truncate"
-                    >
-                      Login
-                    </button>
-                </span>
-              <span v-else> Loading...</span>
+                          </span>
+                                    </span>
                 <SelectorIcon
                   class="
                     flex-shrink-0
@@ -224,10 +214,6 @@
               <div class="py-1">
                 <MenuItem v-slot="{ active }">
                   <button
-                    v-if="
-                      $keycloak && $keycloak.ready && $keycloak.authenticated
-                    "
-                    @click="$keycloak.login()"
                     :class="[
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm',
@@ -240,10 +226,7 @@
               <div class="py-1">
                 <MenuItem v-slot="{ active }">
                   <button
-                    v-if="
-                      $keycloak && $keycloak.ready && $keycloak.authenticated
-                    "
-                    @click="$keycloak.login()"
+
                     :class="[
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm',
@@ -567,6 +550,14 @@ const navigation = [
   },
 ];
 
+const RootComponent = {
+  data() {
+    return {
+      isAuthenticated: true,
+    };
+  },
+};
+
 export default {
   components: {
     Dialog,
@@ -585,8 +576,6 @@ export default {
     XIcon,
   },
   created() {
-    // Should work referencing custom property on 'this' in typescript
-    console.log("App created", this.$keycloak);
   },
   setup() {
     const sidebarOpen = ref(false);
@@ -594,9 +583,13 @@ export default {
     const onLogoutClicked = () => {
       debugger;
     };
+    const onLoginClicked = () => {
+      debugger;
+    };
 
     return {
       onLogoutClicked,
+      onLoginClicked,
       navigation,
       sidebarOpen,
     };

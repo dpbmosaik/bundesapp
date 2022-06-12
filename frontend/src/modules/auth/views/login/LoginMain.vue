@@ -37,9 +37,6 @@ export default {
   },
   methods: {
     onLoginClicked: function () {
-      console.log(this.$keycloak);
-      debugger;
-      this.$keycloak.login();
     },
   },
 };

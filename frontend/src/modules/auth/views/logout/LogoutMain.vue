@@ -37,9 +37,6 @@ export default {
   },
   methods: {
     onLogoutClicked: function () {
-      console.log(this.$keycloak);
-      debugger;
-      this.$keycloak.logout();
     },
   },
 };

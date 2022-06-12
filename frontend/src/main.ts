@@ -27,7 +27,7 @@ const option = {
 }
 
 const head = createHead();
-const app = createApp(App).use(VueKeycloakJs, option);
+const app = createApp(App)
 
 app.use(createPinia());
 app.use(router);
