@@ -9,6 +9,7 @@ import ManagementRouter from '@/modules/management/router';
 import MemberRouter from '@/modules/member/router';
 import StatisticRouter from '@/modules/statistic/router';
 import SettingsRouter from '@/modules/settings/router';
+import GroupsRouter from '@/modules/groups/router';
 
 const routes = [
   ...AuthRouter,
@@ -20,6 +21,7 @@ const routes = [
   ...MemberRouter,
   ...StatisticRouter,
   ...SettingsRouter,
+  ...GroupsRouter
 ]
 
 const router = createRouter({
