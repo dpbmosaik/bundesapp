@@ -1,21 +1,43 @@
 <template>
-  <div class="h-screen p-6 w-fit bg-proto-lightgrey">
-    <div class="">
-
+  <div class="h-screen p-6 w-fit bg-proto-lightgrey flex flex-col gap-4 overflow-y-auto">
+    <div class="w-full bg-proto-grey rounded-lg px-4 py-2">
+      Bundesapp Logo
     </div>
-    <nav class="flex flex-col gap-2">
-        <NavigationElement
-          v-for="(elem, index) in navigation"
-          :elem="elem"
-          :index="index"
-          :key="elem.name"
-        />
-    </nav>
+    <div class="flex flex-col grow">
+      <nav class="flex flex-col gap-2 grow ">
+          <NavigationElement
+            v-for="(elem, index) in navigation"
+            :elem="elem"
+            :externalLink="false"
+            :key="index"
+          />
+      </nav>
+      <Disclosure as="div" class="border-t flex flex-col grow-0" v-slot="{ open }">
+          <DisclosureButton class="text-left flex flex-row items-center">
+            <span class="font-description my-2 grow">Externe Links</span>
+            <AppIcon name="arrowDown" type="light" :class='open ? "" : "transform rotate-180"' />
+          </DisclosureButton>
+          <DisclosurePanel>
+            <NavigationElement
+              v-for="(elem, index) in externalNavigation"
+              :elem="elem"
+              :externalLink="true"
+              :key="index"
+            />
+          </DisclosurePanel>
+      </Disclosure>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
   import NavigationElement from "./NavigationElement.vue";
+  import AppIcon from "@/components/icons/AppIcon.vue";
+    import {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+  } from '@headlessui/vue'
 
   const navigation = [
     {
@@ -68,6 +90,39 @@
     },
   ];
 
+  const externalNavigation = [
+    {
+      name: "Inspirator",
+      href: "https://inspirator.dpbm.de/",
+      icon: "heart",
+    },
+    {
+      name: "haddak",
+      href: "https://haddak.de/",
+      icon: "bookmark",
+    },
+    {
+      name: "Wiki",
+      href: "https://wiki.bundesapp.org/",
+      icon: "infoSqaure",
+    },
+    {
+      name: "Cloud",
+      href: "https://cloud.bundesapp.org/",
+      icon: "paper",
+    },
+    {
+      name: "Kalender",
+      href: "https://cal.bundesapp.org/",
+      icon: "calendar",
+    },
+    {
+      name: "Chat",
+      href: "https://chat.bundesapp.org/",
+      icon: "chat",
+    },
+  ]
+
   const RootComponent = {
     data() {
       return {
@@ -78,10 +133,13 @@
 
   export default {
     components: {
-      NavigationElement
+      NavigationElement,
+      AppIcon,
+      Disclosure,
+      DisclosureButton,
+      DisclosurePanel,
     },
     setup() {
-      const sidebarOpen = ref(false);
 
       const onLogoutClicked = () => {
         debugger;
@@ -94,7 +152,7 @@
         onLogoutClicked,
         onLoginClicked,
         navigation,
-        sidebarOpen,
+        externalNavigation,
       };
     },
   };

@@ -1,14 +1,37 @@
 
 <template lang="">
-    <router-link 
-        :to="elem.href"
-        class="group font-p flex flex-row gap-4 p-2 rounded-lg"
-        :class="isCurrentRoute ? 'bg-proto-grey' : 'bg-transparent hover:bg-proto-grey'"
-    >
-        <AppIcon :class="isCurrentRoute ? 'hidden' : 'block group-hover:hidden'" :name="elem.icon" type="light" />
-        <AppIcon :class="isCurrentRoute ? 'block' : 'hidden group-hover:block'" :name="elem.icon" type="bold" />
-        <p>{{ elem.name }}</p>
-    </router-link>
+    <div>
+        <router-link 
+            v-if="!externalLink"
+            :to="elem.href"
+            class="group font-p p-2 rounded-lg flex flex-row items-center gap-4"
+            :class="isCurrentRoute ? 'bg-proto-grey' : 'bg-transparent hover:bg-proto-grey'"
+        >
+            <div class="flex flex-row gap-4 grow">
+                <AppIcon :class="isCurrentRoute ? 'hidden' : 'block group-hover:hidden'" :name="elem.icon" type="light" />
+                <AppIcon :class="isCurrentRoute ? 'block' : 'hidden group-hover:block'" :name="elem.icon" type="bold" />
+                <p>{{ elem.name }}</p>
+            </div>
+            <div
+                v-if="elem.news > 0"
+                class="font-infonumber bg-proto-grey px-3 rounded-full h-full align-middle"
+                :class="isCurrentRoute ? 'bg-proto-lightgrey' : 'bg-proto-grey group-hover:bg-proto-lightgrey'"
+            >
+                {{ elem.news }}
+            </div>
+        </router-link>
+        <a
+            v-if="externalLink"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="elem.href"
+            class="group font-p flex flex-row gap-4 p-2 rounded-lg bg-transparent hover:bg-proto-grey"
+        >
+            <AppIcon class="block group-hover:hidden" :name="elem.icon" type="light" />
+            <AppIcon class="hidden group-hover:block" :name="elem.icon" type="bold" />
+            <p>{{ elem.name }}</p>
+        </a>
+    </div>
 </template>
 
 <script lang="ts">
@@ -17,6 +40,7 @@
         props: {
             elem: Object,
             index: Number,
+            externalLink: Boolean
         },
         computed: {
             isCurrentRoute(): Boolean {
