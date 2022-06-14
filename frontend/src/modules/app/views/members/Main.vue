@@ -4,18 +4,18 @@
   </div>
 
   <div class="w-1/3 float-right">
-    <DashboardSideview :focused-users="focusedUsers" />
+    <MembersSideview :focused-users="focusedUsers" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import UserListVue from "@/components/dashboard/UserList.vue";
-import DashboardSideview from "./DashboardSideview.vue";
+import MembersSideview from "./MembersSideview.vue";
 
 export default defineComponent({
   components: {
     UserListVue,
-    DashboardSideview,
+    MembersSideview,
   },
   data() {
     return {
