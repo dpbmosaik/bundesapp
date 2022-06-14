@@ -6,7 +6,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppIcon: typeof import('./src/components/icons/AppIcon.vue')['default']
     'AppIcon.type': typeof import('./src/components/icons/AppIcon.type.vue')['default']
-    Avatar: typeof import('./src/components/dashboard/Avatar.vue')['default']
+    Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarIcon: typeof import('./src/components/dashboard/AvatarIcon.vue')['default']
     AvatarText: typeof import('./src/components/dashboard/AvatarText.vue')['default']
     Button: typeof import('./src/components/buttons/Button.vue')['default']
@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Input: typeof import('./src/components/inputs/Input.vue')['default']
     InstagramIcon: typeof import('./src/components/icons/social/InstagramIcon.vue')['default']
+    Main: typeof import('./src/components/Avatar/Main.vue')['default']
     NavigationElement: typeof import('./src/components/layout/sideBarNavigation/NavigationElement.vue')['default']
     PrimaryButton: typeof import('./src/components/buttons/PrimaryButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
