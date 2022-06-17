@@ -1,6 +1,6 @@
 <template lang="">
-    <div>
-        <img :src="src" :alt="alt" :class="sizeString" class="rounded-full" />
+    <div :class="sizeString">
+        <img :src="src" :alt="alt" class="rounded-full w-full h-full" />
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen p-6 w-fit bg-proto-lightgrey flex flex-col gap-4 overflow-y-auto">
+  <div class="h-screen p-6 w-full bg-proto-lightgrey flex flex-col gap-4 overflow-y-auto">
     <div class="w-full bg-proto-grey rounded-lg px-4 py-2">
       Bundesapp Logo
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex flex-row">
+  <div class="min-h-full overflow-y-hidden max-h-screen">
     <router-view></router-view>
   </div>
 </template>

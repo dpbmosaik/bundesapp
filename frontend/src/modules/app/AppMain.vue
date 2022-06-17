@@ -1,9 +1,13 @@
 <template lang="">
-    <div class="flex flex-row w-screen overflow-hidden">
-        <SideBarNavigation />
-        <div class="flex flex-col grow h-screen overflow-hidden">
-            <TopBar />
-            <div class="p-8 grow">
+    <div class="flex flex-row w-screen box-border">
+        <div class="w-fit">
+            <SideBarNavigation />
+        </div>
+        <div class="flex flex-col h-screen grow overflow-x-auto">
+            <div class="max-h-16 h-1/6">
+                <TopBar />
+            </div>
+            <div class="p-8 grow h-5/6 overflow-x-auto">
                 <router-view />
             </div>
         </div>

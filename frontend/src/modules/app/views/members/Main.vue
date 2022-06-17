@@ -1,21 +1,26 @@
-<template>
-  <div class="float-left max-h-screen">
-    <UserListVue @user-focus-change="userFocusChange" />
-  </div>
-
-  <div class="w-1/3 float-right">
-    <MembersSideview :focused-users="focusedUsers" />
+<template lang="">
+  <div class="flex flex-row h-full grow">
+    <div class="basis-3/5 h-full border-r pr-8 flex flex-col gap-8 overflow-x-auto">
+      <Searchbar />
+      <MemberList @user-focus-change="userFocusChange" />
+    </div>
+    <div class="basis-2/5 h-full pl-8">
+      <DetailedSideView :focusedUsers="focusedUsers" />
+    </div>
   </div>
 </template>
+
+
 <script lang="ts">
-import { defineComponent } from "vue";
-import UserListVue from "@/components/dashboard/UserList.vue";
-import MembersSideview from "./MembersSideview.vue";
+import Searchbar from "@/components/searchbar/Main.vue"
+import MemberList from "./MemberList.vue"
+import DetailedSideView from "./DetailedSideView.vue"
 
 export default defineComponent({
   components: {
-    UserListVue,
-    MembersSideview,
+    Searchbar,
+    MemberList,
+    DetailedSideView
   },
   data() {
     return {
@@ -24,12 +29,12 @@ export default defineComponent({
   },
   methods: {
     userFocusChange(userId: string) {
-      if (this.focusedUsers.includes(userId)) {
-        this.focusedUsers.splice(this.focusedUsers.indexOf(userId), 1);
-      } else {
-        this.focusedUsers.push(userId);
-      }
+        if (this.focusedUsers.includes(userId)) {          
+          this.focusedUsers.splice(this.focusedUsers.indexOf(userId), 1);
+        } else {
+          this.focusedUsers.push(userId);
+        }
     },
-  },
-});
+  }
+})
 </script>
