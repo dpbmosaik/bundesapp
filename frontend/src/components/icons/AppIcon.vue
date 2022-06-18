@@ -22,25 +22,30 @@
 
     export default defineComponent({
         name: 'AppIcon',
-        data() {
-            return { 
-                iconColor: "#3B3B3B" 
-            }
-        },
         props: {
             name: String,
-            type: String
+            type: String,
+            color: String
         },
         computed: {
             path(): string {
-                // @ts-ignore
-                if (iconCollection[this.type] && iconCollection[this.type][this.name]) {
+                const type: String | undefined = this.type;
+                const name: String | undefined = this.name;
+                if (type && name) {
                     // @ts-ignore
-                    return iconCollection[this.type][this.name]
+                    if (iconCollection[type] && iconCollection[type][name]) {
+                        // @ts-ignore
+                        return iconCollection[type][name]
+                    } else {
+                        return iconCollection.fallback.icon
+                    }
                 } else {
                     return iconCollection.fallback.icon
                 }
             },
+            iconColor(): string {
+                return this.color ? this.color : "#3B3B3B" ;
+            }
         },
     });
 </script>
