@@ -4,7 +4,7 @@
       <Searchbar />
       <MemberList @user-focus-change="userFocusChange" />
     </div>
-    <div class="basis-2/5 h-full pl-8">
+    <div class="basis-2/5 h-full pl-8 overflow-y-auto">
       <DetailedSideView :focusedUsers="focusedUsers" />
     </div>
   </div>
