@@ -4,7 +4,7 @@ import TopBar from '@/components/layout/TopBar.vue';
     <div class="border-b px-8 py-4 flex flex-row justify-end">
         <Menu>
             <MenuButton>
-                <Avatar size="small" src="https://ui-avatars.com/api/?background=0D8ABC&color=fff" alt="Avatar" />
+                <Avatar size="small" :src="getPlaceholderAvatar()" alt="Avatar" />
             </MenuButton>
             <transition
                 enter-active-class="transition duration-100 ease-out"
@@ -70,6 +70,13 @@ import TopBar from '@/components/layout/TopBar.vue';
         },
     ]
 
+    function getPlaceholderAvatar() {
+        const firstName = 'John';
+        const lastName = 'Doe';
+        const size = '128';
+        return `https://ui-avatars.com/api/?background=3B3B3B&color=fff&size=${size}&name=${firstName}+${lastName}`
+    }
+
     export default {
         components: {
             Avatar,
@@ -81,7 +88,8 @@ import TopBar from '@/components/layout/TopBar.vue';
         },
         setup() {
             return {
-                topBarNavigation
+                topBarNavigation,
+                getPlaceholderAvatar
             }
         }
     }
