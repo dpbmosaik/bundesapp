@@ -35,7 +35,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     firstName: "Lindsay",
     lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung"],
+    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung", "Meutenführer_in"],
     avatarURL: "https://ui-avatars.com/api/?background=0D8ABC&color=fff",
   },
   "3": {
@@ -98,9 +98,7 @@ export default defineComponent({
       if (userId === undefined) {
         return errorUser;
       }
-      const wantedUser = dummyTestDB[userId];
-      console.log(wantedUser);
-      
+      const wantedUser = dummyTestDB[userId];     
       if (wantedUser === undefined) {
         return errorUser;
       } else {
