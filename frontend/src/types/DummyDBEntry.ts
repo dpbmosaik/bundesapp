@@ -6,4 +6,22 @@ export default interface DummyDBEntry {
     stamm: string;
     roles: string[];
     avatarURL: string;
+    email: string;
+    phone: string;
+    address: {
+      street: string;
+      number: string;
+      city: string;
+      code: string;
+      addition: string;
+    }
+    bundespostDigital: Boolean;
+    gender: 'male' | 'female' | 'diverse';
+    birthdate: string;
+    groups: string[];
+    criminalRecordDates: {
+      lastValidIssued: string;
+      inspection: string;
+      newDueOn: string
+    }
 };
