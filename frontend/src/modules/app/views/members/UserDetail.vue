@@ -4,7 +4,7 @@
             <div>
                 <Avatar size="big" :src="getAvatarUrl" :alt="`Profilfoto von ${getFullName}`" />
             </div>
-            <div class="flex flex-col justify-center pl-6">
+            <div class="flex flex-col justify-center pl-6 gap-2">
                 <p class="font-h3">{{ getFullName }}</p>
                 <p class="font-h3 text-proto-grey">{{ `Stamm ${getStamm}` }}</p>
             </div>

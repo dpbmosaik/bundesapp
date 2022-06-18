@@ -1,15 +1,15 @@
 <template lang="">
-    <div class="flex flex-row items-center w-full justify-between border border-proto-lightgrey rounded-lg overflow-clip pr-4">
-        <div class="flex flex-row gap-4 items-center ">
+    <div class="flex flex-row items-center w-full justify-between border border-proto-lightgrey rounded-lg pr-4">
+        <div class="flex flex-row gap-4 items-center">
             <div class="h-16">
-                <img :src="getPlaceholderAvatar()" alt="Avatar" class="h-full w-full"/>
+                <img :src="getPlaceholderAvatar()" alt="Avatar" class="h-full w-full rounded-l-lg"/>
             </div>
             <div>
                 <p class="font-h3">Stamm Hellas</p>
                 <p class="font-p text-proto-grey">24 Mitglieder</p>
             </div>
         </div>
-        <Menu>
+        <Menu as="div" class="relative">
             <MenuButton>
                 <AppIcon name="moreSqaure" type="light" color="#C4C4C4" />
             </MenuButton>
@@ -21,7 +21,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0"
             >
-                <MenuItems class="absolute -mt-[1283px] w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <MenuItems class="absolute w-56 bottom-0 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1" >
                         <MenuItem v-slot="{ active }" v-for="(elem, index) in cardMenu" :key="index" >
                             <button
