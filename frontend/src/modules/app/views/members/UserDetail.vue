@@ -14,11 +14,11 @@
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
         <div class="flex flex-row flex-wrap gap-8">
-            <TertiaryButton target="https://dpbm.de" icon="message">Email schreiben</TertiaryButton> <!-- mailto: Perosns Mail -->
+            <TertiaryButton :target="`mailto:${getEmail}`" icon="message">Email schreiben</TertiaryButton> <!-- mailto: Perosns Mail -->
             <TertiaryButton target="https://dpbm.de" icon="chat">Anschreiben</TertiaryButton> <!-- Opens Rocket Chat with Person -->
-            <TertiaryButton target="https://dpbm.de" icon="profile">Bearbeiten</TertiaryButton> <!-- Goes Profile Edit Page to this person -->
-            <TertiaryButton target="https://dpbm.de" icon="shieldFail">Deaktivieren</TertiaryButton> <!-- Opens modal and asks for confirmation -->
-            <TertiaryButton target="https://dpbm.de" icon="delete">Löschen</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <TertiaryButton target="/app/settings" icon="profile">Bearbeiten</TertiaryButton> <!-- Goes Profile Edit Page to this person -->
+            <TertiaryButton :target="() => openBlockAccountModal()" icon="shieldFail">Deaktivieren</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <TertiaryButton :target="() => openDeleteAccountModal()" icon="delete">Löschen</TertiaryButton> <!-- Opens modal and asks for confirmation -->
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
         <div class="flex flex-row flex-wrap gap-8">
@@ -94,6 +94,14 @@ export default defineComponent({
     mixins: [dummyTestDB],
     props: {
         userId: String,
+    },
+    methods: {
+        openDeleteAccountModal() {
+            alert('Account Löschen')
+        },
+        openBlockAccountModal() {
+            alert('Account Blockieren')
+        },
     },
     computed: {
         getUser(): DummyDBEntry {

@@ -5,7 +5,7 @@
       <MemberList @user-focus-change="userFocusChange" />
     </div>
     <div class="basis-2/5 h-full pl-8 overflow-y-auto">
-      <DetailedSideView :focusedUsers="focusedUsers" />
+      <DetailedSideView @user-focus-change="userFocusChange" :focusedUsers="focusedUsers"  />
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default defineComponent({
     };
   },
   methods: {
-    userFocusChange(userId: string) {
+    userFocusChange(userId: string) {             
         if (this.focusedUsers.includes(userId)) {          
           this.focusedUsers.splice(this.focusedUsers.indexOf(userId), 1);
         } else {

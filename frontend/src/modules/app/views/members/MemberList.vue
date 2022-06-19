@@ -6,7 +6,12 @@
                     <thead class="bg-proto-lightgrey">
                     <tr>
                         <th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
-                            <input type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6" :checked="indeterminate || selectedPeople.length === people.length" :indeterminate="indeterminate" @change="selectedPeople = $event.target.checked ? people.map((p) => p.userId) : []" />
+                            <input
+                                type="checkbox"
+                                class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6"
+                                :checked="indeterminate || selectedPeople.length === people.length" :indeterminate="indeterminate"
+                                @change="handleGlobalSelector($event)"
+                             />
                         </th>
                         <th scope="col" class="sr-only px-3 py-3.5 text-left text-sm font-semibold text-proto-darkgrey">Avatar</th>
                         <th scope="col" class="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-proto-darkgrey">Name</th>
@@ -60,6 +65,20 @@ export default defineComponent({
         userGotClicked(userId: string) {
             this.$emit("userFocusChange", userId);
         },
+        handleGlobalSelector(e: { target: { checked: Boolean; }; }) {
+            e.target.checked ? this.focusAllUsers() : this.defocusAllUsers();
+            this.selectedPeople = e.target.checked ? this.people.map((p: { userId: any; }) => p.userId) : [];
+        },
+        defocusAllUsers() {
+            for (const userId of this.selectedPeople) {
+                this.$emit("userFocusChange", userId);
+            }
+        },
+        focusAllUsers() {
+            for (const user of this.people) {
+                this.$emit("userFocusChange", user.userId);
+            }
+        }
     },
     computed: {
         indeterminate() {
