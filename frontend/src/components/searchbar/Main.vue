@@ -1,6 +1,6 @@
 import AppIcon from '@/components/icons/AppIcon.vue';
 <template lang="">
-    <div class="min-w-0 border-proto-grey">
+    <div class="min-w-0 border-proto-grey w-full">
         <div class="w-full mx-auto">
             <label for="desktop-search" class="sr-only">Suche</label>
             <div class="relative">
