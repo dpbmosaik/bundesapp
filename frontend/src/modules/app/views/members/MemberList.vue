@@ -29,7 +29,7 @@
                                 <Avatar size="small" :src="person.avatarURL" alt="Avatar" />
                             </td>
                             <td :class="['whitespace-nowrap py-4 pr-3 text-sm font-medium', store.checkIfMemberIsSelected(person.userId) ? 'text-proto-darkgrey' : 'text-proto-darkgrey']">
-                                {{ buildFullName(person) }}
+                                {{ buildFullName(person) }}<span class="text-proto-grey font-normal" :class="checkIfIsLoggedInUser(person.userId) ? '' : 'hidden'"> (Du)</span>
                             </td>
                             <td :class="['whitespace-nowrap px-3 py-4 text-sm', store.checkIfMemberIsSelected(person.userId) ? 'text-proto-darkgrey' : 'text-proto-grey']">
                                 {{ person.stamm }}
@@ -86,7 +86,10 @@ export default defineComponent({
         buildRolesString(user: DummyDBEntry): string {
             return user.roles.join(", ");
         },
-
+        checkIfIsLoggedInUser(userId: string) {
+            const loggedInUserId = this.store.getLoggedInUserId;
+            return userId === loggedInUserId
+        }
     },
     computed: {
         indeterminate() {

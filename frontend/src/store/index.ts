@@ -13,7 +13,9 @@ export const useStore = defineStore('main', {
     version: versionString,
     isInitialized: false,
     selectedMembers: [] as string[],
-    membersChecked: false
+    membersChecked: false,
+    isAuth: true,
+    loggedInUserId: '1'
   }),
 
   actions: {
@@ -82,6 +84,9 @@ export const useStore = defineStore('main', {
         }
       }
       return users;
-  },
+    },
+    getLoggedInUserId: (state) => {
+      return state.loggedInUserId
+    },
   },
 })
