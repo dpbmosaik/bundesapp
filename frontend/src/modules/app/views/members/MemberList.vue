@@ -9,7 +9,7 @@
                             <input
                                 type="checkbox"
                                 class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6"
-                                :checked="indeterminate || selectedPeople.length === people.length" :indeterminate="indeterminate"
+                                :checked="indeterminate || store.getSelectedMembersLength === store.getAllUsersLength" :indeterminate="indeterminate"
                                 @change="handleGlobalSelector($event)"
                              />
                         </th>
@@ -20,21 +20,21 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                        <tr v-for="person in people" :key="person.userId" :class="[selectedPeople.includes(person.userId) && 'bg-proto-lightgrey']">
+                        <tr v-for="person in people" :key="person.userId" :class="[store.checkIfMemberIsSelected(person.userId) && 'bg-proto-lightgrey']">
                             <td class="relative w-12 px-6 sm:w-16 sm:px-8">
-                                <div v-if="selectedPeople.includes(person.userId)" class="absolute inset-y-0 left-0 w-0.5 bg-proto-darkgrey"></div>
-                                <input @click="userGotClicked(person.userId)" type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-proto-grey text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6" :value="person.userId" v-model="selectedPeople" />
+                                <div v-if="store.checkIfMemberIsSelected(person.userId)" class="absolute inset-y-0 left-0 w-0.5 bg-proto-darkgrey"></div>
+                                <input @click="userGotClicked(person.userId)" :checked="store.checkIfMemberIsSelected(person.userId)" type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-proto-grey text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6" :value="person.userId" />
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-proto-grey">
                                 <Avatar size="small" :src="person.avatarURL" alt="Avatar" />
                             </td>
-                            <td :class="['whitespace-nowrap py-4 pr-3 text-sm font-medium', selectedPeople.includes(person.userId) ? 'text-proto-darkgrey' : 'text-proto-darkgrey']">
+                            <td :class="['whitespace-nowrap py-4 pr-3 text-sm font-medium', store.checkIfMemberIsSelected(person.userId) ? 'text-proto-darkgrey' : 'text-proto-darkgrey']">
                                 {{ buildFullName(person) }}
                             </td>
-                            <td :class="['whitespace-nowrap px-3 py-4 text-sm', selectedPeople.includes(person.userId) ? 'text-proto-darkgrey' : 'text-proto-grey']">
+                            <td :class="['whitespace-nowrap px-3 py-4 text-sm', store.checkIfMemberIsSelected(person.userId) ? 'text-proto-darkgrey' : 'text-proto-grey']">
                                 {{ person.stamm }}
                             </td>
-                            <td :class="['px-3 py-4 text-sm', selectedPeople.includes(person.userId) ? 'text-proto-darkgrey' : 'text-proto-grey']">
+                            <td :class="['px-3 py-4 text-sm', store.checkIfMemberIsSelected(person.userId) ? 'text-proto-darkgrey' : 'text-proto-grey']">
                                 <span>{{ buildRolesString(person) }}</span>
                             </td>
                         </tr>
@@ -49,57 +49,52 @@
 <script lang="ts">
 import AppIcon from "@/components/icons/AppIcon.vue";
 import Avatar from "@/components/Avatar/Avatar.vue";
-import dummyTestDB from "@/mixins/dummyTestDB";
 import DummyDBEntry from "@/types/DummyDBEntry";
 
 export default defineComponent({
-    emits: ["userFocusChange"],
-    mixins: [dummyTestDB],
-    data() {
-        return {
-            selectedPeople: [] as string[],
-            checked: false
-        };
+    setup() {
+        const store = useStore()
+        return { store }
     },
     methods: {
         userGotClicked(userId: string) {
-            this.$emit("userFocusChange", userId);
+            this.store.updateSelectedMembers(userId);
         },
         handleGlobalSelector(e: { target: { checked: Boolean; }; }) {
             e.target.checked ? this.focusAllUsers() : this.defocusAllUsers();
-            this.selectedPeople = e.target.checked ? this.people.map((p: { userId: any; }) => p.userId) : [];
+            // this.selectedPeople = e.target.checked ? this.people.map((p: { userId: string; }) => p.userId) : [];
         },
         defocusAllUsers() {
-            for (const userId of this.selectedPeople) {
-                this.$emit("userFocusChange", userId);
-            }
+            this.store.clearSelectedMembers();
         },
         focusAllUsers() {
-            for (const user of this.people) {
-                this.$emit("userFocusChange", user.userId);
+            this.store.selectAllMembers();
+        },
+        buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
+            let name = "";
+            if (user.firstName !== undefined) {
+                name += user.firstName;
             }
-        }
+            if (user.fahrtenName !== "") {
+                name += ' "' + user.fahrtenName + '"';
+            }
+            if (user.lastName !== undefined) {
+                name += " " + user.lastName;
+            }
+            return name;
+        },
+        buildRolesString(user: DummyDBEntry): string {
+            return user.roles.join(", ");
+        },
+
     },
     computed: {
         indeterminate() {
-            return this.selectedPeople.length > 0 && this.selectedPeople.length < this.people.length
+            return this.store.getSelectedMembersLength > 0 && this.store.getSelectedMembersLength < this.store.getAllUsersLength
         },
-        people(): DummyDBEntry[] {
-            const userIds = this.getAllUserIds();
-            const users: DummyDBEntry[] = [];
-            for (const userId of userIds) {
-                if (userId === "fehlerUser") {
-                    continue;
-                }
-                const user = this.getUserDBEntry(userId);
-                if (user === null) {
-                    //todo error handling
-                    continue;
-                }
-                users.push(user);
-            }
-            return users;
-        },
+        people() {
+            return this.store.getAllUsers;
+        }
     },
     components: {
         AppIcon,

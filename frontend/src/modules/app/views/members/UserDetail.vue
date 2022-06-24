@@ -82,7 +82,6 @@
 
 
 <script lang="ts">
-import dummyTestDB from "@/mixins/dummyTestDB";
 import DummyDBEntry from "@/types/DummyDBEntry";
 import Avatar from "@/components/Avatar/Avatar.vue";
 import Tag from "@/components/tag/Tag.vue";
@@ -91,9 +90,15 @@ import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import GroupCard from "@/components/groupCard/GroupCard.vue";
 
 export default defineComponent({
-    mixins: [dummyTestDB],
+    setup() {
+        const store = useStore()
+        return { store }
+    },
     props: {
-        userId: String,
+        userId: {
+            default: "",
+            type: String
+        } ,
     },
     methods: {
         openDeleteAccountModal() {
@@ -102,10 +107,23 @@ export default defineComponent({
         openBlockAccountModal() {
             alert('Account Blockieren')
         },
+        buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
+            let name = "";
+            if (user.firstName !== undefined) {
+                name += user.firstName;
+            }
+            if (user.fahrtenName !== "") {
+                name += ' "' + user.fahrtenName + '"';
+            }
+            if (user.lastName !== undefined) {
+                name += " " + user.lastName;
+            }
+            return name;
+        }
     },
     computed: {
         getUser(): DummyDBEntry {
-            return this.getUserSafely(this.userId);
+            return this.store.getUserById!(this.userId);
         },
         getFullName(): String {
             return this.buildFullName(this.getUser)

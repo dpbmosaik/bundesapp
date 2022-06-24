@@ -1,10 +1,10 @@
 <template lang="">
     <div class="h-full">
-        <div v-if="focusedUsers.length === 1" class="">
-            <UserDetail :userId="focusedUsers[0]" />
+        <div v-if="getSelectedMembersLength === 1" class="">
+            <UserDetail :userId="store.getSelectedMembers[0]" />
         </div>
-        <div v-else-if="focusedUsers.length > 1">
-            <FocusedMemberList :focusedUsers="focusedUsers" @user-focus-change="transportEmitHigher"/>
+        <div v-else-if="getSelectedMembersLength > 1">
+            <FocusedMemberList />
         </div>
         <div v-else class="w-full h-full flex justify-center items-center">
             <p class="text-proto-grey h-fit">Noch keine Auswahl getroffen</p>
@@ -13,29 +13,22 @@
 </template>
 
 <script lang="ts">
-import dummyTestDB from "@/mixins/dummyTestDB";
-import DummyDBEntry from "@/types/DummyDBEntry";
-import { PropType } from "vue";
 import UserDetail from "./UserDetail.vue";
 import FocusedMemberList from "./FocusedMemberList.vue";
 
 export default defineComponent({
-    emits: ["userFocusChange"],
-    props: {
-        focusedUsers: Array as PropType<string[]>,
-    },
-    mixins: [dummyTestDB],
-    methods: {
-        focusedUser(userId: string): DummyDBEntry {
-            return this.getUserSafely(userId);
-        },
-        transportEmitHigher(userId: string) {
-            this.$emit("userFocusChange", userId);
-        }
+    setup() {
+        const store = useStore()
+        return { store }
     },
     components: {
         UserDetail,
         FocusedMemberList
+    },
+    computed: {
+        getSelectedMembersLength() {
+            return this.store.getSelectedMembersLength
+        }
     }
 })
 </script>

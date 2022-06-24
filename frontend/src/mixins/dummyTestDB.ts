@@ -291,7 +291,7 @@ export default defineComponent({
       return user.roles.join(", ");
     },
     getAllUserIds(): string[] {
-      return Object.keys(dummyTestDB);
+      return Object.keys(dummyTestDB).filter(key => key != 'fehlerUser');;
     },
   },
 });

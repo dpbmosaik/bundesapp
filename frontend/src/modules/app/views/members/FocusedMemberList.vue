@@ -1,45 +1,46 @@
-import { PropType } from 'vue';
+
 <template lang="">
     <div class="flex flex-col gap-4">
         <div class="flex flex-row flex-wrap gap-2">
             <Tag 
-                v-for="(user, index) in focusedUsers"
+                v-for="(user, index) in store.getSelectedMembers"
                 :key="index"
                 class="bg-proto-darkgrey text-white w-fit"
             >
-                {{ buildFullName(getUserSafely(user)) }}
+                {{ buildFullName(store.getUserById(user)) }}
             </Tag>
         </div>
-        <!-- <TertiaryButton :target="() => defocusAllUsers()" icon="delete">Alle Entfernen</TertiaryButton> -->
+        <TertiaryButton :target="() => store.clearSelectedMembers()" icon="delete">Alle Entfernen</TertiaryButton>
     </div>
 </template>
 
 
 <script lang="ts">
-import dummyTestDB from "@/mixins/dummyTestDB";
-import { PropType } from "vue";
 import Tag from "@/components/tag/Tag.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 
 export default defineComponent({
-    emits: ["userFocusChange"],
-    mixins: [dummyTestDB],
-    props: {
-        focusedUsers: Array as PropType<string[]>
+    setup() {
+        const store = useStore()
+        return { store }
     },
     components: {
         Tag,
         TertiaryButton
     },
     methods: {
-        defocusAllUsers() {
-            console.log(this.focusedUsers);
-            
-            if (this.focusedUsers) {
-                for (const userId of this.focusedUsers) {
-                    this.$emit("userFocusChange", userId);                    
-                }
+        buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
+            let name = "";
+            if (user.firstName !== undefined) {
+                name += user.firstName;
             }
+            if (user.fahrtenName !== "") {
+                name += ' "' + user.fahrtenName + '"';
+            }
+            if (user.lastName !== undefined) {
+                name += " " + user.lastName;
+            }
+            return name;
         }
     },
 })
