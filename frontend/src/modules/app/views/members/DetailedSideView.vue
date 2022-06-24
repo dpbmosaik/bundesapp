@@ -3,7 +3,7 @@
         <div v-if="getSelectedMembersLength === 1" class="">
             <UserDetail :userId="store.getSelectedMembers[0]" />
         </div>
-        <div v-else-if="getSelectedMembersLength > 1">
+        <div v-else-if="getSelectedMembersLength > 1" class="h-full">
             <FocusedMemberList />
         </div>
         <div v-else class="w-full h-full flex justify-center items-center">
