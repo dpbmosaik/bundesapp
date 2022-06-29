@@ -291,7 +291,20 @@ export default defineComponent({
       return user.roles.join(", ");
     },
     getAllUserIds(): string[] {
-      return Object.keys(dummyTestDB).filter(key => key != 'fehlerUser');;
+      return Object.keys(dummyTestDB).filter(key => key != 'fehlerUser');
     },
+    getUserListsById(userIds: string[]) {
+      let userArray = [];
+     
+      for (const userId of userIds) {
+        let user = this.getUserSafely(userId);
+        userArray.push({
+          id: userId,
+          name: this.buildFullName(user),
+          avatar: user.avatarURL
+        })
+      }
+      return userArray
+    }
   },
 });

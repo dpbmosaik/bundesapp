@@ -1,12 +1,16 @@
 <template lang="">
-    <div class="flex flex-row items-center w-full justify-between border border-proto-lightgrey rounded-lg pr-4">
+    <div
+        class="flex flex-row items-center w-full justify-between rounded-lg pr-4 cursor-pointer overflow-clip"
+        :class="checked ? 'border-2 border-proto-darkgrey' : 'border-2 border-proto-lightgrey'"
+        @click="setSelectedGroup()"
+    >
         <div class="flex flex-row gap-4 items-center">
             <div class="h-16">
-                <img :src="getPlaceholderAvatar()" alt="Avatar" class="h-full w-full rounded-l-lg"/>
+                <img :src="groupData.groupAvatar" alt="Avatar" class="h-full w-full"/>
             </div>
             <div>
-                <p class="font-h3">Stamm Hellas</p>
-                <p class="font-p text-proto-grey">24 Mitglieder</p>
+                <p class="font-h3">{{ `${getGroupPrefix()}${groupData.name}` }}</p>
+                <p class="font-p text-proto-grey">{{ `${groupData.groupMember.length} Mitglieder` }}</p>
             </div>
         </div>
         <Menu as="div" class="relative">
@@ -21,7 +25,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0"
             >
-                <MenuItems class="absolute w-56 bottom-0 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <MenuItems class="fixed w-56 z-10 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1" >
                         <MenuItem v-slot="{ active }" v-for="(elem, index) in cardMenu" :key="index" >
                             <button
@@ -46,6 +50,8 @@
 <script lang="ts">
 import AppIcon from "../icons/AppIcon.vue"
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { PropType } from 'vue';
+import { allGroupTypes } from "@/types/GroupDBEntry";
 
 const cardMenu = [
     {
@@ -66,6 +72,38 @@ const cardMenu = [
 ]
 
 export default defineComponent({
+    setup() {
+        const store = useStore();
+        return {
+            store,
+            cardMenu,
+        }
+    },
+    props: {
+        groupData: Object as PropType<allGroupTypes>,
+        checked: Boolean
+    },
+    methods: {
+        getPlaceholderAvatar() {
+            const name = 'Hellas';
+            const size = '148';
+            return `https://ui-avatars.com/api/?background=3B3B3B&color=fff&size=${size}&name=${name}&font-size=0.33`
+        },
+        getGroupPrefix() {
+            const type = this.groupData?.type
+            if (type === 'Rollen' || type === 'Individuell') {
+                return ''
+            } else {
+                return `${type} `
+            }
+        },
+        setSelectedGroup() {
+            // this.store.clearSelectedGroup();
+            if (this.groupData) {
+                this.store.selectGroup(this.groupData.groupId);
+            }
+        }
+    },
     components: {
         AppIcon,
         Menu,
@@ -73,17 +111,5 @@ export default defineComponent({
         MenuItems,
         MenuItem
     },
-    methods: {
-        getPlaceholderAvatar() {
-            const name = 'Hellas';
-            const size = '148';
-            return `https://ui-avatars.com/api/?background=3B3B3B&color=fff&size=${size}&name=${name}&font-size=0.33`
-        }
-    },
-    setup() {
-        return {
-            cardMenu,
-        }
-    }
 })
 </script>

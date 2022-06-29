@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import DummyDBEntry from '@/types/DummyDBEntry'
 import dummyTestDB from '@/mixins/dummyTestDB'
+import { allGroupTypes } from '@/types/GroupDBEntry'
+import dummyGroupDB from '@/mixins/dummyGroupDB'
 
 const versionString =
   import.meta.env.MODE === 'development'
@@ -15,7 +17,8 @@ export const useStore = defineStore('main', {
     selectedMembers: [] as string[],
     membersChecked: false,
     isAuth: true,
-    loggedInUserId: '1'
+    loggedInUserId: '1',
+    selectedGroup: ''
   }),
 
   actions: {
@@ -37,6 +40,12 @@ export const useStore = defineStore('main', {
       const allMembers = this.getAllUserIds;
       this.selectedMembers = this.selectedMembers.concat(allMembers.filter((item) => this.selectedMembers.indexOf(item) < 0));
     },
+    selectGroup(groupId: string) {
+      this.selectedGroup = groupId;
+    },
+    clearSelectedGroup() {
+      this.selectedGroup = '';
+    }
   },
 
   getters: {
@@ -52,10 +61,28 @@ export const useStore = defineStore('main', {
     getSelectedMembersLength: (state) => {
       return state.selectedMembers.length
     },
+    getSelectedGroup: (state) => {
+      return state.selectedGroup
+    },
+    groupIsSelected: (state) => {
+      return !!state.selectedGroup 
+    },
     getUserById: (state) => {
       if (dummyTestDB.methods !== undefined) {
         const method = dummyTestDB.methods;
         return (userId: string) => method.getUserSafely(userId);
+      }
+    },
+    getUserListsById: (state) => {
+      if (dummyTestDB.methods !== undefined) {
+        const method = dummyTestDB.methods;
+        return (userIds: string[]) => method.getUserListsById(userIds);
+      }
+    },
+    getgroupById: (state) => {
+      if (dummyGroupDB.methods !== undefined) {
+        const method = dummyGroupDB.methods;
+        return (groupId: string) => method.getGroupDBEntry(groupId);
       }
     },
     isAuth() {
@@ -64,8 +91,14 @@ export const useStore = defineStore('main', {
     getAllUserIds(): string[] {
         return dummyTestDB.methods?.getAllUserIds() as string[];
     },
+    getAllGroupIds(): string[] {
+        return dummyGroupDB.methods?.getAllGroupIds() as string[];
+    },
     getAllUsersLength(): number {
       return this.getAllUserIds.length;
+    },
+    getAllGroupsLength(): number {
+      return this.getAllGroupIds.length;
     },
     getAllUsers(): DummyDBEntry[] {
       const userIds = this.getAllUserIds;
@@ -84,6 +117,24 @@ export const useStore = defineStore('main', {
         }
       }
       return users;
+    },
+    getAllGroups(): Array<allGroupTypes> {
+      const groupIds = this.getAllGroupIds;
+      const groups: Array<allGroupTypes> = [];
+      if (groupIds) {
+        for (const groupId of groupIds) {
+            if (groupId === "fehlerGroup") {
+                continue;
+            }
+            const group = dummyGroupDB.methods?.getGroupDBEntry(groupId);
+            if (group === null || group === undefined) {
+                //todo error handling
+                continue;
+            }
+            groups.push(group);
+        }
+      }
+      return groups;
     },
     getLoggedInUserId: (state) => {
       return state.loggedInUserId

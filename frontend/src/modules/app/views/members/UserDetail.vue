@@ -75,7 +75,7 @@
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
         <div class="flex flex-row flex-wrap gap-4">
-            <GroupCard v-for="(group, index) in getGroups" :key="index"/>
+            <!-- <GroupCard v-for="(group, index) in getGroups" :key="index"/> -->
         </div>
     </div>
 </template>
