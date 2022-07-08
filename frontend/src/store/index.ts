@@ -15,7 +15,6 @@ export const useStore = defineStore('main', {
     version: versionString,
     isInitialized: false,
     selectedMembers: [] as string[],
-    membersChecked: false,
     isAuth: true,
     loggedInUserId: '1',
     selectedGroup: ''
