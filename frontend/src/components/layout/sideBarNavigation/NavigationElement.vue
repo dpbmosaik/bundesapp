@@ -6,6 +6,7 @@
             :to="elem.href"
             class="group font-p p-2 rounded-lg flex flex-row items-center gap-4"
             :class="isCurrentRoute ? 'bg-proto-grey' : 'bg-transparent hover:bg-proto-grey'"
+            @click="clearAllSelections()"
         >
             <div class="flex flex-row gap-4 grow">
                 <AppIcon :class="isCurrentRoute ? 'hidden' : 'block group-hover:hidden'" :name="elem.icon" type="light" />
@@ -36,7 +37,13 @@
 
 <script lang="ts">
     import AppIcon from "@/components/icons/AppIcon.vue"
-    export default {
+    export default defineComponent({
+        setup() {
+            const store = useStore();
+            return { 
+                store,
+            }
+        },
         props: {
             elem: Object,
             index: Number,
@@ -58,8 +65,14 @@
                 return false
             }
         },
+        methods: {
+            clearAllSelections() {
+                this.store.clearSelectedMembers();
+                this.store.clearSelectedGroup();
+            }
+        },
         components: {
             AppIcon
         }
-    }
+    })
 </script>
