@@ -3,12 +3,12 @@
         <div class="flex flex-row justify-between gap-8">
             <div class="flex flex-col ">
                 <div class="flex flex-row gap-4">
-                    <p class="font-h2">{{ `${getGroupPrefix()}${groupData.name}` }}</p>
-                    <button>
-                        <AppIcon name="edit" type="light" color="#C4C4C4" />
+                    <p class="font-h2">{{ `${groupPrefix}${groupData.name}` }}</p>
+                    <button @click="() => editGroupName()">
+                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
                     </button>
-                    <button>
-                        <AppIcon name="heart" type="light" color="#C4C4C4" />
+                    <button @click="() => markGroupAsFavorit()">
+                        <AppIcon name="heart" type="light" color="#C4C4C4" hover/>
                     </button>
                 </div>
                 <div class="flex flex-col h-full justify-end">
@@ -18,11 +18,11 @@
             </div>
             <div class="flex flex-row gap-4">
                 <div class="flex flex-col gap-4">
-                    <button>
-                        <AppIcon name="closeSquare" type="light" color="#C4C4C4" />
+                    <button @click="() => setGroupAvatarToStandard()">
+                        <AppIcon name="closeSquare" type="light" color="#C4C4C4" hover/>
                     </button>
-                    <button>
-                        <AppIcon name="edit" type="light" color="#C4C4C4" />
+                    <button @click="() => changeGroupAvatar()">
+                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
                     </button>
                 </div>
                 <div class="h-36 w-36 rounded-lg overflow-clip">
@@ -32,9 +32,18 @@
         </div>
         <Divider /> <!-- ------------------------------------------------ -->
         <div v-if="isBundesGroup" class="flex flex-col gap-4">
-            <GroupUserList :title="getGroupLeadRoleName()" :userList="groupData.leader" />
-            <GroupUserList title="Stellvertreter_innen" :userList="groupData.deputies" />
-            <GroupUserList title="Schatzmeister_in" :userList="groupData.headOfFinance" />
+            <div class="flex flex-col gap-4">
+                <GroupUserList :title="groupLeadRoleName" :userList="groupData.leader" />
+                <TertiaryButton class="self-center" :target="() => addUserToLead()">hinzufügen</TertiaryButton>
+            </div>
+            <div class="flex flex-col gap-4">
+                <GroupUserList title="Stellvertreter_innen" :userList="groupData.deputies" />
+                <TertiaryButton class="self-center" :target="() => addUserToDeputies()">hinzufügen</TertiaryButton>
+            </div>
+            <div class="flex flex-col gap-4">
+                <GroupUserList title="Schatzmeister_in" :userList="groupData.headOfFinance" />
+                <TertiaryButton class="self-center" :target="() => addUserTHeadOfFinance()">hinzufügen</TertiaryButton>
+            </div>
         </div>
         <div v-else-if="isStammesGroup">
 
@@ -55,6 +64,7 @@ import { PropType } from "vue";
 import AppIcon from "@/components/icons/AppIcon.vue";
 import Divider from '@/components/divider/Divider.vue';
 import GroupUserList from "./GroupUserList.vue";
+import TertiaryButton from '@/components/button/TertiaryButton.vue';
 
 export default defineComponent({
     setup() {
@@ -95,9 +105,7 @@ export default defineComponent({
             }
             return false
         },
-    },
-    methods: {
-        getGroupPrefix() {
+        groupPrefix() {
             const type = this.groupData?.type
             if (type === 'Rollen' || type === 'Individuell') {
                 return ''
@@ -105,7 +113,7 @@ export default defineComponent({
                 return `${type} `
             }
         },
-        getGroupLeadRoleName() {
+        groupLeadRoleName() {
             const type = this.groupData?.type
             switch (type) {
                 case 'Stamm':
@@ -121,10 +129,34 @@ export default defineComponent({
             }
         },
     },
+    methods: {
+        markGroupAsFavorit() {
+            alert(`Group with id ${this.groupData?.groupId} marked as favorite`)
+        },
+        editGroupName() {
+            alert(`Edit Groupname with id ${this.groupData?.groupId}`)
+        },
+        setGroupAvatarToStandard() {
+            alert('Open Modal to ask for confirmation to set avatar to standard')
+        },
+        changeGroupAvatar() {
+            alert('Open Modal to change group Avatar')
+        },
+        addUserToLead() {
+            alert('Open Something to add new user to Lead');
+        },
+        addUserToDeputies() {
+            alert('Open Something to add new user to Deputies');
+        },
+        addUserTHeadOfFinance() {
+            alert('Open Something to add new user to Head of Finance');
+        },
+    },
     components: {
         AppIcon,
         Divider,
-        GroupUserList
+        GroupUserList,
+        TertiaryButton
     }
 })
 </script>

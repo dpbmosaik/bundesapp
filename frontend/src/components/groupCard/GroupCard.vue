@@ -13,9 +13,9 @@
                 <p class="font-p text-proto-grey">{{ `${groupData.groupMember.length} Mitglieder` }}</p>
             </div>
         </div>
-        <Menu as="div" class="relative">
+        <Menu as="div" class="relative flex">
             <MenuButton>
-                <AppIcon name="moreSqaure" type="light" color="#C4C4C4" />
+                <AppIcon name="moreSqaure" type="light" color="#C4C4C4" hover/>
             </MenuButton>
             <transition
                 enter-active-class="transition duration-100 ease-out"
