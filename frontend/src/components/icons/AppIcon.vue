@@ -4,12 +4,14 @@
     style="width:24px;height:24px"
     viewBox="0 0 24 24"
     fill="none"
+    @mouseover="hover ? hoverState = true : ''"
+    @mouseleave="hover ? hoverState = false : ''"
   >
     <path
         fill-rule="evenodd"
         clip-rule="evenodd"
         :fill="iconColor"
-        :d="path"
+        :d="hoverState ? hoverPath : path"
     />
   </svg>
 </template>
@@ -22,15 +24,44 @@
 
     export default defineComponent({
         name: 'AppIcon',
+        data() {
+            return {
+                hoverState: false
+            }
+        },
         props: {
             name: String,
-            type: String,
-            color: String
+            type: String, //'light' or 'bold'
+            color: String,
+            hover: {
+                default: false,
+                type: Boolean
+            }
         },
         computed: {
             path(): string {
-                const type: String | undefined = this.type;
-                const name: String | undefined = this.name;
+                const type: string | undefined = this.type;
+                const name: string | undefined = this.name;
+                if (type && name) {
+                    // @ts-ignore
+                    if (iconCollection[type] && iconCollection[type][name]) {
+                        // @ts-ignore
+                        return iconCollection[type][name]
+                    } else {
+                        return iconCollection.fallback.icon
+                    }
+                } else {
+                    return iconCollection.fallback.icon
+                }
+            },
+            hoverPath(): string {
+                let type: string | undefined = this.type;
+                if (type == 'light') {
+                    type = 'bold'
+                } else if(type == 'bold') {
+                    type = 'light'
+                }
+                const name: string | undefined = this.name;
                 if (type && name) {
                     // @ts-ignore
                     if (iconCollection[type] && iconCollection[type][name]) {
