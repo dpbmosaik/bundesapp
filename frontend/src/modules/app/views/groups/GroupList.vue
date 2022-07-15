@@ -2,7 +2,7 @@
     <RadioGroup v-model="selected" class="grid grid-cols-2 overflow-x-auto gap-6">
         <RadioGroupLabel class="sr-only">Gruppenauswahl</RadioGroupLabel>
         <RadioGroupOption v-for="(group, index) in allGroups" :key="index" v-slot="{ checked }" :value="index">
-            <GroupCard :groupData="group" :checked="checked" interactive />
+            <GroupCard :group-data="group" :checked="checked" interactive />
         </RadioGroupOption>
     </RadioGroup>
 </template>
@@ -16,10 +16,15 @@ import {
     RadioGroup,
     RadioGroupLabel,
     RadioGroupOption,
-    RadioGroupDescription,
 } from '@headlessui/vue'
 
 export default defineComponent({
+    components: {
+        GroupCard,
+        RadioGroup,
+        RadioGroupLabel,
+        RadioGroupOption,
+    },
     setup() {
         const selected = ref('1');
         const store = useStore();
@@ -33,13 +38,6 @@ export default defineComponent({
         allGroups(): Array<allGroupTypes> {
             return this.store.getAllGroups;
         },
-    },
-    components: {
-        GroupCard,
-        RadioGroup,
-        RadioGroupLabel,
-        RadioGroupOption,
-        RadioGroupDescription,
     }
 })
 </script>

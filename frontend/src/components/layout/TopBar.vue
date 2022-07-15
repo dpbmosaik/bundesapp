@@ -18,7 +18,7 @@ import TopBar from '@/components/layout/TopBar.vue';
                     class="absolute right-8 mt-8 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                     <div class="px-1 py-1" >
-                        <MenuItem v-slot="{ active }" v-for="(elem, index) in topBarNavigation" :key="index" >
+                        <MenuItem v-for="(elem, index) in topBarNavigation" v-slot="{ active }" :key="index" >
                             <router-link
                                 :to="elem.href"
                                 :class="[

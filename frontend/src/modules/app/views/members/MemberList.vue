@@ -23,7 +23,7 @@
                         <tr v-for="person in people" :key="person.userId" :class="[store.checkIfMemberIsSelected(person.userId) && 'bg-proto-lightgrey']">
                             <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                                 <div v-if="store.checkIfMemberIsSelected(person.userId)" class="absolute inset-y-0 left-0 w-0.5 bg-proto-darkgrey"></div>
-                                <input @click="userGotClicked(person.userId)" :checked="store.checkIfMemberIsSelected(person.userId)" type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-proto-grey text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6" :value="person.userId" />
+                                <input :checked="store.checkIfMemberIsSelected(person.userId)" type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-proto-grey text-proto-darkgrey focus:ring-proto-darkgrey sm:left-6" :value="person.userId" @click="userGotClicked(person.userId)" />
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-proto-grey">
                                 <Avatar size="small" :src="person.avatarURL" alt="Avatar" />
@@ -47,20 +47,30 @@
 
 
 <script lang="ts">
-import AppIcon from "@/components/icons/AppIcon.vue";
 import Avatar from "@/components/Avatar/Avatar.vue";
 import DummyDBEntry from "@/types/DummyDBEntry";
 
 export default defineComponent({
+    components: {
+        Avatar
+    },
     setup() {
         const store = useStore()
         return { store }
+    },
+    computed: {
+        indeterminate() {
+            return this.store.getSelectedMembersLength > 0 && this.store.getSelectedMembersLength < this.store.getAllUsersLength
+        },
+        people() {
+            return this.store.getAllUsers;
+        }
     },
     methods: {
         userGotClicked(userId: string) {
             this.store.updateSelectedMembers(userId);
         },
-        handleGlobalSelector(e: { target: { checked: Boolean; }; }) {
+        handleGlobalSelector(e: { target: { checked: boolean; }; }) {
             e.target.checked ? this.focusAllUsers() : this.defocusAllUsers();
             // this.selectedPeople = e.target.checked ? this.people.map((p: { userId: string; }) => p.userId) : [];
         },
@@ -90,18 +100,6 @@ export default defineComponent({
             const loggedInUserId = this.store.getLoggedInUserId;
             return userId === loggedInUserId
         }
-    },
-    computed: {
-        indeterminate() {
-            return this.store.getSelectedMembersLength > 0 && this.store.getSelectedMembersLength < this.store.getAllUsersLength
-        },
-        people() {
-            return this.store.getAllUsers;
-        }
-    },
-    components: {
-        AppIcon,
-        Avatar
     }
 })
 </script>

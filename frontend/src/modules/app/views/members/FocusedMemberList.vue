@@ -28,13 +28,13 @@ import Tag from "@/components/tag/Tag.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 
 export default defineComponent({
-    setup() {
-        const store = useStore()
-        return { store }
-    },
     components: {
         Tag,
         TertiaryButton
+    },
+    setup() {
+        const store = useStore()
+        return { store }
     },
     methods: {
         buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
@@ -58,8 +58,9 @@ export default defineComponent({
             const mails: string[] = [];
             const selectedMembers: string[] = this.store.getSelectedMembers;
             selectedMembers.forEach(userId  => {
-                const user = this.store.getUserById!(userId);
-                mails.push(user.email);
+                const user = this.store.getUserById?.(userId);
+
+                user ? mails.push(user.email) : '';
             });
             const mailstring = mails.join(';');           
             return start + mailstring
@@ -72,8 +73,8 @@ export default defineComponent({
                 const mails: string[] = [];
                 const selectedMembers: string[] = this.store.getSelectedMembers;
                 selectedMembers.forEach(userId  => {
-                    const user = this.store.getUserById!(userId);
-                    mails.push(user.email);
+                    const user = this.store.getUserById?.(userId);
+                    user ? mails.push(user.email) : '';
                 });
                 const mailstring = mails.join(';');
                 await navigator.clipboard.writeText(mailstring);

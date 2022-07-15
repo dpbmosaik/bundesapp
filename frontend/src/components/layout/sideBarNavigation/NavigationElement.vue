@@ -38,22 +38,33 @@
 <script lang="ts">
     import AppIcon from "@/components/icons/AppIcon.vue"
     export default defineComponent({
+        components: {
+            AppIcon
+        },
+        props: {
+            elem: {
+                type: Object,
+                default: undefined
+            },
+            index: {
+                type: Number,
+                default: 0
+            },
+            externalLink: Boolean
+        },
         setup() {
             const store = useStore();
             return { 
                 store,
             }
         },
-        props: {
-            elem: Object,
-            index: Number,
-            externalLink: Boolean
-        },
         computed: {
-            isCurrentRoute(): Boolean {
+            isCurrentRoute(): boolean {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const path = this.$route.path.split('/');
                 path.splice(0, 2);
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const linkTo = this.elem.href.split('/');
                 linkTo.splice(0, 2);
@@ -70,9 +81,6 @@
                 this.store.clearSelectedMembers();
                 this.store.clearSelectedGroup();
             }
-        },
-        components: {
-            AppIcon
         }
     })
 </script>

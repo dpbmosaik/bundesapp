@@ -24,28 +24,43 @@
 
     export default defineComponent({
         name: 'AppIcon',
-        data() {
-            return {
-                hoverState: false
-            }
-        },
         props: {
-            name: String,
-            type: String, //'light' or 'bold'
-            color: String,
+            name: {
+                type: String,
+                default: ''
+            },
+            type: {
+                type: String,
+                default: 'light' //'light' or 'bold'
+            }, 
+            color: {
+                type: String,
+                default: '#3B3B3B'
+            },
             hover: {
                 default: false,
                 type: Boolean
             }
         },
+        data() {
+            return {
+                hoverState: false
+            }
+        },
         computed: {
             path(): string {
-                const type: string | undefined = this.type;
-                const name: string | undefined = this.name;
+                const type: string  = this.type;
+                const name: string  = this.name;
                 if (type && name) {
+                    
+                    // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/ban-ts-comment
                     // @ts-ignore
+                    // eslint-disable-next-line security/detect-object-injection
                     if (iconCollection[type] && iconCollection[type][name]) {
+                        
+                        // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/ban-ts-comment
                         // @ts-ignore
+                        // eslint-disable-next-line security/detect-object-injection
                         return iconCollection[type][name]
                     } else {
                         return iconCollection.fallback.icon
@@ -63,9 +78,13 @@
                 }
                 const name: string | undefined = this.name;
                 if (type && name) {
+                    // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/ban-ts-comment
                     // @ts-ignore
+                    // eslint-disable-next-line security/detect-object-injection
                     if (iconCollection[type] && iconCollection[type][name]) {
+                        // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/ban-ts-comment
                         // @ts-ignore
+                        // eslint-disable-next-line security/detect-object-injection
                         return iconCollection[type][name]
                     } else {
                         return iconCollection.fallback.icon

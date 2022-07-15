@@ -1,4 +1,3 @@
-import AppIcon from '@/components/icons/AppIcon.vue';
 <template lang="">
     <div class="min-w-0 border-proto-grey w-full">
         <div class="w-full mx-auto">
@@ -7,7 +6,8 @@ import AppIcon from '@/components/icons/AppIcon.vue';
                 <div class="pointer-events-none absolute inset-y-0 left-0 pl-2 flex items-center">
                     <AppIcon name="search" type="light" />
                 </div>
-                <input id="desktop-search"
+                <input
+                       id="desktop-search"
                        class="block w-full py-2 pl-10 pr-3
                             bg-white bg-opacity-20 
                               border border-proto-lightgrey rounded-lg
@@ -25,11 +25,15 @@ import AppIcon from '@/components/icons/AppIcon.vue';
 <script lang="ts">
     import AppIcon from "../icons/AppIcon.vue"
     export default {
-        props: {
-            placeholder: String
-        },
+        name: "SearchBar",
         components: {
             AppIcon
+        },
+        props: {
+            placeholder: {
+                type: String,
+                default: 'suchen...'
+            }
         }
     }
 </script>

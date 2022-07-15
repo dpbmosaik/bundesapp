@@ -38,6 +38,7 @@
 
 <script lang="ts">
 export default {
+  name: "DashboardVue",
   computed: {
     getAmountNewMessages() {
       const amountNews = "12"

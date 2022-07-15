@@ -7,15 +7,24 @@
 
 <script lang="ts">
 
-export default {
+export default defineComponent({
+    name: "AvatarCircle",
     props: {
-        size: String,
-        src: String,
-        alt: String
+        size: {
+            type: String,
+            default: 'small'
+        },
+        src: {
+            type: String,
+            default: ''
+        },
+        alt: {
+            type: String,
+            default: ''
+        }
     },
     computed: {
         sizeString() {
-            // @ts-ignore
             switch (this.size) {
                 case 'small':
                     return' w-8 h-8'
@@ -25,9 +34,8 @@ export default {
                     return 'w-32 h-32'
                 default:
                     return' w-8 h-8'
-            
             }
         }
     },
-}
+})
 </script>

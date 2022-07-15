@@ -90,9 +90,12 @@ import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import GroupCard from "@/components/groupCard/GroupCard.vue";
 
 export default defineComponent({
-    setup() {
-        const store = useStore()
-        return { store }
+    components: {
+        Avatar,
+        Tag,
+        Divider,
+        TertiaryButton,
+        GroupCard
     },
     props: {
         userId: {
@@ -100,35 +103,19 @@ export default defineComponent({
             type: String
         } ,
     },
-    methods: {
-        openDeleteAccountModal() {
-            alert('Account Löschen')
-        },
-        openBlockAccountModal() {
-            alert('Account Blockieren')
-        },
-        buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
-            let name = "";
-            if (user.firstName !== undefined) {
-                name += user.firstName;
-            }
-            if (user.fahrtenName !== "") {
-                name += ' "' + user.fahrtenName + '"';
-            }
-            if (user.lastName !== undefined) {
-                name += " " + user.lastName;
-            }
-            return name;
-        }
+    setup() {
+        const store = useStore()
+        return { store }
     },
     computed: {
         getUser(): DummyDBEntry {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return this.store.getUserById!(this.userId);
         },
-        getFullName(): String {
+        getFullName(): string {
             return this.buildFullName(this.getUser)
         },
-        getAvatarUrl(): String {
+        getAvatarUrl(): string {
             return this.getUser.avatarURL;
         },
         getStamm() {
@@ -183,12 +170,26 @@ export default defineComponent({
             return this.getUser.groups;
         },
     },
-    components: {
-        Avatar,
-        Tag,
-        Divider,
-        TertiaryButton,
-        GroupCard
+    methods: {
+        openDeleteAccountModal() {
+            alert('Account Löschen')
+        },
+        openBlockAccountModal() {
+            alert('Account Blockieren')
+        },
+        buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
+            let name = "";
+            if (user.firstName !== undefined) {
+                name += user.firstName;
+            }
+            if (user.fahrtenName !== "") {
+                name += ' "' + user.fahrtenName + '"';
+            }
+            if (user.lastName !== undefined) {
+                name += " " + user.lastName;
+            }
+            return name;
+        }
     }
 })
 </script>

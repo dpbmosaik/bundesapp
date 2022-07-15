@@ -11,7 +11,10 @@ import { PropType } from "vue";
 
 export default defineComponent({
     props: {
-        groupData: Object as PropType<allGroupTypes>
+        groupData: {
+            type: Object as PropType<allGroupTypes>,
+            default: undefined
+        }
     }
 })
 </script>

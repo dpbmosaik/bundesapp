@@ -1,7 +1,7 @@
 <template lang="">
     <div class="h-full">
         <div v-if="getSelectedMembersLength === 1" class="">
-            <UserDetail :userId="store.getSelectedMembers[0]" />
+            <UserDetail :user-id="store.getSelectedMembers[0]" />
         </div>
         <div v-else-if="getSelectedMembersLength > 1" class="h-full">
             <FocusedMemberList />
@@ -17,13 +17,13 @@ import UserDetail from "./UserDetail.vue";
 import FocusedMemberList from "./FocusedMemberList.vue";
 
 export default defineComponent({
-    setup() {
-        const store = useStore()
-        return { store }
-    },
     components: {
         UserDetail,
         FocusedMemberList
+    },
+    setup() {
+        const store = useStore()
+        return { store }
     },
     computed: {
         getSelectedMembersLength() {

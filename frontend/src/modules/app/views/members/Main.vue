@@ -17,6 +17,7 @@ import MemberList from "./MemberList.vue"
 import DetailedSideView from "./DetailedSideView.vue"
 
 export default defineComponent({
+  name: "MembersMain",
   components: {
     Searchbar,
     MemberList,

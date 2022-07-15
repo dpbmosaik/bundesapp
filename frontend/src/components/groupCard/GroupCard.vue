@@ -27,13 +27,13 @@
             >
                 <MenuItems class="fixed w-56 z-10 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1" >
-                        <MenuItem v-slot="{ active }" v-for="(elem, index) in cardMenu" :key="index" >
+                        <MenuItem v-for="(elem, index) in cardMenu" :key="index" v-slot="{ active }" >
                             <button
-                                @click="elem.action"
                                 :class="[
                                     active ? 'bg-proto-grey' : '',
                                     'group flex gap-4 w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
+                                @click="elem.action"
                             >
                                 <AppIcon :name="elem.icon" type="light" />
                                 {{ elem.name }}
@@ -72,12 +72,12 @@ const cardMenu = [
 ]
 
 export default defineComponent({
-    setup() {
-        const store = useStore();
-        return {
-            store,
-            cardMenu,
-        }
+    components: {
+        AppIcon,
+        Menu,
+        MenuButton,
+        MenuItems,
+        MenuItem
     },
     props: {
         groupData: Object as PropType<allGroupTypes>,
@@ -90,6 +90,14 @@ export default defineComponent({
             default: false
         }
     },
+    setup() {
+        const store = useStore();
+        return {
+            store,
+            cardMenu,
+        }
+    },
+
     methods: {
         getPlaceholderAvatar() {
             const name = 'Hellas';
@@ -111,12 +119,6 @@ export default defineComponent({
             }
         }
     },
-    components: {
-        AppIcon,
-        Menu,
-        MenuButton,
-        MenuItems,
-        MenuItem
-    },
+
 })
 </script>

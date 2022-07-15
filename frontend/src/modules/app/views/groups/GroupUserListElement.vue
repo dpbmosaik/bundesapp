@@ -22,13 +22,13 @@
                 >
                     <MenuItems class="fixed w-56 z-10 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1" >
-                            <MenuItem v-slot="{ active }" v-for="(elem, index) in moreNavigation" :key="index" >
+                            <MenuItem v-for="(elem, index) in moreNavigation" v-slot="{ active }" :key="index" >
                                 <button
-                                    @click="elem.action(user.id)"
                                     :class="[
                                         active ? 'bg-proto-grey' : '',
                                         'group flex gap-4 w-full items-center rounded-md px-2 py-2 text-sm',
                                     ]"
+                                    @click="elem.action(user.id)"
                                 >
                                     <AppIcon :name="elem.icon" type="light" />
                                     {{ elem.name }}
@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { defineComponent } from 'vue'
 
 const moreNavigation = [
     {
@@ -55,14 +56,23 @@ const moreNavigation = [
 ]
 
 export default defineComponent({
+    components: {
+            Menu,
+            MenuButton,
+            MenuItems,
+            MenuItem
+    },
+    props: {
+        user: {
+            type: Object,
+            default: undefined
+        },
+        userListLength: Number
+    },
     setup() {
         return {
             moreNavigation
         }
-    },
-    props: {
-        user: Object,
-        userListLength: Number
     },
     methods: {
         removeUserFromList() {
@@ -71,11 +81,5 @@ export default defineComponent({
             }
         }
     },
-    components: {
-        Menu,
-        MenuButton,
-        MenuItems,
-        MenuItem
-    }
 })
 </script>

@@ -33,6 +33,9 @@
 import AppIcon from "../icons/AppIcon.vue"
 export default defineComponent({
   name: 'TertiaryButton',
+  components: {
+    AppIcon
+  },
   props: {
     target: {
       type: String,
@@ -46,9 +49,6 @@ export default defineComponent({
         default: '',
         type: String
     }
-  },
-  components: {
-    AppIcon
   }
 })
 </script>

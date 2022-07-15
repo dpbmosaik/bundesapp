@@ -2,12 +2,12 @@
     <div>
         <TabGroup>
             <TabList class="grid grid-cols-2 divide-x border-b">
-                <Tab as="template" v-slot="{ selected }" class="py-4">
+                <Tab v-slot="{ selected }" as="template" class="py-4">
                     <button :class="['font-highlight ', selected ? 'text-proto-darkgrey' : 'text-proto-grey']">
                         Übersicht
                     </button>
                 </Tab>
-                <Tab as="template" v-slot="{ selected }" class="py-4">
+                <Tab v-slot="{ selected }" as="template" class="py-4">
                     <button :class="['font-highlight', selected ? 'text-proto-darkgrey' : 'text-proto-grey']">
                         Mitglieder
                     </button>
@@ -15,10 +15,10 @@
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    <GroupOverviewTab :groupData="groupData" />
+                    <GroupOverviewTab :group-data="groupData" />
                 </TabPanel>
                 <TabPanel>
-                    <GroupMembersTab :groupData="groupData" />
+                    <GroupMembersTab :group-data="groupData" />
                 </TabPanel>
             </TabPanels>
         </TabGroup>
@@ -33,18 +33,6 @@ import GroupOverviewTab from './GroupOverviewTab.vue';
 import GroupMembersTab from './GroupMembersTab.vue';
 
 export default defineComponent({
-    setup() {
-        const store = useStore()
-        return {
-            store
-        }
-    },
-    props: {
-        groupId: {
-            type: String,
-            default: ''
-        }
-    },
     components: {
         TabGroup,
         TabList,
@@ -54,9 +42,21 @@ export default defineComponent({
         GroupOverviewTab,
         GroupMembersTab
     },
+    props: {
+        groupId: {
+            type: String,
+            default: ''
+        }
+    },
+    setup() {
+        const store = useStore()
+        return {
+            store
+        }
+    },
     computed: {
-        groupData(): allGroupTypes {
-            return this.store.getgroupById!(this.groupId);
+        groupData(): allGroupTypes | undefined {
+            return this.store.getgroupById?.(this.groupId);
         }
     }
 })

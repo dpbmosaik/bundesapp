@@ -10,7 +10,7 @@
     <div class="basis-2/5 h-full pl-8 overflow-y-auto">
       <div class="h-full">
           <div v-if="store.groupIsSelected" class="">
-              <GroupDetail :groupId="store.getSelectedGroup" />
+              <GroupDetail :group-id="store.getSelectedGroup" />
           </div>
           <div v-else class="w-full h-full flex justify-center items-center">
               <p class="text-proto-grey h-fit">Noch keine Auswahl getroffen</p>
@@ -28,6 +28,13 @@ import Searchbar from '@/components/searchbar/Main.vue';
 import PrimaryButton from "@/components/button/PrimaryButton.vue";
 
 export default defineComponent({
+  name: 'MainGroup',
+  components: {
+    GroupList,
+    GroupDetail,
+    Searchbar,
+    PrimaryButton
+  },
   setup() {
     const store = useStore();
     return {
@@ -38,12 +45,6 @@ export default defineComponent({
     createNewGroup() {
       alert('Neue Gruppe erstellen');
     },
-  },
-  components: {
-    GroupList,
-    GroupDetail,
-    Searchbar,
-    PrimaryButton
   }
 })
 </script>

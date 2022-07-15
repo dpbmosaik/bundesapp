@@ -7,12 +7,12 @@
       <nav class="flex flex-col gap-2 grow ">
           <NavigationElement
             v-for="(elem, index) in navigation"
-            :elem="elem"
-            :externalLink="false"
             :key="index"
+            :elem="elem"
+            :external-link="false"
           />
       </nav>
-      <Disclosure as="div" class="border-t flex flex-col grow-0" v-slot="{ open }">
+      <Disclosure v-slot="{ open }" as="div" class="border-t flex flex-col grow-0">
           <DisclosureButton class="text-left flex flex-row items-center">
             <span class="font-description my-2 grow">Externe Links</span>
             <AppIcon name="arrowDown" type="light" :class='open ? "" : "transform rotate-180"' />
@@ -20,9 +20,9 @@
           <DisclosurePanel>
             <NavigationElement
               v-for="(elem, index) in externalNavigation"
-              :elem="elem"
-              :externalLink="true"
               :key="index"
+              :elem="elem"
+              :external-link="true"
             />
           </DisclosurePanel>
       </Disclosure>

@@ -2,9 +2,9 @@
   <h1>Admin</h1>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-
+  name: 'AdminVue'
 }
 </script>
 

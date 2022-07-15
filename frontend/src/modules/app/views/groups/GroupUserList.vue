@@ -17,23 +17,30 @@
 <script lang="ts">
 import GroupUserListElement from "./GroupUserListElement.vue"
 export default defineComponent({
+    components: {
+        GroupUserListElement
+    },
+    props: {
+        title: {
+            type: String,
+            default: 'Fehler'
+        },
+        userList: {
+            type: Array,
+            // eslint-disable-next-line vue/require-valid-default-prop
+            default: []
+        }
+    },
     setup() {
         const store = useStore();
         return { 
             store,
         }
     },
-    props: {
-        title: String,
-        userList: Array
-    },
     methods: {
         getUserListsById(userIds: string[]) {
-            return this.store.getUserListsById!(userIds)
+            return this.store.getUserListsById?.(userIds)
         }
-    },
-    components: {
-        GroupUserListElement
     }
 })
 </script>

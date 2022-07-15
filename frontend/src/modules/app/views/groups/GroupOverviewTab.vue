@@ -33,15 +33,15 @@
         <Divider /> <!-- ------------------------------------------------ -->
         <div v-if="isBundesGroup" class="flex flex-col gap-4">
             <div class="flex flex-col gap-4">
-                <GroupUserList :title="groupLeadRoleName" :userList="groupData.leader" />
+                <GroupUserList :title="groupLeadRoleName" :user-list="groupData.leader" />
                 <TertiaryButton class="self-center" :target="() => addUserToLead()">hinzufügen</TertiaryButton>
             </div>
             <div class="flex flex-col gap-4">
-                <GroupUserList title="Stellvertreter_innen" :userList="groupData.deputies" />
+                <GroupUserList title="Stellvertreter_innen" :user-list="groupData.deputies" />
                 <TertiaryButton class="self-center" :target="() => addUserToDeputies()">hinzufügen</TertiaryButton>
             </div>
             <div class="flex flex-col gap-4">
-                <GroupUserList title="Schatzmeister_in" :userList="groupData.headOfFinance" />
+                <GroupUserList title="Schatzmeister_in" :user-list="groupData.headOfFinance" />
                 <TertiaryButton class="self-center" :target="() => addUserTHeadOfFinance()">hinzufügen</TertiaryButton>
             </div>
         </div>
@@ -111,14 +111,25 @@ import GroupCard from '@/components/groupCard/GroupCard.vue';
 import GroupServiceElement from "./GroupServiceElement.vue";
 
 export default defineComponent({
+    components: {
+        AppIcon,
+        Divider,
+        GroupUserList,
+        TertiaryButton,
+        GroupCard,
+        GroupServiceElement
+    },
+    props: {
+        groupData: {
+            type: Object as PropType<allGroupTypes>,
+            default: undefined
+        }
+    },
     setup() {
         const store = useStore();
         return { 
             store,
         }
-    },
-    props: {
-        groupData: Object as PropType<allGroupTypes>
     },
     computed: {
         isBundesGroup() {
@@ -210,13 +221,6 @@ export default defineComponent({
             return arr.join(', ')
         }
     },
-    components: {
-        AppIcon,
-        Divider,
-        GroupUserList,
-        TertiaryButton,
-        GroupCard,
-        GroupServiceElement
-    }
+
 })
 </script>
