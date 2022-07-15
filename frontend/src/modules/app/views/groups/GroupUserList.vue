@@ -4,7 +4,12 @@
             {{ title }}
         </p>
         <div class="flex flex-col gap-2">
-            <GroupUserListElement v-for="(user, index) in getUserListsById(userList)" :key="index" :user="user" />
+            <GroupUserListElement
+                v-for="(user, index) in getUserListsById(userList)"
+                :key="index"
+                :user="user"
+                :userListLength="getUserListsById(userList).length"
+            />
         </div>
     </div>
 </template>

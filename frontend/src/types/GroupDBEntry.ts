@@ -10,22 +10,27 @@ interface GroupDBEntry {
     superGroups: string[];
     groupMember: string[];
     emailAlias: {
+        type: string
         enabled: Boolean
         emails: string[]
     }
     linkToCloud: {
+        type: string
         enabled: Boolean
         url: string
     }
     linkToWiki: {
+        type: string
         enabled: Boolean
         url: string
     }
     linkToChat: {
+        type: string
         enabled: Boolean
         url: string
     }
     linkToMiro: {
+        type: string
         enabled: Boolean
         url: string
     }

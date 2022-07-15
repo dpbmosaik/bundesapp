@@ -1,8 +1,8 @@
 <template lang="">
     <div
-        class="flex flex-row items-center w-full justify-between rounded-lg pr-4 cursor-pointer overflow-clip"
-        :class="checked ? 'border-2 border-proto-darkgrey' : 'border-2 border-proto-lightgrey'"
-        @click="setSelectedGroup()"
+        class="flex flex-row items-center w-full justify-between rounded-lg pr-4 overflow-clip"
+        :class="[checked ? 'border-2 border-proto-darkgrey' : 'border-2 border-proto-lightgrey', interactive ? 'cursor-pointer' : 'cursor-default']"
+        @click="interactive ? setSelectedGroup() : ''"
     >
         <div class="flex flex-row gap-4 items-center">
             <div class="h-16">
@@ -13,7 +13,7 @@
                 <p class="font-p text-proto-grey">{{ `${groupData.groupMember.length} Mitglieder` }}</p>
             </div>
         </div>
-        <Menu as="div" class="relative flex">
+        <Menu as="div" class="relative flex" v-show="interactive">
             <MenuButton>
                 <AppIcon name="moreSqaure" type="light" color="#C4C4C4" hover/>
             </MenuButton>
@@ -81,7 +81,14 @@ export default defineComponent({
     },
     props: {
         groupData: Object as PropType<allGroupTypes>,
-        checked: Boolean
+        checked: {
+            default: false,
+            type: Boolean
+        },
+        interactive: {
+            type: Boolean,
+            default: false
+        }
     },
     methods: {
         getPlaceholderAvatar() {

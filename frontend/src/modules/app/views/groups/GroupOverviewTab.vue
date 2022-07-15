@@ -45,14 +45,56 @@
                 <TertiaryButton class="self-center" :target="() => addUserTHeadOfFinance()">hinzufügen</TertiaryButton>
             </div>
         </div>
-        <div v-else-if="isStammesGroup">
-
+        <div v-else-if="isStammesGroup" class="flex flex-col gap-4">
+            <GroupUserList title="Leiter_innen" :userList="groupData.leader" />
+            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
         </div>
-        <div v-else-if="isRoleGroup">
-
+        <div v-else-if="isRoleGroup" class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4">
+                <p class="font-description text-proto-grey">Adminrollen</p>
+                <p class="font-p">{{ joinArrayToList(groupData.editAccessRoles) }}</p>
+            </div>
+            <div class="flex flex-col gap-4">
+                <p class="font-description text-proto-grey">Mitgliedsrollen</p>
+                <p class="font-p">{{ joinArrayToList(groupData.roles) }}</p>
+            </div>
         </div>
-        <div v-else-if="isIndividualGroup">
-
+        <div v-else-if="isIndividualGroup" class="flex flex-col gap-4">
+            <GroupUserList title="Gruppenadministrator_innen" :userList="groupData.editAccessUsers" />
+            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
+        </div>
+        <Divider /> <!-- ------------------------------------------------ -->
+        <div class="flex flex-col gap-4">
+            <p class="font-description text-proto-grey">Teil der Gruppen</p>
+            <div v-if="superGroupList.length >= 1" class="flex flex-col gap-4">
+                <GroupCard v-for="(group, index) in superGroupList" :key="index" :groupData="group" />
+            </div>
+            <div v-else>
+                <p>Keine Gruppenzugehörigkeit</p>
+            </div>
+        </div>
+        <Divider /> <!-- ------------------------------------------------ -->
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">Email Weiterleitungen</p>
+                <GroupServiceElement :serviceData="groupData.emailAlias" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">Ordner in der Cloud</p>
+                <GroupServiceElement :serviceData="groupData.linkToCloud" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">Wiki Seite</p>
+                <GroupServiceElement :serviceData="groupData.linkToWiki" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">Chatgruppe</p>
+                <GroupServiceElement :serviceData="groupData.linkToChat" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">Miro Board</p>
+                <GroupServiceElement :serviceData="groupData.linkToMiro" />
+            </div>
         </div>
     </div>
 </template>
@@ -65,6 +107,8 @@ import AppIcon from "@/components/icons/AppIcon.vue";
 import Divider from '@/components/divider/Divider.vue';
 import GroupUserList from "./GroupUserList.vue";
 import TertiaryButton from '@/components/button/TertiaryButton.vue';
+import GroupCard from '@/components/groupCard/GroupCard.vue';
+import GroupServiceElement from "./GroupServiceElement.vue";
 
 export default defineComponent({
     setup() {
@@ -128,6 +172,14 @@ export default defineComponent({
                     return 'Leiter_in'
             }
         },
+        superGroupList() {
+            let groupList: allGroupTypes[] = []
+            for (const groupId of this.groupData!.superGroups) {
+                groupList.push(this.store.getgroupById!(groupId))
+            }
+            return groupList
+        },
+
     },
     methods: {
         markGroupAsFavorit() {
@@ -151,12 +203,20 @@ export default defineComponent({
         addUserTHeadOfFinance() {
             alert('Open Something to add new user to Head of Finance');
         },
+        addUserToGroupLeaders() {
+            alert('Add Modal to Add User to Stammesgroup Leaders');
+        },
+        joinArrayToList(arr: string[]) {
+            return arr.join(', ')
+        }
     },
     components: {
         AppIcon,
         Divider,
         GroupUserList,
-        TertiaryButton
+        TertiaryButton,
+        GroupCard,
+        GroupServiceElement
     }
 })
 </script>

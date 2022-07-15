@@ -1,6 +1,5 @@
 <template lang="">
     <div>
-        <!-- {{ groupId }} -->
         <TabGroup>
             <TabList class="grid grid-cols-2 divide-x border-b">
                 <Tab as="template" v-slot="{ selected }" class="py-4">

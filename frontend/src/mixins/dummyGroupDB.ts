@@ -14,22 +14,27 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     superGroups: [],
     groupMember: [],
     emailAlias: {
+        type: 'fehler',
         enabled: false,
         emails: []
     },
     linkToCloud: {
+        type: 'fehler',
         enabled: false,
         url: ''
     },
     linkToWiki: {
+        type: 'fehler',
         enabled: false,
         url: ''
     },
     linkToChat: {
+        type: 'fehler',
         enabled: true,
         url: ''
     },
     linkToMiro: {
+        type: 'fehler',
         enabled: true,
         url: ''
     },
@@ -47,25 +52,30 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     createdAt: '20.06.2022',
     createdByUser: 'Linda Hohlweg',
     subGroups: ['2'],
-    superGroups: ['1'],
+    superGroups: ['1', '3'],
     groupMember: ['1', '2', '3', '4'],
     emailAlias: {
+        type: 'email',
         enabled: true,
         emails: ['hellas@bundesapp.org']
     },
     linkToCloud: {
+        type: 'cloud',
         enabled: true,
         url: 'https://cloud.dpbm.de'
     },
     linkToWiki: {
+        type: 'wiki',
         enabled: true,
         url: 'https://cloud.dpbm.de'
     },
     linkToChat: {
+        type: 'chat',
         enabled: true,
         url: 'https://cloud.dpbm.de'
     },
     linkToMiro: {
+        type: 'miro',
         enabled: true,
         url: 'https://cloud.dpbm.de'
     },
@@ -86,22 +96,27 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     superGroups: [],
     groupMember: [],
     emailAlias: {
+        type: 'email',
         enabled: false,
         emails: []
     },
     linkToCloud: {
+        type: 'cloud',
         enabled: false,
         url: ''
     },
     linkToWiki: {
+        type: 'wiki',
         enabled: false,
         url: ''
     },
     linkToChat: {
+        type: 'chat',
         enabled: false,
         url: ''
     },
     linkToMiro: {
+        type: 'Miro',
         enabled: false,
         url: ''
     },
@@ -122,22 +137,27 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     superGroups: ['0'],
     groupMember: ['1', '2', '3', '4', '5'],
     emailAlias: {
+        type: 'email',
         enabled: false,
         emails: []
     },
     linkToCloud: {
+        type: 'cloud',
         enabled: false,
         url: ''
     },
     linkToWiki: {
+        type: 'wiki',
         enabled: false,
         url: ''
     },
     linkToChat: {
+        type: 'chat',
         enabled: false,
         url: ''
     },
     linkToMiro: {
+        type: 'miro',
         enabled: false,
         url: ''
     },
@@ -156,27 +176,32 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     superGroups: ['0'],
     groupMember: ['1', '2', '3', '4', '5'],
     emailAlias: {
+        type: 'email',
         enabled: false,
         emails: []
     },
     linkToCloud: {
+        type: 'cloud',
         enabled: false,
         url: ''
     },
     linkToWiki: {
+        type: 'wiki',
         enabled: false,
         url: ''
     },
     linkToChat: {
+        type: 'chat',
         enabled: false,
         url: ''
     },
     linkToMiro: {
+        type: 'miro',
         enabled: false,
         url: ''
     },
-    roles: ['Sippenführer_in'],
-    editAccessRoles: [],
+    roles: ['Sippenführer_in', 'Meutenführer_in'],
+    editAccessRoles: ['Sippenführer_in'],
     type: 'Rollen'
   },
   "4": {
@@ -191,22 +216,27 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     superGroups: ['0'],
     groupMember: ['1', '2', '3', '4', '5'],
     emailAlias: {
+        type: 'email',
         enabled: false,
         emails: []
     },
     linkToCloud: {
+        type: 'cloud',
         enabled: false,
         url: ''
     },
     linkToWiki: {
+        type: 'wiki',
         enabled: false,
         url: ''
     },
     linkToChat: {
+        type: 'chat',
         enabled: false,
         url: ''
     },
     linkToMiro: {
+        type: 'miro',
         enabled: false,
         url: ''
     },
