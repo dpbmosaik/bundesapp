@@ -13,7 +13,7 @@
                 <p class="font-p text-proto-grey">{{ `${groupData.groupMember.length} Mitglieder` }}</p>
             </div>
         </div>
-        <Menu as="div" class="relative flex" v-show="interactive">
+        <Menu v-show="interactive" as="div" class="relative flex">
             <MenuButton>
                 <AppIcon name="moreSqaure" type="light" color="#C4C4C4" hover/>
             </MenuButton>

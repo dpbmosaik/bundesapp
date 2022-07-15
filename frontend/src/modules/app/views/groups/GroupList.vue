@@ -2,7 +2,7 @@
     <RadioGroup v-model="selected" class="grid grid-cols-2 overflow-x-auto gap-6">
         <RadioGroupLabel class="sr-only">Gruppenauswahl</RadioGroupLabel>
         <RadioGroupOption v-for="(group, index) in allGroups" :key="index" v-slot="{ checked }" :value="index">
-            <GroupCard :group-data="group" :checked="checked" interactive />
+            <GroupCard :group-data="group" :checked="checked" interactive/>
         </RadioGroupOption>
     </RadioGroup>
 </template>

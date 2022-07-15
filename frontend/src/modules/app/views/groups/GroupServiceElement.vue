@@ -29,13 +29,13 @@
                 >
                     <MenuItems class="absolute w-56 z-10 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1" >
-                            <MenuItem v-slot="{ active }" v-for="(elem, index) in moreNavigation" :key="index" >
+                            <MenuItem v-for="(elem, index) in moreNavigation" v-slot="{ active }" :key="index" >
                                 <button
-                                    @click="elem.action(user.id)"
                                     :class="[
                                         active ? 'bg-proto-grey' : '',
                                         'group flex gap-4 w-full items-center rounded-md px-2 py-2 text-sm',
                                     ]"
+                                    @click="elem.action(user.id)"
                                 >
                                     <AppIcon :name="elem.icon" type="light" />
                                     {{ elem.name }}
@@ -64,13 +64,20 @@ const moreNavigation = [
 ]
 
 export default defineComponent({
+    components: {
+        Menu,
+        MenuButton,
+        MenuItems,
+        MenuItem,
+        TertiaryButton
+    },
+    props: {
+        serviceData: Object as PropType<{enabled: boolean, url: string, type: string, emails: string[]}>
+    },
     setup() {
         return {
             moreNavigation
         }
-    },
-    props: {
-        serviceData: Object as PropType<{enabled: boolean, url: string, type: string, emails: string[]}>
     },
     computed: {
         emailsAsString() {
@@ -78,6 +85,7 @@ export default defineComponent({
                 const emailArray = this.serviceData.emails;
                 return emailArray.join(", ")
             }
+            return null
         }
     },
     methods: {
@@ -88,12 +96,6 @@ export default defineComponent({
             alert(`Open Modal to add ${this.serviceData!.type} service`)
         }
     },
-    components: {
-        Menu,
-        MenuButton,
-        MenuItems,
-        MenuItem,
-        TertiaryButton
-    }
+
 })
 </script>

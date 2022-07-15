@@ -49,7 +49,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: true,
     gender: 'male',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -76,7 +76,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: true,
     gender: 'male',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -103,7 +103,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: true,
     gender: 'male',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -157,7 +157,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: false,
     gender: 'diverse',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -211,7 +211,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: false,
     gender: 'male',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -238,7 +238,7 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     bundespostDigital: false,
     gender: 'male',
     birthdate: '01.10.1997',
-    groups: ['1', '6', '8'],
+    groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
@@ -257,9 +257,11 @@ function getPlaceholderAvatar() {
 export default defineComponent({
   methods: {
     hasUserDBEntry(userId: string): boolean {
+      // eslint-disable-next-line security/detect-object-injection
       return dummyTestDB[userId] !== undefined;
     },
     getUserDBEntry(userId: string): DummyDBEntry | null {
+      // eslint-disable-next-line security/detect-object-injection
       return dummyTestDB[userId] || null;
     },
     getUserSafely(userId: string | undefined): DummyDBEntry {
@@ -267,6 +269,7 @@ export default defineComponent({
       if (userId === undefined) {
         return errorUser;
       }
+      // eslint-disable-next-line security/detect-object-injection
       const wantedUser = dummyTestDB[userId];     
       if (wantedUser === undefined) {
         return errorUser;
@@ -294,10 +297,10 @@ export default defineComponent({
       return Object.keys(dummyTestDB).filter(key => key != 'fehlerUser');
     },
     getUserListsById(userIds: string[]) {
-      let userArray = [];
+      const userArray = [];
      
       for (const userId of userIds) {
-        let user = this.getUserSafely(userId);
+        const user = this.getUserSafely(userId);
         userArray.push({
           id: userId,
           name: this.buildFullName(user),

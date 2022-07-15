@@ -12,7 +12,7 @@
       <!-- Actions -->
       <div v-else-if="typeof target === 'function'" class="flex flex-row gap-2 items-center">
       <AppIcon v-if="icon" :name="icon" type="light" />
-        <button class="btn-s" :class="disabled ? 'disabled-button pointer-events-none' : 'active-button'" :disabled="disabled" @click="target">
+        <button class="btn-s" :class="disabled ? 'disabled-button pointer-events-none' : 'active-button'" :disabled="disabled" @click="() => target">
           <slot></slot>
         </button>
       </div>
@@ -38,8 +38,7 @@ export default defineComponent({
   },
   props: {
     target: {
-      type: String,
-      default: ''
+      type: [String, Function],
     },
     disabled: {
       default: false,

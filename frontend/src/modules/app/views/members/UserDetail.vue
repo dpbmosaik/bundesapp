@@ -74,8 +74,14 @@
             </div>
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
-        <div class="flex flex-row flex-wrap gap-4">
-            <!-- <GroupCard v-for="(group, index) in getGroups" :key="index"/> -->
+        <div class="flex flex-col gap-4">
+            <p class="font-description text-proto-grey">Mitglied der Gruppen</p>
+            <div v-if="groupList.length >= 1" class="flex flex-col gap-4">
+                <GroupCard v-for="(group, index) in groupList" :key="index" :group-data="group" />
+            </div>
+            <div v-else>
+                <p>Keine Gruppenzugehörigkeit</p>
+            </div>
         </div>
     </div>
 </template>
@@ -88,6 +94,7 @@ import Tag from "@/components/tag/Tag.vue";
 import Divider from "@/components/divider/Divider.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import GroupCard from "@/components/groupCard/GroupCard.vue";
+import { allGroupTypes } from "@/types/GroupDBEntry";
 
 export default defineComponent({
     components: {
@@ -166,8 +173,12 @@ export default defineComponent({
         getCriminalRecordlastnewDueOn() {
             return this.getUser.criminalRecordDates.newDueOn;
         },
-        getGroups() {
-            return this.getUser.groups;
+        groupList() {
+            let groupList: allGroupTypes[] = []
+            for (const groupId of this.getUser.groups) {
+                groupList.push(this.store.getgroupById!(groupId))
+            }          
+            return groupList
         },
     },
     methods: {

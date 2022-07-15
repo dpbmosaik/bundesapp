@@ -46,7 +46,7 @@
             </div>
         </div>
         <div v-else-if="isStammesGroup" class="flex flex-col gap-4">
-            <GroupUserList title="Leiter_innen" :userList="groupData.leader" />
+            <GroupUserList title="Leiter_innen" :user-list="groupData.leader" />
             <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
         </div>
         <div v-else-if="isRoleGroup" class="flex flex-col gap-4">
@@ -60,14 +60,14 @@
             </div>
         </div>
         <div v-else-if="isIndividualGroup" class="flex flex-col gap-4">
-            <GroupUserList title="Gruppenadministrator_innen" :userList="groupData.editAccessUsers" />
+            <GroupUserList title="Gruppenadministrator_innen" :user-list="groupData.editAccessUsers" />
             <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
         </div>
         <Divider /> <!-- ------------------------------------------------ -->
         <div class="flex flex-col gap-4">
             <p class="font-description text-proto-grey">Teil der Gruppen</p>
             <div v-if="superGroupList.length >= 1" class="flex flex-col gap-4">
-                <GroupCard v-for="(group, index) in superGroupList" :key="index" :groupData="group" />
+                <GroupCard v-for="(group, index) in superGroupList" :key="index" :group-data="group" />
             </div>
             <div v-else>
                 <p>Keine Gruppenzugehörigkeit</p>
@@ -77,23 +77,23 @@
         <div class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">Email Weiterleitungen</p>
-                <GroupServiceElement :serviceData="groupData.emailAlias" />
+                <GroupServiceElement :service-data="groupData.emailAlias" />
             </div>
             <div class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">Ordner in der Cloud</p>
-                <GroupServiceElement :serviceData="groupData.linkToCloud" />
+                <GroupServiceElement :service-data="groupData.linkToCloud" />
             </div>
             <div class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">Wiki Seite</p>
-                <GroupServiceElement :serviceData="groupData.linkToWiki" />
+                <GroupServiceElement :service-data="groupData.linkToWiki" />
             </div>
             <div class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">Chatgruppe</p>
-                <GroupServiceElement :serviceData="groupData.linkToChat" />
+                <GroupServiceElement :service-data="groupData.linkToChat" />
             </div>
             <div class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">Miro Board</p>
-                <GroupServiceElement :serviceData="groupData.linkToMiro" />
+                <GroupServiceElement :service-data="groupData.linkToMiro" />
             </div>
         </div>
     </div>

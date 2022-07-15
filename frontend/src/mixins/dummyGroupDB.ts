@@ -254,6 +254,7 @@ function getPlaceholderAvatar() {
 export default defineComponent({
   methods: {
     hasGroupDBEntry(groupId: string): boolean {
+        // eslint-disable-next-line security/detect-object-injection
         return dummyGroupDB[groupId] !== undefined;
     },
     getGroupDBEntry(groupId: string | undefined): allGroupTypes {
@@ -261,6 +262,7 @@ export default defineComponent({
         if (groupId === undefined) {
             return errorGroup;
         }
+        // eslint-disable-next-line security/detect-object-injection
         const wantedUser = dummyGroupDB[groupId];     
         if (wantedUser === undefined) {
             return errorGroup;
