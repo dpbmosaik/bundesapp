@@ -117,10 +117,19 @@ export default [
                         name: "settingsMain",
                         component: () => import(/* webpackChunkName: "settingsMain" */ "@/modules/app/views/settings/Main.vue"),
                     },
+                ]
+            },
+            {
+                path: 'profile',
+                name: 'profile',
+                meta: { requiresAuth: true },
+                redirect: { name: 'profileMain' },
+                component: () => import(/* webpackChunkName: "profileMain" */ '@/modules/app/views/profile/Main.vue'),
+                children: [
                     {
-                        path: "my-profile",
-                        name: "myProfile",
-                        component: () => import(/* webpackChunkName: "myProfile" */ "@/modules/app/views/settings/MyProfile.vue"),
+                        path: "main",
+                        name: "profileMain",
+                        component: () => import(/* webpackChunkName: "profileMain" */ "@/modules/app/views/profile/Main.vue"),
                     },
                 ]
             },

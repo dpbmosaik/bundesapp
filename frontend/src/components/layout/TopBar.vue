@@ -46,7 +46,7 @@ import TopBar from '@/components/layout/TopBar.vue';
         {
             name: 'Profil',
             icon: 'profile',
-            href: '/app/settings/my-profile'
+            href: '/app/profile/main'
         },
         {
             name: 'Einstellungen',

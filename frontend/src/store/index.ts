@@ -17,7 +17,7 @@ export const useStore = defineStore('main', {
     selectedMembers: [] as string[],
     isAuth: true,
     loggedInUserId: '1',
-    selectedGroup: ''
+    selectedGroup: '',
   }),
 
   actions: {
@@ -137,6 +137,13 @@ export const useStore = defineStore('main', {
     },
     getLoggedInUserId: (state) => {
       return state.loggedInUserId
+    },
+    getLoggedInUserData: (state) => {
+      //if (dummyTestDB.methods) {
+        const method = dummyTestDB.methods;
+        const loggedInUserId = state.loggedInUserId
+        return () => method!.getUserSafely(loggedInUserId);
+      //}
     },
   },
 })

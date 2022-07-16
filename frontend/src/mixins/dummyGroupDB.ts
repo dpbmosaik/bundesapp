@@ -57,7 +57,7 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     emailAlias: {
         type: 'email',
         enabled: true,
-        emails: ['hellas@bundesapp.org']
+        emails: ['hellas@bundesapp.org', 'stammhellas@bundesapp.org', 'hellenen@bundesapp.org']
     },
     linkToCloud: {
         type: 'cloud',

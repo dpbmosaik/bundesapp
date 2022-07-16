@@ -1,60 +1,72 @@
 <template>
   <div>
-    <label :for="inputType" class="block text-sm font-medium text-gray-700">{{ label }}</label>
-
-    <div class="mt-1 relative rounded-md shadow-sm">
-      <!-- v-on event should be changed to oninvalid once setup -->
-      <input :id="inputType" :type="inputType" :name="inputType" class="block w-full pr-10 sm:text-sm rounded-md" :class="{'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500': error}" :placeholder="placeholder" aria-invalid="true" aria-describedby="email-error"/>
-      
-      <div v-if="error" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
-      </div>
-      
-      <!-- <div v-else class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <QuestionMarkCircleIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-      </div> -->
-
+    <div class="flex justify-between">
+      <label for="email" class="block text-sm font-medium text-gray-700">{{ label }}<span v-show="required" class="text-red-700"> *</span></label>
+      <span v-show="!required" class="text-sm text-gray-500">Optional</span>
     </div>
-
-    <!-- <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">Ungültige Eingabe</p> -->
-
+    <div class="mt-1">
+      <input
+        :value="value"
+        :type="type"
+        :name="name"
+        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        :placeholder="placeholder"
+        @input="updateValue"
+       />
+    </div>
   </div>
 </template>
 
-<script>
-import { 
-  ExclamationCircleIcon, 
-  // QuestionMarkCircleIcon
-} from '@heroicons/vue/solid'
+<script lang="ts">
+    import { PropType } from "vue";
 
-export default {
-  name: "TextInputField",
-  components: {
-      ExclamationCircleIcon,
-      // QuestionMarkCircleIcon,
-  },
-  props: {
-    label: String,
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    inputType: {
-      type: String,
-      default: "text",
-    },
-    isRequired: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      error: false,
-    }
-  },
-  methods: {
-
-  },
-}
+    export default defineComponent({
+        name: "TextInput",
+        model: {
+            prop: "value",
+            event: "update"
+        },
+        props: {
+            label: {
+                type: String,
+                default: 'Label Fehlt'
+            },
+            placeholder: {
+                type: String,
+                default: ''
+            },
+            required: {
+                type: Boolean,
+                default: false
+            },
+            type: {
+                type: String as PropType<'email' | 'text' | 'number' | 'password' | 'url'>,
+                default: 'text'
+            },
+            value: {
+                type: String,
+                default: ''
+            },
+            readonly: {
+                type: Boolean,
+                default: false
+            }
+        },
+        emits: {'updateValue': null, 'update:modelValue': null},
+        setup() {
+            return {
+                inputValue: ''
+            }
+        },
+        computed: {
+            name() {
+                return this.label.toLowerCase();
+            },
+        },
+        methods: {
+            updateValue(event: { target: { value: unknown; }; }) {
+                this.$emit("update:modelValue", event.target.value);
+            }
+        }
+    })
 </script>

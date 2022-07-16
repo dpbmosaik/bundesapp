@@ -54,7 +54,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
     .active-button {
-        @apply font-underlined
+        @apply hover:bg-proto-darkgrey px-6 py-2 hover:text-white rounded-lg min-w-fit whitespace-nowrap bg-white text-proto-darkgrey border-2 border-proto-darkgrey
     }
     .disabled-button {
         @apply font-underlined
