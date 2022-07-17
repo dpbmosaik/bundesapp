@@ -27,7 +27,9 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       lastValidIssued: 'Fehler',
       inspection: 'Fehler',
       newDueOn: 'Fehler'
-    }
+    },
+    passwordExpiration: 'Fehler',
+    allergies: []
   },
   "0": {
     userId: "0",
@@ -48,13 +50,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: true,
     gender: 'male',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "1": {
     userId: "1",
@@ -75,13 +79,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: true,
     gender: 'male',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: ['vegetarisch', 'keine Milch']
   },
   "2": {
     userId: "2",
@@ -102,13 +108,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: true,
     gender: 'male',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "3": {
     userId: "3",
@@ -129,13 +137,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: false,
     gender: 'female',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['6'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "4": {
     userId: "4",
@@ -156,13 +166,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: false,
     gender: 'diverse',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "5": {
     userId: "5",
@@ -183,13 +195,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: false,
     gender: 'diverse',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['1'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "6": {
     userId: "6",
@@ -210,13 +224,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: false,
     gender: 'male',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
   "7": {
     userId: "7",
@@ -237,13 +253,15 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     },
     bundespostDigital: false,
     gender: 'male',
-    birthdate: '01.10.1997',
+    birthdate: '1997-10-01',
     groups: ['0', '1', '2'],
     criminalRecordDates: {
       lastValidIssued: '13.05.2021',
       inspection: '15.05.2021',
       newDueOn: '12.05.2023'
-    }
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: []
   },
 };
 

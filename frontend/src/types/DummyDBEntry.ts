@@ -15,7 +15,7 @@ export default interface DummyDBEntry {
       code: string;
       addition: string;
     }
-    bundespostDigital: Boolean;
+    bundespostDigital: boolean;
     gender: 'male' | 'female' | 'diverse';
     birthdate: string;
     groups: string[];
@@ -23,5 +23,7 @@ export default interface DummyDBEntry {
       lastValidIssued: string;
       inspection: string;
       newDueOn: string
-    }
+    },
+    passwordExpiration: string,
+    allergies: string[]
 };
