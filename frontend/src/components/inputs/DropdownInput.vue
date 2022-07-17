@@ -4,19 +4,17 @@
       <label :for="name" class="block font-highlight text-proto-darkgrey">{{ label }}<span v-show="required" class="text-red-700"> *</span></label>
       <span v-show="!required" class="font-info text-proto-grey">Optional</span>
     </div>
-    <div class="mt-1">
-      <input
-        :value="value"
-        :type="type"
+    <select
         :name="name"
         class="focus:ring-proto-darkgrey focus:border-proto-darkgrey focus:ring-2 focus:bg-white
                 block w-full border-0 rounded-md
                 bg-proto-lightgrey font-p
                 placeholder:font-p placeholder:text-proto-grey"
-        :placeholder="placeholder"
-        @input="updateValue"
-       />
-    </div>
+        :multiple="multiple"
+        @change="updateValue"
+    >
+      <option v-for="(option, index) in options" :key="index" :value="option.value" :selected="option.selected">{{ option.text }}</option>
+    </select>
   </div>
 </template>
 
@@ -24,39 +22,28 @@
     import { PropType } from "vue";
 
     export default defineComponent({
-        name: "TextInput",
+        name: "DropdownInput",
         props: {
             label: {
                 type: String,
                 default: 'Label Fehlt'
             },
-            placeholder: {
-                type: String,
-                default: ''
-            },
             required: {
                 type: Boolean,
                 default: false
             },
-            type: {
-                type: String as PropType<'email' | 'text' | 'number' | 'password' | 'url' | 'date'>,
-                default: 'text'
-            },
-            value: {
-                type: String,
-                default: ''
-            },
-            readonly: {
+            multiple: {
                 type: Boolean,
                 default: false
+            },
+            options: {
+                type: Array as PropType<{value: string, text: string, selected: boolean}[]>,
+                default() {
+                    return []
+                }
             }
         },
-        emits: {'updateValue': null, 'update:modelValue': null},
-        setup() {
-            return {
-                inputValue: ''
-            }
-        },
+        emits: {'update:modelValue': null},
         computed: {
             name() {
                 return this.label.toLowerCase();
