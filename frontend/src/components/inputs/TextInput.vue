@@ -120,6 +120,7 @@
                 }
             },
             isAlphanumeric(value: unknown, set = 'default') {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const sets: {[index: string]: any, default: RegExp, latin: RegExp} = {
                     default: /^[a-zA-Z0-9À-ÖØ-öø-ÿĄąĆćĘęŁłŃńŚśŹźŻż,.'-]+$/,
                     latin: /^[a-zA-Z0-9,.'-]+$/
@@ -129,9 +130,11 @@
                 }
                 const selectedSet = sets.hasOwnProperty(set) ? set : 'default'
                 
+                // eslint-disable-next-line security/detect-object-injection
                 return sets[selectedSet].test(value)
             },
             isAlpha(value: unknown , set = 'default'): boolean {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const sets: {[index: string]: any, default: RegExp, latin: RegExp} = {
                     default: /^[a-zA-ZÀ-ÖØ-öø-ÿĄąĆćĘęŁłŃńŚśŹźŻż,.'-]+$/,
                     latin: /^[a-zA-Z,.'-]+$/
@@ -140,9 +143,11 @@
                     return false
                 }
                 const selectedSet = sets.hasOwnProperty(set) ? set : 'default'
+                // eslint-disable-next-line security/detect-object-injection
                 return sets[selectedSet].test(value)
             },
             isEmail(value: unknown) {
+                // eslint-disable-next-line security/detect-unsafe-regex
                 const isEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
                 if (typeof value != 'string') {
                     return false
@@ -163,7 +168,9 @@
                 return isNumber.test(value)
             },
             isUrl(value: unknown) {
+                // eslint-disable-next-line security/detect-unsafe-regex
                 const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+                // eslint-disable-next-line security/detect-unsafe-regex
                 const localhostDomainRE = /^localhost[:?\d]*(?:[^:?\d]\S*)?$/
                 const nonLocalhostDomainRE = /^[^\s.]+\.\S{2,}$/;
 
