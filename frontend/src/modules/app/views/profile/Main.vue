@@ -11,10 +11,10 @@
       <Tag v-for="(role, index) in roles" :key="index" >{{ role }}</Tag>
     </div>
     <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="firstName" label="Vorname" required type="text" placeholder="Clara" :value="firstName" @click="setDataHasChanges" />
-      <TextInput v-model="lastName" label="Nachname" required type="text" placeholder="Müller" :value="lastName" @click="setDataHasChanges" />
-      <TextInput v-model="fahrtenName" label="Fahrtenname" type="text" placeholder="Schlumpf" :value="fahrtenName" @click="setDataHasChanges" />
-      <TextInput v-model="email" label="E-Mail" required type="email" placeholder="clara@müller.de" :value="email" @click="setDataHasChanges" />
+      <TextInput v-model="firstName" label="Vorname" required type="text" placeholder="Clara" :value="firstName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="lastName" label="Nachname" required type="text" placeholder="Müller" :value="lastName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="fahrtenName" label="Fahrtenname" type="text" placeholder="Schlumpf" :value="fahrtenName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="email" label="E-Mail" required type="email" placeholder="clara@müller.de" :value="email" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
     </div>
     <Divider />
     <div class="flex flex-col gap-4">
@@ -24,17 +24,17 @@
     </div>
     <Divider />
     <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="birthDate" label="Geburtsdatum" required type="date" placeholder="yyyy-mm-dd" :value="birthDate" @click="setDataHasChanges" />
+      <TextInput v-model="birthDate" label="Geburtsdatum" required type="date" placeholder="yyyy-mm-dd" :value="birthDate" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
       <DropdownInput v-model="gender" :options="genderOptionsList" label="Geschlecht" required @click="setDataHasChanges" />
     </div>
     <Divider />
     <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="streetName" label="Straße" required type="text" placeholder="Musterstraße" :value="streetName" @click="setDataHasChanges" />
-      <TextInput v-model="streetNumber" label="Hausnummer" required type="text" placeholder="Musterstraße" :value="streetNumber" @click="setDataHasChanges" />
-      <TextInput v-model="cityName" label="Stadt" required type="text" placeholder="Musterstraße" :value="cityName" @click="setDataHasChanges" />
-      <TextInput v-model="cityCode" label="PLZ" required type="text" placeholder="Musterstraße" :value="cityCode" @click="setDataHasChanges" />
-      <TextInput v-model="addressAddition" label="Addresszusatz" required type="text" placeholder="Musterstraße" :value="addressAddition" @click="setDataHasChanges" />
-      <TextInput v-model="phoneNumber" label="Telefonnummer" required type="text" placeholder="Musterstraße" :value="phoneNumber" @click="setDataHasChanges" />
+      <TextInput v-model="streetName" label="Straße" required type="text" placeholder="Musterstraße" :value="streetName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="streetNumber" label="Hausnummer" required type="text" placeholder="Musterstraße" :value="streetNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="cityName" label="Stadt" required type="text" placeholder="Musterstraße" :value="cityName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="cityCode" label="PLZ" required type="number" placeholder="Musterstraße" :value="cityCode" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="addressAddition" label="Addresszusatz" required type="text" placeholder="Musterstraße" :value="addressAddition" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="phoneNumber" label="Telefonnummer" required type="text" placeholder="Musterstraße" :value="phoneNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
     </div>
     <!-- <Divider />
     <div>
@@ -107,13 +107,15 @@ export default defineComponent({
     let profileVars = reactive({...initialState}) 
     
     let dataHasChanged = false;
+    let hasErrors = false;
 
     return { 
         store,
         profileVars,
         initialState,
         dataHasChanged,
-        user
+        user,
+        hasErrors
     }
   },
   computed: {
@@ -282,8 +284,13 @@ export default defineComponent({
       alert('Open Modal to change Profile Picture')
     },
     saveProfileChanges() {
-      const currentProfileData = this.profileVars;
-      alert(`Save following data to database: ${JSON.stringify(currentProfileData, null, 2)}`)
+      if (!this.hasErrors) {
+        const currentProfileData = this.profileVars;
+        alert(`Save following data to database: ${JSON.stringify(currentProfileData, null, 2)}`)
+      } else {
+        alert(`Änderungen können mit Fehlern nicht gespeichert werden`)
+      }
+
     },
     resetChanges() {
       Object.assign(this.profileVars, this.initialState);
@@ -291,6 +298,13 @@ export default defineComponent({
     },
     setDataHasChanges() {
       this.dataHasChanged = true;
+    },
+    handleErrorUpdate(value: number) {
+      if (value === 0) {
+        this.hasErrors = false
+      } else {
+        this.hasErrors = true
+      }
     }
   },
 
