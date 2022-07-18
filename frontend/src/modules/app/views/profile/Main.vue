@@ -30,11 +30,11 @@
     <Divider />
     <div class="grid grid-cols-2 gap-4">
       <TextInput v-model="streetName" label="Straße" required type="text" placeholder="Musterstraße" :value="streetName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="streetNumber" label="Hausnummer" required type="text" placeholder="Musterstraße" :value="streetNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="cityName" label="Stadt" required type="text" placeholder="Musterstraße" :value="cityName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="cityCode" label="PLZ" required type="number" placeholder="Musterstraße" :value="cityCode" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="addressAddition" label="Addresszusatz" required type="text" placeholder="Musterstraße" :value="addressAddition" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="phoneNumber" label="Telefonnummer" required type="text" placeholder="Musterstraße" :value="phoneNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="streetNumber" label="Hausnummer" required type="text" placeholder="48" :value="streetNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="cityName" label="Stadt" required type="text" placeholder="Köln" :value="cityName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="cityCode" label="PLZ" required type="number" placeholder="12345" :value="cityCode" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="addressAddition" label="Addresszusatz" type="text" placeholder="c/o Bauer" :value="addressAddition" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
+      <TextInput v-model="phoneNumber" label="Telefonnummer" required type="text" placeholder="+49 123 456789" :value="phoneNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
     </div>
     <!-- <Divider />
     <div>
