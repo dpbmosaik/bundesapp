@@ -1,30 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import AuthRouter from '@/modules/auth/router/index.js';
-import AdminRouter from '@/modules/admin/router';
-import DashboardRouter from '@/modules/dashboard/router';
-import EventRouter from '@/modules/event/router';
-import FinanceRouter from '@/modules/finance/router';
-import ManagementRouter from '@/modules/management/router';
-import MemberRouter from '@/modules/member/router';
-import StatisticRouter from '@/modules/statistic/router';
-import SettingsRouter from '@/modules/settings/router';
+import HomeRouter from '@/modules/home/router';
+import AppRouter from '@/modules/app/router'
 
 const routes = [
   ...AuthRouter,
-  ...AdminRouter,
-  ...DashboardRouter,
-  ...EventRouter,
-  ...FinanceRouter,
-  ...ManagementRouter,
-  ...MemberRouter,
-  ...StatisticRouter,
-  ...SettingsRouter,
+  ...AppRouter,
+  ...HomeRouter
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+const isAuthenticated = true;
+
+router.beforeEach((to, from, next) => {
+  if (to.path == '/' && isAuthenticated) {
+    next({ path: '/app' });
+  } else if (to.meta.requiresAuth && !isAuthenticated) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    next({
+      path: '/login',
+      // save the location we were at to come back later
+      query: { redirect: to.fullPath },
+    }) 
+  } else {
+    next();
+  }
+});
 
 export default router

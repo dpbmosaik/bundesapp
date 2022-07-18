@@ -6,13 +6,24 @@ module.exports = {
   theme: {
     extend: {
         fontFamily: {
-            sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+            sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        },
+        fontSize: {
+            "numbers": "var(--proto-numbers)", 
+            "h1": "var(--proto-h1)", 
+            "h2": "var(--proto-h2)", 
+            "p": "var(--proto-p)", 
+            "info": "var(--proto-info)", 
+            "description": "var(--proto-description)",
         },
         colors: {
             "dpbm-blue": "var(--dpbm-blue)",
             "dpbm-blue-light": "var(--dpbm-blue-light)",
             "dpbm-blue-dark": "var(--dpbm-blue-dark)",
-            "dpbm-yellow": "var(--dpbm-yellow)"
+            "dpbm-yellow": "var(--dpbm-yellow)",
+            "proto-lightgrey": "var(--proto-lightgrey)",
+            "proto-grey": "var(--proto-grey)",
+            "proto-darkgrey": "var(--proto-darkgrey)",
         },
         zIndex: {
             '-10': '-10',
