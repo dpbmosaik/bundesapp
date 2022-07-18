@@ -75,14 +75,12 @@
                 const inputValue = (event.target as HTMLInputElement).value
                 let errorMessage: string;
                 if(this.required) {
-
                     errorMessage = "Feld darf nicht leer sein";
                     if (!this.errors.includes(errorMessage) && !this.isFilled(inputValue)) {
                         this.errors.push(errorMessage);
                     } else if (this.errors.includes(errorMessage) && this.isFilled(inputValue)) {
                         this.errors = this.errors.filter(item => item !== errorMessage)
                     }
-                    
                 } 
                 switch (inputType) {
                     case 'text':
@@ -98,7 +96,8 @@
                         this.handleErrorMessage(this.isNumeric(inputValue), errorMessage, inputValue)
                         break;
                     case 'password':
-                        
+                        errorMessage = "Bitte mindestens acht Zeichen, mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen verwenden"
+                        this.handleErrorMessage(this.isSecurePassword(inputValue), errorMessage, inputValue)
                         break;
                     case 'url':
                         errorMessage = "Bitte eine gültige Url verwenden"
@@ -192,6 +191,13 @@
                 }
                 
                 return false
+            },
+            isSecurePassword(value: unknown) {
+                const isSecure = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/
+                if (typeof value != 'string') {
+                    return false
+                }
+                return isSecure.test(value)
             }
         }
     })
