@@ -32,7 +32,7 @@
 <script lang="ts">
 import AppIcon from "../icons/AppIcon.vue"
 export default defineComponent({
-  name: 'TertiaryButton',
+  name: 'SecondaryButton',
   components: {
     AppIcon
   },
