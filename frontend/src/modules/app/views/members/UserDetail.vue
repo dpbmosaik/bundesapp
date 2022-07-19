@@ -17,8 +17,26 @@
             <TertiaryButton :target="`mailto:${getEmail}`" icon="message">Email schreiben</TertiaryButton> <!-- mailto: Perosns Mail -->
             <TertiaryButton target="https://dpbm.de" icon="chat">Anschreiben</TertiaryButton> <!-- Opens Rocket Chat with Person -->
             <TertiaryButton target="/app/settings" icon="profile">Bearbeiten</TertiaryButton> <!-- Goes Profile Edit Page to this person -->
+            
             <TertiaryButton :target="() => openBlockAccountModal()" icon="shieldFail">Deaktivieren</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <ConfirmationModal 
+                :is-open="deactivateUserModal.isOpen"
+                :title="deactivateUserModal.title"
+                :description="deactivateUserModal.description"
+                :text="deactivateUserModal.text"
+                :action="deactivateUserModal.action"
+                @close-modal="deactivateUserModal.isOpen = false"
+            />
+
             <TertiaryButton :target="() => openDeleteAccountModal()" icon="delete">Löschen</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <ConfirmationModal 
+                :is-open="deleteUserModal.isOpen"
+                :title="deleteUserModal.title"
+                :description="deleteUserModal.description"
+                :text="deleteUserModal.text"
+                :action="deleteUserModal.action"
+                @close-modal="deleteUserModal.isOpen = false"
+            />
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
         <div class="flex flex-row flex-wrap gap-8">
@@ -95,6 +113,7 @@ import Divider from "@/components/divider/Divider.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import GroupCard from "@/components/groupCard/GroupCard.vue";
 import { allGroupTypes } from "@/types/GroupDBEntry";
+import ConfirmationModal from "@/components/modal/ConfirmationModal.vue";
 
 export default defineComponent({
     components: {
@@ -102,7 +121,8 @@ export default defineComponent({
         Tag,
         Divider,
         TertiaryButton,
-        GroupCard
+        GroupCard,
+        ConfirmationModal
     },
     props: {
         userId: {
@@ -112,7 +132,26 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        return { store }
+        const deactivateUserModal = ref({
+            isOpen: false,
+            title: 'Benutzer_innen Account deaktivieren',
+            description: `Hiermit deaktivierst du den Account für ${store.selectedMembers[0]}`,
+            text: 'Mit dem ausführen, kann diese Person ab sofort nicht mehr auf die Bundesapp zugreifen und wir von allen Geräten abgemeldet. Diese Aktion kann Rückgängig gemacht werden',
+            action: () => alert(`Deactivate User Acount with the Id: ${store.selectedMembers[0]}`)
+        });
+        const deleteUserModal = ref({
+            isOpen: false,
+            title: 'Benutzer_innen Account löschen',
+            description: `Hiermit löschst du den Account für ${store.selectedMembers[0]}`,
+            text: 'Mit dem ausführen, kann diese Person ab sofort nicht mehr auf die Bundesapp zugreifen und wir von allen Geräten abgemeldet. Diese Aktion kann nicht Rückgängig gemacht werden',
+            action: () => alert(`Delete User Acount with the Id: ${store.selectedMembers[0]}`)
+        });
+        
+        return { 
+            store,
+            deactivateUserModal,
+            deleteUserModal
+        }
     },
     computed: {
         getUser(): DummyDBEntry {
@@ -183,10 +222,10 @@ export default defineComponent({
     },
     methods: {
         openDeleteAccountModal() {
-            alert('Account Löschen')
+            this.deleteUserModal.isOpen = true;
         },
         openBlockAccountModal() {
-            alert('Account Blockieren')
+            this.deactivateUserModal.isOpen = true;
         },
         buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
             let name = "";
