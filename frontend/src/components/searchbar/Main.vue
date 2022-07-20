@@ -16,7 +16,8 @@
                               focus:border-proto-darkgrey focus:ring-0"
                         :placeholder="placeholder"
                         type="search"
-                        name="search" />
+                        name="search"
+                        @keyup.enter="search" />
             </div>
         </div>
     </div>
@@ -24,7 +25,7 @@
 
 <script lang="ts">
     import AppIcon from "../icons/AppIcon.vue"
-    export default {
+    export default defineComponent({
         name: "SearchBar",
         components: {
             AppIcon
@@ -34,6 +35,12 @@
                 type: String,
                 default: 'suchen...'
             }
+        },
+        methods: {
+            search(event: Event) {
+                console.log((event.target as HTMLInputElement).value);
+                this.$emit("search", (event.target as HTMLInputElement).value);   
+            }
         }
-    }
+    })
 </script>

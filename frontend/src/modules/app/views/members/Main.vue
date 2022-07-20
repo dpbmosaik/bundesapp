@@ -1,7 +1,7 @@
 <template lang="">
   <div class="flex flex-row h-full grow">
     <div class="basis-3/5 h-full border-r pr-8 flex flex-col gap-8 overflow-x-auto">
-      <Searchbar />
+      <Searchbar @search="" />
       <MemberList />
     </div>
     <div class="basis-2/5 h-full pl-8 overflow-y-auto">
