@@ -84,6 +84,18 @@ export const useStore = defineStore('main', {
         return (groupId: string) => method.getGroupDBEntry(groupId);
       }
     },
+    getgroupsByIdList: (state) => {
+      if (dummyGroupDB.methods !== undefined) {
+        const method = dummyGroupDB.methods;
+        return (idList: string[]) => {
+          const groups = []
+          for (const id of idList) {
+            groups.push(method.getGroupDBEntry(id))
+          }
+          return groups
+        };
+      }
+    },
     isAuth() {
       return true
     },
