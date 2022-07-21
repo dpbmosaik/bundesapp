@@ -7,24 +7,23 @@
                     <AppIcon name="search" type="light" />
                 </div>
                 <input
-                       id="desktop-search"
-                       class="block w-full py-2 pl-10 pr-3
-                            bg-white bg-opacity-20 
-                              border border-proto-lightgrey rounded-lg
-                              leading-5 font-p
-                              placeholder:font-p placeholder:text-proto-grey
-                              focus:border-proto-darkgrey focus:ring-0"
-                        :placeholder="placeholder"
-                        type="search"
-                        name="search"
-                        @keyup.enter="search" />
+                    class="block w-full py-2 pl-10 pr-3
+                        bg-white bg-opacity-20 
+                            border border-proto-lightgrey rounded-lg
+                            leading-5 font-p
+                            placeholder:font-p placeholder:text-proto-grey
+                            focus:border-proto-darkgrey focus:ring-0"
+                    :placeholder="placeholder"
+                    type="search"
+                    name="search"
+                    @keyup.enter="search" />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import AppIcon from "../icons/AppIcon.vue"
+    import AppIcon from "@/components/icons/AppIcon.vue"
     export default defineComponent({
         name: "SearchBar",
         components: {
@@ -36,10 +35,11 @@
                 default: 'suchen...'
             }
         },
+        emits: ['search'],
         methods: {
             search(event: Event) {
-                console.log((event.target as HTMLInputElement).value);
-                this.$emit("search", (event.target as HTMLInputElement).value);   
+                this.$emit("search", (event.target as HTMLInputElement).value);
+                (event.target as HTMLInputElement).value = '';
             }
         }
     })
