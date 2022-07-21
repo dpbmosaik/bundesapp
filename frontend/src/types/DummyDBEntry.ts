@@ -25,5 +25,6 @@ export default interface DummyDBEntry {
       newDueOn: string
     },
     passwordExpiration: string,
-    allergies: string[]
+    allergies: string[],
+    favoriteGroups: string[]
 };

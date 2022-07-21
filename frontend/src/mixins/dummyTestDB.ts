@@ -29,7 +29,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: 'Fehler'
     },
     passwordExpiration: 'Fehler',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "0": {
     userId: "0",
@@ -58,7 +59,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "1": {
     userId: "1",
@@ -87,7 +89,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: ['vegetarisch', 'keine Milch']
+    allergies: ['vegetarisch', 'keine Milch'],
+    favoriteGroups: ['1', '4']
   },
   "2": {
     userId: "2",
@@ -116,7 +119,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "3": {
     userId: "3",
@@ -145,7 +149,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "4": {
     userId: "4",
@@ -174,7 +179,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "5": {
     userId: "5",
@@ -203,7 +209,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "6": {
     userId: "6",
@@ -232,7 +239,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
   "7": {
     userId: "7",
@@ -261,7 +269,8 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
       newDueOn: '12.05.2023'
     },
     passwordExpiration: '12.11.2022',
-    allergies: []
+    allergies: [],
+    favoriteGroups: []
   },
 };
 
