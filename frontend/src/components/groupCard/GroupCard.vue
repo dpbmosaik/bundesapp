@@ -64,11 +64,11 @@ const cardMenu = [
         icon: 'delete',
         action: () => alert('Gruppe gelöscht')
     },
-    {
-        name: 'Bearbeiten',
-        icon: 'edit',
-        action: () => alert('Bearbeiten')
-    },
+    //{
+    //    name: 'Bearbeiten',
+    //    icon: 'edit',
+    //    action: () => alert('Bearbeiten')
+    //},
 ]
 
 export default defineComponent({
