@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 divide-y divide-proto-grey">
+    <div class="flex flex-col gap-4 divide-y divide-y-proto-grey overflow-y-auto">
         <RegisterRequestElement v-for="(request, index) in registerRequests" :key="index" :request-data="request" />
     </div>
 </template>
@@ -33,7 +33,7 @@ export default defineComponent({
                 dateOfRegistration: '22.07.2022'
             },
             {
-                userId: '13',
+                userId: '14',
                 fahrtenName: 'Li',
                 firstName: 'Lisa',
                 lastName: 'Müller',

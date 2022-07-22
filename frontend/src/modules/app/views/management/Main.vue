@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="bg-proto-lightgrey rounded-lg col-span-2 row-span-4 p-4">
-      <p class="font-h2 mb-4">Registrierungsanfragen</p>
+      <p class="font-h2 mb-2">Registrierungsanfragen</p>
       <RegisterRequestList />
     </div>
   </div>
