@@ -1,312 +1,467 @@
 <template>
+  <div class="fixed">
+    hasChanged: {{ dataHasChanged }}
+    <br />
+    hasErrors: {{ hasErrors }}
+    <br />
+    test: {{ profileVars.birthDate }}
+    <br />
+    allergies: {{ profileVars.allergies }}
+  </div>
   <div class="w-3/5 m-auto flex flex-col gap-8">
     <div class="flex flex-row gap-8 align-middle justify-center">
-      <Avatar size="big" :src="avatarURL" />
+      <Avatar size="big" :src="profileVars.avatarURL" />
       <div class="flex flex-col justify-between">
-        <SecondaryButton :target="() => changeProfilePicture()">Wechseln</SecondaryButton>
-        <TertiaryButton class="self-center" :target="() => setProfilePicturetoDefault()">Entfernen</TertiaryButton>
+        <SecondaryButton :target="() => changeProfilePicture()"
+          >Wechseln</SecondaryButton
+        >
+        <TertiaryButton
+          class="self-center"
+          :target="() => setProfilePicturetoDefault()"
+          >Entfernen</TertiaryButton
+        >
       </div>
     </div>
     <div class="flex flex-row gap-2 flex-wrap align-middle justify-center">
-      <Tag v-for="(role, index) in roles" :key="index" >{{ role }}</Tag>
+      <Tag v-for="(role, index) in profileVars.roles" :key="index">{{
+        role
+      }}</Tag>
     </div>
-    <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="firstName" label="Vorname" required type="text" placeholder="Clara" :value="firstName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="lastName" label="Nachname" required type="text" placeholder="Müller" :value="lastName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="fahrtenName" label="Fahrtenname" type="text" placeholder="Schlumpf" :value="fahrtenName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="email" label="E-Mail" required type="email" placeholder="clara@müller.de" :value="email" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-    </div>
+    <TextInputGroup
+      class="grid grid-cols-2 gap-4"
+      :input-fields="importantInputFields"
+    />
     <Divider />
     <div class="flex flex-col gap-4">
       <p class="block font-highlight text-proto-darkgrey">Passwort</p>
-      <p class="font-p">Läuft ab in {{ daysUntilPwExpiration }} Tagen, am: {{ user.passwordExpiration }}</p>
-      <PrimaryButton target="https://dpbm.de" >Jetzt ändern</PrimaryButton>
+      <p class="font-p">
+        Läuft ab in {{ daysUntilPwExpiration }} Tagen, am:
+        {{ user.passwordExpiration }}
+      </p>
+      <PrimaryButton target="https://dpbm.de">Jetzt ändern</PrimaryButton>
     </div>
     <Divider />
     <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="birthDate" label="Geburtsdatum" required type="date" placeholder="yyyy-mm-dd" :value="birthDate" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <DropdownInput v-model="gender" :options="genderOptionsList" label="Geschlecht" required @click="setDataHasChanges" />
+      <TextInput
+        v-model="profileVars.birthDate"
+        label="Geburtsdatum"
+        required
+        type="date"
+        placeholder="yyyy-mm-dd"
+        :value="profileVars.birthDate"
+        @error-occured="(eMsg) => addError('birthDate', eMsg)"
+        @error-solved="(eMsg) => removeError('birthDate', eMsg)"
+      />
+      <DropdownInput
+        v-model="profileVars.gender"
+        :options="genderOptions"
+        label="Geschlecht"
+        required
+      />
+
+        <div>
+            <label class="block font-highlight text-proto-darkgrey">
+                Allergien ({{ selectingAllergies }})
+            </label>
+            <button @click="selectingAllergies = true">click me!</button>
+            <LargeMultiselectInput :display="selectingAllergies" position="body" :fields="allergiesOptions" @close="selectingAllergies = false"/>
+        </div>
+      
     </div>
     <Divider />
+    <TextInputGroup
+      class="grid grid-cols-2 gap-4"
+      :input-fields="locationInputFields"
+    />
     <div class="grid grid-cols-2 gap-4">
-      <TextInput v-model="streetName" label="Straße" required type="text" placeholder="Musterstraße" :value="streetName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="streetNumber" label="Hausnummer" required type="text" placeholder="48" :value="streetNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="cityName" label="Stadt" required type="text" placeholder="Köln" :value="cityName" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="cityCode" label="PLZ" required type="number" placeholder="12345" :value="cityCode" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="addressAddition" label="Addresszusatz" type="text" placeholder="c/o Bauer" :value="addressAddition" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <TextInput v-model="phoneNumber" label="Telefonnummer" required type="text" placeholder="+49 123 456789" :value="phoneNumber" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-    </div>
-    <!-- <Divider />
-    <div>
-      <div class="flex flex-row gap-2 flex-wrap">
-        <Tag v-for="(allergy, index) in user.allergies" :key="index" >{{ allergy }}</Tag>
-      </div>
-      <DropdownInput v-model="gender" multiple :options="genderOptionsList" label="Allergien" required @click="setDataHasChanges" />
-    </div> -->
-    <div class="grid grid-cols-2 gap-4">
-      <SecondaryButton class="justify-self-end" :target="() => resetChanges()" :disabled="!dataHasChanged">Zurücksetzen</SecondaryButton>
-      <PrimaryButton :target="() => saveProfileChanges()" :disabled="!dataHasChanged">Speichern</PrimaryButton>
+      <SecondaryButton
+        class="justify-self-end"
+        :target="() => resetChanges()"
+        :disabled="hasErrors || (!hasErrors && !dataHasChanged)"
+        >Zurücksetzen</SecondaryButton
+      >
+      <PrimaryButton
+        :target="() => saveProfileChanges()"
+        :disabled="hasErrors || (!hasErrors && !dataHasChanged)"
+        >Speichern</PrimaryButton
+      >
     </div>
     <Divider />
     <div class="flex flex-col gap-4">
-      <p class="block font-highlight text-proto-darkgrey">Zwei-Faktor-Authentifizierung</p>
-      <PrimaryButton target="https://dpbm.de" >Hinzufügen</PrimaryButton>
+      <p class="block font-highlight text-proto-darkgrey">
+        Zwei-Faktor-Authentifizierung
+      </p>
+      <PrimaryButton target="https://dpbm.de">Hinzufügen</PrimaryButton>
     </div>
     <Divider />
     <div class="flex flex-col gap-4">
-      <p class="block font-highlight text-proto-darkgrey">Gefährlicher Bereich</p>
-      <PrimaryButton target="https://dpbm.de">Account löschen</PrimaryButton>
+      <p class="block font-highlight text-proto-darkgrey">
+        Gefährlicher Bereich
+      </p>
+      <PrimaryButton target="https://www.dpbm.de"
+        >Account löschen</PrimaryButton
+      >
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import Avatar from "@/components/Avatar/Avatar.vue"
+<script setup lang="ts">
+import Avatar from "@/components/Avatar/Avatar.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import SecondaryButton from "@/components/button/SecondaryButton.vue";
 import PrimaryButton from "@/components/button/PrimaryButton.vue";
 import Divider from "@/components/divider/Divider.vue";
-import Tag from "@/components/tag/Tag.vue"; 
+import Tag from "@/components/tag/Tag.vue";
 import TextInput from "@/components/inputs/TextInput.vue";
 import DropdownInput from "@/components/inputs/DropdownInput.vue";
+import TextInputGroup from "./TextInputGroup.vue";
+import { TextInputGroupConfig } from "./TextInputGroupConfig";
+import { computed } from "@vue/reactivity";
+import { objsAreDeeplyEqual } from "@/mixins/equalityCheckUtils";
+import LargeMultiselectInput from "@/components/inputs/LargeMultiselectInput.vue";
 
-export default defineComponent({
-  name: 'UserProfile',
-  components: {
-    Avatar,
-    TertiaryButton,
-    SecondaryButton,
-    PrimaryButton
-    //Divider,
-    //Tag,
-    //TextInput,
-    //DropdownInput
+const store = useStore();
+const user = store.getLoggedInUserData();
+
+const initialState = {
+  avatarURL: user.avatarURL,
+  roles: user.roles,
+  firstName: user.firstName,
+  lastName: user.lastName,
+  fahrtenName: user.fahrtenName,
+  email: user.email,
+  streetName: user.address.street,
+  streetNumber: user.address.number,
+  cityName: user.address.city,
+  cityCode: user.address.code,
+  addressAddition: user.address.addition,
+  phoneNumber: user.phone,
+  gender: user.gender,
+  allergies: user.allergies,
+  birthDate: user.birthdate,
+};
+
+const profileVars = reactive({ ...initialState });
+
+const currentInputErrors = reactive(new Map<string, string[]>());
+
+const selectingAllergies = ref(false);
+
+const dataHasChanged = computed(() => {
+  //get rid of proxies for property comparisons
+  const currentState = JSON.parse(JSON.stringify(profileVars));
+
+  return !objsAreDeeplyEqual(currentState, initialState);
+});
+
+const hasErrors = computed(() => {
+  const errorLists = currentInputErrors.values();
+  for (const errorList of errorLists) {
+    if (errorList.length > 0) {
+      return true;
+    }
+  }
+  return false;
+});
+
+const importantInputFields: TextInputGroupConfig = {
+  firstName: {
+    attributes: {
+      label: "Vorname",
+      required: true,
+      type: "text",
+      placeholder: "Clara",
+      get value(): string {
+        return profileVars.firstName;
+      },
+      set value(v: string) {
+        profileVars.firstName = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("firstName", eMsg),
+      errorSolved: (eMsg: string) => removeError("firstName", eMsg),
+    },
   },
+  lastName: {
+    attributes: {
+      label: "Nachname",
+      required: true,
+      type: "text",
+      placeholder: "Müller",
+      get value(): string {
+        return profileVars.lastName;
+      },
+      set value(v: string) {
+        profileVars.lastName = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("lastName", eMsg),
+      errorSolved: (eMsg: string) => removeError("lastName", eMsg),
+    },
+  },
+  fartenName: {
+    attributes: {
+      label: "Fahrtenname",
+      required: false,
+      type: "text",
+      placeholder: "Schlumpf",
+      get value(): string {
+        return profileVars.fahrtenName;
+      },
+      set value(v: string) {
+        profileVars.fahrtenName = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("fahrtenName", eMsg),
+      errorSolved: (eMsg: string) => removeError("fahrtenName", eMsg),
+    },
+  },
+  email: {
+    attributes: {
+      label: "E-Mail",
+      required: true,
+      type: "email",
+      placeholder: "clara@mueller.de",
+      get value(): string {
+        return profileVars.email;
+      },
+      set value(v: string) {
+        profileVars.email = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("email", eMsg),
+      errorSolved: (eMsg: string) => removeError("email", eMsg),
+    },
+  },
+};
 
-  setup() {
-    const store = useStore();
-    const user = store.getLoggedInUserData();
+const locationInputFields: TextInputGroupConfig = {
+  streetName: {
+    attributes: {
+      label: "Straße",
+      required: true,
+      type: "text",
+      placeholder: "Musterstraße",
+      get value(): string {
+        return profileVars.streetName;
+      },
+      set value(v: string) {
+        profileVars.streetName = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("streetName", eMsg),
+      errorSolved: (eMsg: string) => removeError("streetName", eMsg),
+    },
+  },
+  streetNumber: {
+    attributes: {
+      label: "Hausnummer",
+      required: true,
+      type: "text",
+      placeholder: "42",
+      get value(): string {
+        return profileVars.streetNumber;
+      },
+      set value(v: string) {
+        profileVars.streetNumber = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("streetNumber", eMsg),
+      errorSolved: (eMsg: string) => removeError("streetNumber", eMsg),
+    },
+  },
+  cityName: {
+    attributes: {
+      label: "Stadt",
+      required: true,
+      type: "text",
+      placeholder: "Köln",
+      get value(): string {
+        return profileVars.cityName;
+      },
+      set value(v: string) {
+        profileVars.cityName = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("cityName", eMsg),
+      errorSolved: (eMsg: string) => removeError("cityName", eMsg),
+    },
+  },
+  cityCode: {
+    attributes: {
+      label: "PLZ",
+      required: true,
+      type: "number",
+      placeholder: "12345",
+      get value(): string {
+        return profileVars.cityCode;
+      },
+      set value(v: string) {
+        profileVars.cityCode = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("cityCode", eMsg),
+      errorSolved: (eMsg: string) => removeError("cityCode", eMsg),
+    },
+  },
+  adressAddition: {
+    attributes: {
+      label: "Adresszusatz",
+      type: "text",
+      placeholder: "c/o Bauer",
+      get value(): string {
+        return profileVars.addressAddition;
+      },
+      set value(v: string) {
+        profileVars.addressAddition = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("adressAddition", eMsg),
+      errorSolved: (eMsg: string) => removeError("adressAddition", eMsg),
+    },
+  },
+  phoneNumber: {
+    attributes: {
+      label: "Telefonnummer",
+      required: true,
+      type: "tel",
+      placeholder: "+49 123 456789",
+      get value(): string {
+        return profileVars.phoneNumber;
+      },
+      set value(v: string) {
+        profileVars.phoneNumber = v;
+      },
+    },
+    events: {
+      errorOccured: (eMsg: string) => addError("phoneNumber", eMsg),
+      errorSolved: (eMsg: string) => removeError("phoneNumber", eMsg),
+    },
+  },
+};
 
-    const initialState = {
-      avatarURLVar: user.avatarURL,
-      rolesVar: user.roles,
-      firstNameVar: user.firstName,
-      lastNameVar: user.lastName,
-      fahrtenNameVar: user.fahrtenName,
-      emailVar: user.email,
-      streetNameVar: user.address.street,
-      streetNumberVar: user.address.number,
-      cityNameVar: user.address.city,
-      cityCodeVar: user.address.code,
-      addressAdditionVar: user.address.addition,
-      phoneNumberVar: user.phone,
-      genderVar: user.gender,
-      birthDateVar: user.birthdate
+const genderOptions = computed(() => {
+  const profileGender = store.getLoggedInUserData().gender;
+
+  return [
+    {
+      value: "diverse",
+      text: "Divers",
+      selected: profileGender === "diverse",
+    },
+    {
+      value: "female",
+      text: "Weiblich",
+      selected: profileGender === "female",
+    },
+    {
+      value: "male",
+      text: "Männlich",
+      selected: profileGender === "male",
+    },
+  ];
+});
+
+const allergiesOptions = computed(() => {
+    const allAllergies = ['vegetarisch', 'keine Milch', 'Weizen', 'Gluten', 'Laktose'];
+    const result = {};
+    for (const allergy of allAllergies) {
+        result[allergy] = profileVars.allergies.includes(allergy);
     }
 
-    let profileVars = reactive({...initialState}) 
-    
-    let dataHasChanged = false;
-    let hasErrors = false;
-
-    return { 
-        store,
-        profileVars,
-        initialState,
-        dataHasChanged,
-        user,
-        hasErrors
-    }
-  },
-  computed: {
-    genderOptionsList() {
-      const options = [
-        {
-          value: 'diverse',
-          text: 'D',
-          selected: false
-        },
-        {
-          value: 'female',
-          text: 'W',
-          selected: false
-        },
-        {
-          value: 'male',
-          text: 'M',
-          selected: false
-        },
-      ];
-      const profileGender = this.store.getLoggedInUserData().gender;
-
-      for (const option of options) {
-        if (option.value === profileGender) {
-           option.selected = true
+    const proxiedResult = new Proxy(result, {
+        get (target, name, receiver) {
+            //todo
         }
-      }
-      return options
-    },
-    allergiesOptionsList() {
-      return ''
-    },
-    firstName: {
-      get() {
-        return this.profileVars.firstNameVar
-      },
-      set(newVal: string) {
-        this.profileVars.firstNameVar = newVal as string
-      }
-    },
-    lastName: {
-      get() {
-        return this.profileVars.lastNameVar
-      },
-      set(newVal: string) {
-        this.profileVars.lastNameVar = newVal
-      }
-    },
-    avatarURL: {
-      get() {
-        return this.profileVars.avatarURLVar
-      },
-      set(newVal: string) {
-        this.profileVars.avatarURLVar = newVal
-      }
-    },
-    roles: {
-      get(): string[] {
-        return this.profileVars.rolesVar
-      },
-      set(newVal: string[]) {
-        this.profileVars.rolesVar = newVal
-      }
-    },
-    fahrtenName: {
-      get(): string {
-        return this.profileVars.fahrtenNameVar
-      },
-      set(newVal: string) {
-        this.profileVars.fahrtenNameVar = newVal
-      }
-    },
-    email: {
-      get(): string {
-        return this.profileVars.emailVar
-      },
-      set(newVal: string) {
-        this.profileVars.emailVar = newVal
-      }
-    },
-    streetName: {
-      get(): string {
-        return this.profileVars.streetNameVar
-      },
-      set(newVal: string) {
-        this.profileVars.streetNameVar = newVal
-      }
-    },
-    streetNumber: {
-      get(): string {
-        return this.profileVars.streetNumberVar
-      },
-      set(newVal: string) {
-        this.profileVars.streetNumberVar = newVal
-      }
-    },
-    cityName: {
-      get(): string {
-        return this.profileVars.cityNameVar
-      },
-      set(newVal: string) {
-        this.profileVars.cityNameVar = newVal
-      }
-    },
-    cityCode: {
-      get(): string {
-        return this.profileVars.cityCodeVar
-      },
-      set(newVal: string) {
-        this.profileVars.cityCodeVar = newVal
-      }
-    },
-    addressAddition: {
-      get(): string {
-        return this.profileVars.addressAdditionVar
-      },
-      set(newVal: string) {
-        this.profileVars.addressAdditionVar = newVal
-      }
-    },
-    phoneNumber: {
-      get(): string {
-        return this.profileVars.phoneNumberVar
-      },
-      set(newVal: string) {
-        this.profileVars.phoneNumberVar = newVal
-      }
-    },
-    gender: {
-      get(): string {
-        return this.profileVars.genderVar
-      },
-      set(newVal: "male" | "female" | "diverse") {
-        this.profileVars.genderVar = newVal
-      }
-    },
-    birthDate: {
-      get(): string {
-        return this.profileVars.birthDateVar
-      },
-      set(newVal: string) {
-        this.profileVars.birthDateVar = newVal
-      }
-    },
-    daysUntilPwExpiration() {
-      const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-      function dateDiffInDays(a: Date, b: Date) {
-        // Discard the time and time-zone information.
-        const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-        const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-        return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-      }
+    })
 
-      const expirationDate = new Date(this.user.passwordExpiration);
-      const today = new Date();
 
-      return dateDiffInDays(today, expirationDate);
-    }
-  },
-  methods: {
-    setProfilePicturetoDefault() {
-      alert('Open Modal to ask for confirmation to set image to default')
-    },
-    changeProfilePicture() {
-      alert('Open Modal to change Profile Picture')
-    },
-    saveProfileChanges() {
-      if (!this.hasErrors) {
-        const currentProfileData = this.profileVars;
-        alert(`Save following data to database: ${JSON.stringify(currentProfileData, null, 2)}`)
-      } else {
-        alert(`Änderungen können mit Fehlern nicht gespeichert werden`)
-      }
+    return result;
+});
 
-    },
-    resetChanges() {
-      Object.assign(this.profileVars, this.initialState);
-      this.dataHasChanged = false;
-    },
-    setDataHasChanges() {
-      this.dataHasChanged = true;
-    },
-    handleErrorUpdate(value: number) {
-      if (value === 0) {
-        this.hasErrors = false
-      } else {
-        this.hasErrors = true
-      }
-    }
-  },
+const daysUntilPwExpiration = computed(() => {
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dateDiffInDays(a: Date, b: Date): number {
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
 
-})
+  const expirationDate = new Date(user.passwordExpiration);
+  //todo this.user.passwordExpiration has invalid form for Date
+  const today = new Date();
+
+  return dateDiffInDays(today, expirationDate);
+});
+
+function setProfilePicturetoDefault() {
+  //todo what is default icon? ui-avatars.com
+  alert("Open Modal to ask for confirmation to set image to default");
+}
+
+function changeProfilePicture() {
+  //todo how to change icon via api (not possible in anmelde-tool)
+  alert("Open Modal to change Profile Picture");
+}
+
+function addError(fieldId: string, eMsg: string) {
+  if (!currentInputErrors.has(fieldId)) {
+    currentInputErrors.set(fieldId, []);
+  }
+  const errors = currentInputErrors.get(fieldId);
+  if (errors === undefined) {
+    console.error(
+      "somehow inputErrors entry managed to lose its array, fieldId: " + fieldId
+    );
+    return;
+  }
+  if (!errors.includes(eMsg)) {
+    errors.push(eMsg);
+  }
+}
+
+function removeError(fieldId: string, eMsg: string) {
+  const errors = currentInputErrors.get(fieldId);
+  if (errors === undefined) {
+    console.error(
+      "trying to remove error from empty field list, fieldId: " + fieldId
+    );
+    return;
+  }
+
+  currentInputErrors.set(
+    fieldId,
+    errors.filter((item) => item !== eMsg)
+  );
+}
+
+function saveProfileChanges() {
+  /**
+   * request to api.anmelde-tool.de/auth/personal-data
+   * POST with object consisting of account properties
+   * todo exact object structure
+   */
+  const currentProfileData = profileVars;
+  alert(
+    `Save following data to database: ${JSON.stringify(
+      currentProfileData,
+      null,
+      2
+    )}`
+  );
+}
+
+function resetChanges() {
+  Object.assign(profileVars, initialState);
+}
 </script>
