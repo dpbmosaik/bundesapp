@@ -1,15 +1,15 @@
 <template>
-    <RadioGroup  v-model="selected" class="overflow-x-auto flex flex-col gap-8">
+    <RadioGroup v-model="selected" class="overflow-x-auto flex flex-col gap-8">
         <RadioGroupLabel class="sr-only">Gruppenauswahl</RadioGroupLabel>
-        <div v-if="favoriteGroups.length" class="grid grid-cols-2 gap-6">
+        <div v-if="(favoriteGroups.length && !filterStrings.length)" class="grid grid-cols-2 gap-6">
             <RadioGroupOption v-for="(group, index) in favoriteGroups" :key="index" v-slot="{ checked }" :value="group.groupId">
                 <GroupCard :group-data="group" :checked="checked" interactive is-favorite />
             </RadioGroupOption>
         </div>
-        <Divider v-if="favoriteGroups.length" />
+        <Divider v-if="(favoriteGroups.length && !filterStrings.length)" />
         <div v-if="filteredGroups.length" class="grid grid-cols-2 gap-6">
             <RadioGroupOption v-for="(group, index) in filteredGroups" :key="index" v-slot="{ checked }" :value="group.groupId">
-                <GroupCard :group-data="group" :checked="checked" interactive/>
+                <GroupCard :group-data="group" :checked="checked" interactive />
             </RadioGroupOption>
         </div>
         <div v-else>
@@ -64,8 +64,8 @@ export default defineComponent({
             groups = groups.filter((group : allGroupTypes) => {
                 const user = this.store.getLoggedInUserData();
                 const favoriteGroupIds = user.favoriteGroups;
-                if (favoriteGroupIds.includes(group.groupId)) {
-                    return false // remove groups from normal list that are favorites
+                if (favoriteGroupIds.includes(group.groupId) && !this.filterStrings.length) {
+                    return false // remove groups from normal list that are favorites except when theres a search request
                 }
 
                 const type = group.type;
