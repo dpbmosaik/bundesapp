@@ -6,7 +6,7 @@
             <p class="font-p py-2">{{ requestData.stamm }}</p>
             <p class="font-p py-2">{{ requestData.stammesgroup }}</p>
         </div>
-        <div class="flex flex-col gap-8 items-end pl-8">
+        <div class="flex flex-col gap-8 items-center pl-8">
             <TertiaryButton :target="() => openUserDetail()">Details ansehen</TertiaryButton>
             <PrimaryButton :target="() => acceptUser()">Akzeptieren</PrimaryButton>
         </div>
