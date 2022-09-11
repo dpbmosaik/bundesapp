@@ -14,8 +14,8 @@ auth.interceptorsSetup();
 
 const option = {
   init: {
-    onLoad: 'check-sso',
-    checkLoginIframe: false,
+    onLoad: 'login-required',
+    checkLoginIframe: true,
   },
 
   config: {
