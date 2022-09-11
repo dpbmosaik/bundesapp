@@ -1,0 +1,82 @@
+
+export interface AppIconType {
+    "bold": {
+        "arrowDownCircle": string
+        "arrowUpCircle": string
+        "bookmark": string
+        "calendar": string
+        "category": string
+        "chat": string
+        "danger": string
+        "discovery": string
+        "document": string
+        "download": string
+        "filter": string
+        "graph": string
+        "heart": string
+        "infoSquare": string
+        "notification": string
+        "paper": string
+        "password": string
+        "profile": string
+        "shieldFail": string
+        "threeUser": string
+        "minusSquare": string
+        "tickSquare": string
+        "wallet": string
+        "work": string
+    },
+    "light": {
+        "arrowDown": string
+        "arrowDownCircle": string
+        "arrowRight": string
+        "arrowUp": string
+        "arrowLeft": string
+        "bookmark": string
+        "calendar": string
+        "category": string
+        "chat": string
+        "closeSquare": string
+        "danger": string
+        "discovery": string
+        "document": string
+        "edit": string
+        "filter": string
+        "folder": string
+        "graph": string
+        "heart": string
+        "hide": string
+        "home": string
+        "infoSqaure": string
+        "location": string
+        "login": string
+        "logout": string
+        "message": string
+        "moreSqaure": string
+        "notification": string
+        "paper": string
+        "password": string
+        "plus": string
+        "profile": string
+        "search": string
+        "setting": string
+        "shieldFail": string
+        "show": string
+        "star": string
+        "swap": string
+        "emptySquare": string
+        "threeUser": string
+        "ticksquare": string
+        "ticketStar": string
+        "timeCircle": string
+        "wallet": string
+        "work": string
+    },
+    "social": {
+        "github": string
+        "instagram": string
+    },
+    "fallback": {
+        "icon": string
+    }
+}
