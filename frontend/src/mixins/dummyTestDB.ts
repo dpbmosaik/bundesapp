@@ -10,87 +10,285 @@ const dummyTestDB: { [key: string]: DummyDBEntry } = {
     stamm: "Fehler",
     roles: [],
     avatarURL: "",
+    email: 'Fehler',
+    phone: 'Fehler',
+    address: {
+      street: 'Fehler',
+      number: 'Fehler',
+      city: 'Fehler',
+      code: 'Fehler',
+      addition: 'Fehler'
+    },
+    bundespostDigital: true,
+    gender: 'diverse',
+    birthdate: 'Fehler',
+    groups: [],
+    criminalRecordDates: {
+      lastValidIssued: 'Fehler',
+      inspection: 'Fehler',
+      newDueOn: 'Fehler'
+    },
+    passwordExpiration: 'Fehler',
+    allergies: [],
+    favoriteGroups: []
   },
   "0": {
     userId: "0",
-    fahrtenName: "",
-    firstName: "Hans",
-    lastName: "Peter",
+    fahrtenName: "Herkules",
+    firstName: "Wolfgang",
+    lastName: "Johannisburgers",
     stamm: "Silberfüchse",
-    roles: ["Chef von allem"],
-    avatarURL: "",
+    roles: ["Stammesführer_in"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: 'c/o Bauer'
+    },
+    bundespostDigital: true,
+    gender: 'male',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "1": {
     userId: "1",
-    fahrtenName: "Fahrtenname",
-    firstName: "Max",
-    lastName: "Mustermann",
+    fahrtenName: "",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["A", "B", "C"],
-    avatarURL: "",
+    roles: ["Stammesführer_in"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: 'c/o Bauer'
+    },
+    bundespostDigital: true,
+    gender: 'male',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: ['vegetarisch', 'keine Milch'],
+    favoriteGroups: ['1', '4']
   },
   "2": {
     userId: "2",
-    fahrtenName: "",
-    firstName: "Hans",
-    lastName: "Peter",
+    fahrtenName: "Schlumpf",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["Chef von allem"],
-    avatarURL: "",
+    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung", "Meutenführer_in"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: ''
+    },
+    bundespostDigital: true,
+    gender: 'male',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "3": {
     userId: "3",
-    fahrtenName: "Fahrtenname",
-    firstName: "Max",
-    lastName: "Mustermann",
+    fahrtenName: "",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["A", "B", "C"],
-    avatarURL: "",
+    roles: ["Stammesführer_in"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: ''
+    },
+    bundespostDigital: false,
+    gender: 'female',
+    birthdate: '1997-10-01',
+    groups: ['6'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "4": {
     userId: "4",
     fahrtenName: "",
-    firstName: "Hans",
-    lastName: "Peter",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["Chef von allem"],
-    avatarURL: "",
+    roles: ["Stammesführer_in"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: ''
+    },
+    bundespostDigital: false,
+    gender: 'diverse',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "5": {
     userId: "5",
-    fahrtenName: "Fahrtenname",
-    firstName: "Max",
-    lastName: "Mustermann",
+    fahrtenName: "Schlumpf",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["A", "B", "C"],
-    avatarURL: "",
+    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: ''
+    },
+    bundespostDigital: false,
+    gender: 'diverse',
+    birthdate: '1997-10-01',
+    groups: ['1'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "6": {
     userId: "6",
-    fahrtenName: "",
-    firstName: "Hans",
-    lastName: "Peter",
+    fahrtenName: "Schlumpf",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["Chef von allem"],
-    avatarURL: "",
+    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: ''
+    },
+    bundespostDigital: false,
+    gender: 'male',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
   "7": {
     userId: "7",
-    fahrtenName: "Fahrtenname",
-    firstName: "Max",
-    lastName: "Mustermann",
+    fahrtenName: "Schlumpf",
+    firstName: "Lindsay",
+    lastName: "Walton",
     stamm: "Silberfüchse",
-    roles: ["A", "B", "C"],
-    avatarURL: "",
+    roles: ["Stammesführer_in", "Sippenführer_in", "Referent_in der Bundesführung"],
+    avatarURL: getPlaceholderAvatar(),
+    email: 'herkules@bundesapp.org',
+    phone: '+49 123 456789',
+    address: {
+      street: 'Liebigstraße',
+      number: '4',
+      city: 'Köln',
+      code: '12345',
+      addition: 'c/o Bauer'
+    },
+    bundespostDigital: false,
+    gender: 'male',
+    birthdate: '1997-10-01',
+    groups: ['0', '1', '2'],
+    criminalRecordDates: {
+      lastValidIssued: '13.05.2021',
+      inspection: '15.05.2021',
+      newDueOn: '12.05.2023'
+    },
+    passwordExpiration: '12.11.2022',
+    allergies: [],
+    favoriteGroups: []
   },
 };
+
+function getPlaceholderAvatar() {
+  const firstName = 'John';
+  const lastName = 'Doe';
+  const size = '128';
+  return `https://ui-avatars.com/api/?background=3B3B3B&color=fff&size=${size}&name=${firstName}+${lastName}`
+}
 
 export default defineComponent({
   methods: {
     hasUserDBEntry(userId: string): boolean {
+      // eslint-disable-next-line security/detect-object-injection
       return dummyTestDB[userId] !== undefined;
     },
     getUserDBEntry(userId: string): DummyDBEntry | null {
+      // eslint-disable-next-line security/detect-object-injection
       return dummyTestDB[userId] || null;
     },
     getUserSafely(userId: string | undefined): DummyDBEntry {
@@ -98,7 +296,8 @@ export default defineComponent({
       if (userId === undefined) {
         return errorUser;
       }
-      const wantedUser = dummyTestDB[userId];
+      // eslint-disable-next-line security/detect-object-injection
+      const wantedUser = dummyTestDB[userId];     
       if (wantedUser === undefined) {
         return errorUser;
       } else {
@@ -122,7 +321,20 @@ export default defineComponent({
       return user.roles.join(", ");
     },
     getAllUserIds(): string[] {
-      return Object.keys(dummyTestDB);
+      return Object.keys(dummyTestDB).filter(key => key != 'fehlerUser');
     },
+    getUserListsById(userIds: string[]) {
+      const userArray = [];
+     
+      for (const userId of userIds) {
+        const user = this.getUserSafely(userId);
+        userArray.push({
+          id: userId,
+          name: this.buildFullName(user),
+          avatar: user.avatarURL
+        })
+      }
+      return userArray
+    }
   },
 });

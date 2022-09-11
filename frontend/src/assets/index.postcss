@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    /* colors */
+    --dpbm-blue: #1a4b7e;
+    --dpbm-blue-light: #1d61aa;
+    --dpbm-blue-dark: #133861;
+    --dpbm-yellow: rgba(255,163,0,1);
+    --proto-lightgrey: #F3F3F3;
+    --proto-grey: #C4C4C4;
+    --proto-darkgrey: #3B3B3B;
+    --proto-lightred: #FEE2E2;
+    --proto-red: #DC2626;
+
+    /* font sizes */
+    --proto-numbers: 2.5rem;
+    --proto-h1: 1.5rem;
+    --proto-h2: 1.125rem;
+    --proto-p: 1rem;
+    --proto-info: 0.875rem;
+    --proto-description: 0.75rem;
+  }
+
+  @layer components {
+    .font-numbers {
+        @apply font-sans text-proto-darkgrey font-semibold text-numbers;
+    }
+    .font-h1 {
+        @apply font-sans text-proto-darkgrey font-semibold text-h1;
+    }
+    .font-h2 {
+        @apply font-sans text-proto-darkgrey font-semibold text-h2;
+    }
+    .font-h3 {
+        @apply font-sans text-proto-darkgrey font-normal text-h2;
+    }
+    .font-highlight {
+        @apply font-sans text-proto-darkgrey font-medium text-p;
+    }
+    .font-p {
+        @apply font-sans text-proto-darkgrey font-normal text-p;
+    }
+    .font-underlined {
+        @apply font-sans text-proto-darkgrey font-normal underline text-p;
+    }
+    .font-listtitle {
+        @apply font-sans text-proto-darkgrey font-medium text-info;
+    }
+    .font-info {
+        @apply font-sans text-proto-darkgrey font-semibold text-info;
+    }
+    .font-infonumber {
+        @apply font-sans text-proto-darkgrey font-medium text-description;
+    }
+    .font-description {
+        @apply font-sans text-proto-darkgrey font-normal text-description;
+    }
+}
