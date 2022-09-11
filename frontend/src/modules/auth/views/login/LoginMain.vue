@@ -18,26 +18,17 @@
 </template>
 
 
-<script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: "LogIn",
-  components: {},
-  setup() {
-    return {};
-  },
-  data() {
-    return {
-      email: "",
-      password: "",
-      rememberMe: false,
-    };
-  },
-  methods: {
-    onLoginClicked: function () {
-    },
-  },
-};
+<script lang="ts">
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'App',
+  setup () {
+    // Should work referencing custom property on 'this' in typescript
+    function onLoginClicked() {
+      console.log('App created', this.$keycloak)
+      this.$keycloak.login()
+    }
+    return [onLoginClicked]
+  }
+});
 </script>

@@ -142,10 +142,8 @@
     setup() {
 
       const onLogoutClicked = () => {
-        debugger;
       };
       const onLoginClicked = () => {
-        debugger;
       };
 
       return {

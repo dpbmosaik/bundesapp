@@ -25,7 +25,7 @@
     <Divider />
     <div class="grid grid-cols-2 gap-4">
       <TextInput v-model="birthDate" label="Geburtsdatum" required type="date" placeholder="yyyy-mm-dd" :value="birthDate" @click="setDataHasChanges" @error-update="handleErrorUpdate" />
-      <DropdownInput v-model="gender" :options="genderOptionsList" label="Geschlecht" required @click="setDataHasChanges" />
+      <DropdownInput v-model="gender" :options="getGenderOptionsMap" label="Geschlecht" required @click="setDataHasChanges" />
     </div>
     <Divider />
     <div class="grid grid-cols-2 gap-4">
@@ -61,6 +61,9 @@
 </template>
 
 <script lang="ts">
+import { ref, onBeforeUpdate, onMounted } from 'vue'
+import {mapState} from 'pinia'
+import { mappingDataStore } from "@/store/mappingDataStore";
 import Avatar from "@/components/Avatar/Avatar.vue"
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import SecondaryButton from "@/components/button/SecondaryButton.vue";
@@ -109,6 +112,12 @@ export default defineComponent({
     let dataHasChanged = false;
     let hasErrors = false;
 
+    onMounted(() => {
+      const mappingStore = mappingDataStore()
+      mappingStore.fetchScoutHierarchy();
+      mappingStore.fetchGender();
+    })
+
     return { 
         store,
         profileVars,
@@ -119,33 +128,7 @@ export default defineComponent({
     }
   },
   computed: {
-    genderOptionsList() {
-      const options = [
-        {
-          value: 'diverse',
-          text: 'D',
-          selected: false
-        },
-        {
-          value: 'female',
-          text: 'W',
-          selected: false
-        },
-        {
-          value: 'male',
-          text: 'M',
-          selected: false
-        },
-      ];
-      const profileGender = this.store.getLoggedInUserData().gender;
-
-      for (const option of options) {
-        if (option.value === profileGender) {
-           option.selected = true
-        }
-      }
-      return options
-    },
+    ...mapState(mappingDataStore, ['getScoutHierarchyMap', 'getGenderOptionsMap']),
     allergiesOptionsList() {
       return ''
     },

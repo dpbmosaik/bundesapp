@@ -4,9 +4,14 @@ import App from "./App.vue";
 import router from "./router";
 import { createHead } from "@vueuse/head";
 import "./assets/index.postcss";
-import VueKeycloakJs from '@dsb-norge/vue-keycloak-js'
-import {VueKeycloakInstance} from "@dsb-norge/vue-keycloak-js/dist/types";
-import {KeycloakInstance} from "keycloak-js";
+
+import VueKeyCloak from '@dsb-norge/vue-keycloak-js'
+import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types"
+import keycl from './auth/keycloak'; // @ts-ignore
+import auth from './auth'; // @ts-ignore
+
+auth.interceptorsSetup();
+
 const option = {
   init: {
     onLoad: 'check-sso',
@@ -18,25 +23,34 @@ const option = {
     realm: import.meta.env.VITE_APP_KEYCLOAK_REALM,
     clientId: import.meta.env.VITE_APP_KEYCLOAK_CLIENT_ID,
   },
-  onReady (keycloak: KeycloakInstance) {
-    console.log('Keycloak ready', keycloak)
+  onReady (keycloak: VueKeycloakInstance) {
+    keycloak.loadUserProfile().then((userInfo) => { // @ts-ignore
+      if (userInfo) {
+        keycl.saveUserInfoInStore(userInfo)
+        keycl.saveAuthInfoInStore(keycloak)
+      } else {
+        router.push('login')
+      }
+    });
   },
-  onInitError (keycloak: KeycloakInstance) {
-    console.log('Keycloak Fehler', keycloak)
+  onInitError (keycloak: VueKeycloakInstance) {
+    console.log('Keycloak FehlerVueKeyCloakInstance keycloak')
   }
 }
 
 const head = createHead();
-const app = createApp(App)
+console.log(option)
+const app = createApp(App).use(VueKeyCloak, option)
 
 app.use(createPinia());
 app.use(router);
 app.use(head);
 
 app.mount("#app");
+
+// Allow usage of this.$keycloak in components
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties  {
     $keycloak: VueKeycloakInstance
   }
 }
-
