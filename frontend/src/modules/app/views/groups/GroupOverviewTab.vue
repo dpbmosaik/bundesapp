@@ -7,6 +7,22 @@
                     <button @click="() => editGroupName()">
                         <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
                     </button>
+
+                    <ModalWithSlot
+                        :is-open="renameGroupModal.isOpen"
+                        @close-modal="renameGroupModal.isOpen = false"
+                    >
+                        <p class="font-h2">{{ `Namensänderung für ${groupPrefix} ${groupData.name}` }}</p>
+                        <div class="flex flex-row items-end gap-3">
+                            <span class="pb-2 font-p">{{`${groupPrefix}`}}</span>
+                            <TextInput v-model="newGroupName" class="grow" label="Neuer Gruppenname" required type="text" placeholder="Neuer Name..." :value="newGroupName" />
+                        </div>
+                        <div class="flex flex-row gap-4 justify-center mt-8">
+                            <SecondaryButton :target="() => {renameGroupModal.isOpen = false; newGroupName = '';}">Abbrechen</SecondaryButton>
+                            <PrimaryButton :target="() => handleNameSave()">Speichern</PrimaryButton>
+                        </div>
+                    </ModalWithSlot>
+
                     <button @click="() => markGroupAsFavorit()">
                         <AppIcon name="heart" type="light" color="#C4C4C4" hover/>
                     </button>
@@ -109,6 +125,8 @@ import GroupUserList from "./GroupUserList.vue";
 import TertiaryButton from '@/components/button/TertiaryButton.vue';
 import GroupCard from '@/components/groupCard/GroupCard.vue';
 import GroupServiceElement from "./GroupServiceElement.vue";
+import ModalWithSlot from "@/components/modal/ModalWithSlot.vue";
+import TextInput from "@/components/inputs/TextInput.vue";
 
 export default defineComponent({
     components: {
@@ -117,7 +135,9 @@ export default defineComponent({
         GroupUserList,
         TertiaryButton,
         GroupCard,
-        GroupServiceElement
+        GroupServiceElement,
+        ModalWithSlot,
+        TextInput
     },
     props: {
         groupData: {
@@ -127,8 +147,17 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
+
+        const renameGroupModal = ref({
+            isOpen: false,
+        });
+
+        const newGroupName = ref('');
+
         return { 
             store,
+            renameGroupModal,
+            newGroupName
         }
     },
     computed: {
@@ -190,14 +219,13 @@ export default defineComponent({
             }
             return groupList
         },
-
     },
     methods: {
         markGroupAsFavorit() {
             alert(`Group with id ${this.groupData?.groupId} marked as favorite`)
         },
         editGroupName() {
-            alert(`Edit Groupname with id ${this.groupData?.groupId}`)
+            this.renameGroupModal.isOpen = true
         },
         setGroupAvatarToStandard() {
             alert('Open Modal to ask for confirmation to set avatar to standard')
@@ -219,6 +247,11 @@ export default defineComponent({
         },
         joinArrayToList(arr: string[]) {
             return arr.join(', ')
+        },
+        handleNameSave() {
+            alert(`Save new Groupname "${this.newGroupName}" for group with id ${this.groupData?.groupId}`)
+            this.newGroupName = '';
+            this.renameGroupModal.isOpen = false;
         }
     },
 
