@@ -45,7 +45,7 @@
     } from '@headlessui/vue'
 
     export default defineComponent({
-        name: "ModalOverlay",
+        name: "ModalOverlaySlot",
         components: {
             Dialog,
             DialogPanel,
