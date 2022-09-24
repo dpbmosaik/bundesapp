@@ -3,29 +3,22 @@
         <div class="flex flex-row justify-between gap-8">
             <div class="flex flex-col ">
                 <div class="flex flex-row gap-4">
-                    <p class="font-h2">{{ `${groupPrefix}${groupData.name}` }}</p>
-                    <button @click="() => editGroupName()">
-                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
-                    </button>
+                    <p class="font-h2">{{ `${groupNameWithPrefix}` }}</p>
 
-                    <ModalWithSlot
-                        :is-open="renameGroupModal.isOpen"
-                        @close-modal="renameGroupModal.isOpen = false"
-                    >
-                        <p class="font-h2">{{ `Namensänderung für ${groupPrefix} ${groupData.name}` }}</p>
-                        <div class="flex flex-row items-end gap-3">
-                            <span class="pb-2 font-p">{{`${groupPrefix}`}}</span>
-                            <TextInput v-model="newGroupName" class="grow" label="Neuer Gruppenname" required type="text" placeholder="Neuer Name..." :value="newGroupName" />
-                        </div>
-                        <div class="flex flex-row gap-4 justify-center mt-8">
-                            <SecondaryButton :target="() => {renameGroupModal.isOpen = false; newGroupName = '';}">Abbrechen</SecondaryButton>
-                            <PrimaryButton :target="() => handleNameSave()">Speichern</PrimaryButton>
-                        </div>
-                    </ModalWithSlot>
+                    <button @click="() => renameGroupModalIsOpen = true">
+                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
+                        <RenameGroupModal
+                            :is-open="renameGroupModalIsOpen"
+                            :group-name="groupNameWithPrefix"
+                            :group-id="groupData.groupId"
+                            @close-modal="renameGroupModalIsOpen=false"
+                        />
+                    </button>
 
                     <button @click="() => markGroupAsFavorit()">
                         <AppIcon name="heart" type="light" color="#C4C4C4" hover/>
                     </button>
+
                 </div>
                 <div class="flex flex-col h-full justify-end">
                     <p class="font-info text-proto-grey font-normal">{{ `Zuletzt bearbeitet am ${groupData.lastEditedAt} von ${groupData.lastEditedByUser}` }}</p>
@@ -34,12 +27,25 @@
             </div>
             <div class="flex flex-row gap-4">
                 <div class="flex flex-col gap-4">
-                    <button @click="() => setGroupAvatarToStandard()">
+
+                    <button @click="() => setGroupAvatarToStandardModalIsOpen=true">
                         <AppIcon name="closeSquare" type="light" color="#C4C4C4" hover/>
+                        <ResetGroupAvatarModal
+                            :is-open="setGroupAvatarToStandardModalIsOpen"
+                            :group-id="groupData.groupId"
+                            @close-modal="setGroupAvatarToStandardModalIsOpen=false"
+                        />
                     </button>
-                    <button @click="() => changeGroupAvatar()">
+
+                    <button @click="() => changeGroupAvatarModalIsOpen=true">
                         <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
+                        <ChangeGroupAvatarModal 
+                            :is-open="changeGroupAvatarModalIsOpen"
+                            :group-id="groupData.groupId"
+                            @close-modal="changeGroupAvatarModalIsOpen=false"
+                        />
                     </button>
+
                 </div>
                 <div class="h-36 w-36 rounded-lg overflow-clip">
                     <img class="h-full w-full" :src="groupData.groupAvatar" alt="Avatar" />
@@ -125,8 +131,9 @@ import GroupUserList from "./GroupUserList.vue";
 import TertiaryButton from '@/components/button/TertiaryButton.vue';
 import GroupCard from '@/components/groupCard/GroupCard.vue';
 import GroupServiceElement from "./GroupServiceElement.vue";
-import ModalWithSlot from "@/components/modal/ModalWithSlot.vue";
-import TextInput from "@/components/inputs/TextInput.vue";
+import RenameGroupModal from "./modals/RenameGroupModal.vue";
+import ResetGroupAvatarModal from "./modals/ResetGroupAvatarModal.vue";
+import ChangeGroupAvatarModal from "./modals/ChangeGroupAvatarModal.vue";
 
 export default defineComponent({
     components: {
@@ -136,8 +143,9 @@ export default defineComponent({
         TertiaryButton,
         GroupCard,
         GroupServiceElement,
-        ModalWithSlot,
-        TextInput
+        RenameGroupModal,
+        ResetGroupAvatarModal,
+        ChangeGroupAvatarModal
     },
     props: {
         groupData: {
@@ -148,16 +156,15 @@ export default defineComponent({
     setup() {
         const store = useStore();
 
-        const renameGroupModal = ref({
-            isOpen: false,
-        });
-
-        const newGroupName = ref('');
+        const renameGroupModalIsOpen = ref(false);
+        const setGroupAvatarToStandardModalIsOpen = ref(false);
+        const changeGroupAvatarModalIsOpen = ref(false);
 
         return { 
             store,
-            renameGroupModal,
-            newGroupName
+            renameGroupModalIsOpen,
+            setGroupAvatarToStandardModalIsOpen,
+            changeGroupAvatarModalIsOpen
         }
     },
     computed: {
@@ -189,12 +196,12 @@ export default defineComponent({
             }
             return false
         },
-        groupPrefix() {
+        groupNameWithPrefix() {
             const type = this.groupData?.type
             if (type === 'Rollen' || type === 'Individuell') {
-                return ''
+                return '' + this.groupData?.name
             } else {
-                return `${type} `
+                return `${type} ${this.groupData?.name}`
             }
         },
         groupLeadRoleName() {
@@ -224,15 +231,6 @@ export default defineComponent({
         markGroupAsFavorit() {
             alert(`Group with id ${this.groupData?.groupId} marked as favorite`)
         },
-        editGroupName() {
-            this.renameGroupModal.isOpen = true
-        },
-        setGroupAvatarToStandard() {
-            alert('Open Modal to ask for confirmation to set avatar to standard')
-        },
-        changeGroupAvatar() {
-            alert('Open Modal to change group Avatar')
-        },
         addUserToLead() {
             alert('Open Something to add new user to Lead');
         },
@@ -247,11 +245,6 @@ export default defineComponent({
         },
         joinArrayToList(arr: string[]) {
             return arr.join(', ')
-        },
-        handleNameSave() {
-            alert(`Save new Groupname "${this.newGroupName}" for group with id ${this.groupData?.groupId}`)
-            this.newGroupName = '';
-            this.renameGroupModal.isOpen = false;
         }
     },
 

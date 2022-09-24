@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     ConfirmationModal: typeof import('./src/components/modal/ConfirmationModal.vue')['default']
     Divider: typeof import('./src/components/divider/Divider.vue')['default']
     DropdownInput: typeof import('./src/components/inputs/DropdownInput.vue')['default']
+    FileInput: typeof import('./src/components/inputs/FileInput.vue')['default']
     FilterIcon: typeof import('./src/components/searchbar/FilterIcon.vue')['default']
     GroupCard: typeof import('./src/components/groupCard/GroupCard.vue')['default']
     Main: typeof import('./src/components/searchbar/Main.vue')['default']
