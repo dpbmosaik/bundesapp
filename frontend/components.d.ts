@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     Main: typeof import('./src/components/searchbar/Main.vue')['default']
     ModalWithSlot: typeof import('./src/components/modal/ModalWithSlot.vue')['default']
     NavigationElement: typeof import('./src/components/layout/sideBarNavigation/NavigationElement.vue')['default']
+    Old_ConfirmationModal: typeof import('./src/components/modal/old_ConfirmationModal.vue')['default']
     PrimaryButton: typeof import('./src/components/button/PrimaryButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
