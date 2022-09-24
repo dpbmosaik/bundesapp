@@ -8,7 +8,7 @@
                 v-for="(user, index) in getUserListsById(userList)"
                 :key="index"
                 :user="user"
-                :userListLength="getUserListsById(userList).length"
+                :user-list-length="getUserListsById(userList).length"
             />
         </div>
     </div>
@@ -27,8 +27,7 @@ export default defineComponent({
         },
         userList: {
             type: Array,
-            // eslint-disable-next-line vue/require-valid-default-prop
-            default: []
+            default: () => {return []}
         }
     },
     setup() {

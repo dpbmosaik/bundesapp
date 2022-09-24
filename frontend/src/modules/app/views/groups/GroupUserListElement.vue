@@ -5,7 +5,7 @@
             <p class="font-p">{{ user.name }}</p>
         </div>
         <div class="flex flex-row">
-            <button @click="() => removeUserFromList()" v-show="userListLength >= 2">
+            <button v-show="userListLength >= 2" @click="() => removeUserFromList()">
                 <AppIcon name="closeSquare" type="light" color="#C4C4C4" hover/>
             </button>
             <Menu as="div" class="relative flex">
@@ -20,7 +20,7 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0"
                 >
-                    <MenuItems class="fixed w-56 z-10 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <MenuItems class="absolute w-56 z-10 right-8 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1" >
                             <MenuItem v-for="(elem, index) in moreNavigation" v-slot="{ active }" :key="index" >
                                 <button
