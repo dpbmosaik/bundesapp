@@ -12,7 +12,13 @@
         </div>
         <div class="flex flex-col gap-4">
             <GroupUserList title="Mitglieder" :user-list="groupData.groupMember" />
-            <TertiaryButton class="self-center" :target="() => addUserToGroup()">hinzufügen</TertiaryButton>
+            <TertiaryButton class="self-center" :target="() => addMemberToGroupModalIsOpen=true">hinzufügen</TertiaryButton>
+            <AddUserToGroupModal 
+                :is-open="addMemberToGroupModalIsOpen"
+                :group-id="groupData.groupId"
+                role="member"
+                @close-modal="addMemberToGroupModalIsOpen=false"
+            />
         </div>
     </div>
 </template>
@@ -22,20 +28,25 @@
 import { allGroupTypes } from "@/types/GroupDBEntry";
 import { PropType } from "vue";
 import GroupUserList from "./GroupUserList.vue";
+import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
 
 export default defineComponent({
     components: {
-        GroupUserList
+        GroupUserList,
+        AddUserToGroupModal
     },
     props: {
         groupData: {
             type: Object as PropType<allGroupTypes>,
+            required: true
         }
     },
     setup() {
         const store = useStore();
+        const addMemberToGroupModalIsOpen = ref(false);
         return { 
             store,
+            addMemberToGroupModalIsOpen
         }
     },
     computed: {
@@ -48,9 +59,6 @@ export default defineComponent({
         }
     },
     methods: {
-        addUserToGroup() {
-            alert('Open Modal to Add User to Group')
-        },
         addSubgroupToGroup() {
             alert('Open Modal to Add Subgroup to Group')
         }
