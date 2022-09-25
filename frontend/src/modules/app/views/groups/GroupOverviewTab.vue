@@ -64,7 +64,7 @@
             </div>
             <div class="flex flex-col gap-4">
                 <GroupUserList title="Schatzmeister_in" :user-list="groupData.headOfFinance" />
-                <TertiaryButton class="self-center" :target="() => addUserTHeadOfFinance()">hinzufügen</TertiaryButton>
+                <TertiaryButton class="self-center" :target="() => addUserToHeadOfFinance()">hinzufügen</TertiaryButton>
             </div>
         </div>
         <div v-else-if="isStammesGroup" class="flex flex-col gap-4">
@@ -83,8 +83,16 @@
         </div>
         <div v-else-if="isIndividualGroup" class="flex flex-col gap-4">
             <GroupUserList title="Gruppenadministrator_innen" :user-list="groupData.editAccessUsers" />
-            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
+            <TertiaryButton class="self-center" :target="() => addUserToEditAccessUsers()">hinzufügen</TertiaryButton>
         </div>
+
+        <AddUserToGroupModal 
+            :is-open="addUserToGroupModalIsOpen"
+            :group-id="groupData.groupId"
+            :role="addUserToGroupModalRole"
+            @close-modal="addUserToGroupModalIsOpen=false"
+        />
+
         <Divider /> <!-- ------------------------------------------------ -->
         <div class="flex flex-col gap-4">
             <p class="font-description text-proto-grey">Teil der Gruppen</p>
@@ -134,6 +142,7 @@ import GroupServiceElement from "./GroupServiceElement.vue";
 import RenameGroupModal from "./modals/RenameGroupModal.vue";
 import ResetGroupAvatarModal from "./modals/ResetGroupAvatarModal.vue";
 import ChangeGroupAvatarModal from "./modals/ChangeGroupAvatarModal.vue";
+import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
 
 export default defineComponent({
     components: {
@@ -145,7 +154,8 @@ export default defineComponent({
         GroupServiceElement,
         RenameGroupModal,
         ResetGroupAvatarModal,
-        ChangeGroupAvatarModal
+        ChangeGroupAvatarModal,
+        AddUserToGroupModal
     },
     props: {
         groupData: {
@@ -159,12 +169,16 @@ export default defineComponent({
         const renameGroupModalIsOpen = ref(false);
         const setGroupAvatarToStandardModalIsOpen = ref(false);
         const changeGroupAvatarModalIsOpen = ref(false);
+        const addUserToGroupModalIsOpen = ref(false);
+        const addUserToGroupModalRole = ref('groupMember')
 
         return { 
             store,
             renameGroupModalIsOpen,
             setGroupAvatarToStandardModalIsOpen,
-            changeGroupAvatarModalIsOpen
+            changeGroupAvatarModalIsOpen,
+            addUserToGroupModalIsOpen,
+            addUserToGroupModalRole
         }
     },
     computed: {
@@ -232,16 +246,24 @@ export default defineComponent({
             alert(`Group with id ${this.groupData?.groupId} marked as favorite`)
         },
         addUserToLead() {
-            alert('Open Something to add new user to Lead');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'leader';
         },
         addUserToDeputies() {
-            alert('Open Something to add new user to Deputies');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'deputies';
         },
-        addUserTHeadOfFinance() {
-            alert('Open Something to add new user to Head of Finance');
+        addUserToHeadOfFinance() {
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'headOfFinance';
         },
         addUserToGroupLeaders() {
-            alert('Add Modal to Add User to Stammesgroup Leaders');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'leader';
+        },
+        addUserToEditAccessUsers() {
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'editAccessUsers';
         },
         joinArrayToList(arr: string[]) {
             return arr.join(', ')
