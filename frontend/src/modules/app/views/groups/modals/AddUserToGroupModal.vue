@@ -52,7 +52,7 @@
     import Tag from '@/components/tag/Tag.vue';
 
     export default defineComponent({
-        name: "ChangeGroupAvatarModal",
+        name: "AddUserToGroupModal",
         components: {
             ModalWithSlot,
             PrimaryButton,
