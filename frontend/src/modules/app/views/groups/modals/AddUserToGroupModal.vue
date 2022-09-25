@@ -83,11 +83,9 @@
                 { id: 3, name: 'Lucas Holm' },
                 { id: 4, name: 'Sabrina Hubbel' },
             ]
-            const open = ref(true)
             const query = ref('')
             return {
                 selectedUser,
-                open,
                 query,
                 people
             }
