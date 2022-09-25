@@ -52,6 +52,34 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="isBundesGroup" class="flex flex-col gap-4">
+
+            <Divider /> <!-- ------------------------------------------------ -->
+    
+            <RadioGroup v-model="selected">
+                <RadioGroupLabel class="sr-only"> Gruppenstatus </RadioGroupLabel>
+                <div class="-space-y-px rounded-md bg-white">
+                    <RadioGroupOption v-for="(setting, settingIdx) in groupStatus" :key="setting.name" v-slot="{ checked, active }" as="template" :value="setting">
+                        <div :class="[settingIdx === 0 ? 'rounded-tl-md rounded-tr-md' : '', settingIdx === groupStatus.length - 1 ? 'rounded-bl-md rounded-br-md' : '', checked ? 'bg-proto-lightgrey border-bg-proto-grey z-10' : 'border-gray-200', 'relative border p-4 flex cursor-pointer focus:outline-none']">
+                        <span :class="[checked ? 'bg-proto-darkgrey border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-proto-darkgrey' : '', 'mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center']" aria-hidden="true">
+                            <span class="rounded-full bg-white w-1.5 h-1.5" />
+                        </span>
+                        <span class="ml-3 flex flex-col">
+                            <RadioGroupLabel as="span" :class="[checked ? 'text-proto-darkgrey' : 'text-proto-darkgrey', 'block text-sm font-medium']">{{ setting.name }}</RadioGroupLabel>
+                            <RadioGroupDescription as="span" :class="[checked ? 'text-proto-darkgrey' : 'text-gray-500', 'block text-sm']">{{ setting.description }}</RadioGroupDescription>
+                        </span>
+                        </div>
+                    </RadioGroupOption>
+                </div>
+            </RadioGroup>
+    
+            <div class="flex flex-row gap-4 justify-center mt-8">
+                <SecondaryButton :target="() => resetGroupStatus()">Abbrechen</SecondaryButton>
+                <PrimaryButton :target="() => saveNewGroupStatus()">Speichern</PrimaryButton>
+            </div>
+        </div>
+
         <Divider /> <!-- ------------------------------------------------ -->
         <div v-if="isBundesGroup" class="flex flex-col gap-4">
             <div class="flex flex-col gap-4">
@@ -132,7 +160,7 @@
 
 <script lang="ts">
 import { allGroupTypes } from "@/types/GroupDBEntry";
-import { PropType } from "vue";
+import { PropType, ref } from "vue";
 import AppIcon from "@/components/icons/AppIcon.vue";
 import Divider from '@/components/divider/Divider.vue';
 import GroupUserList from "./GroupUserList.vue";
@@ -143,6 +171,9 @@ import RenameGroupModal from "./modals/RenameGroupModal.vue";
 import ResetGroupAvatarModal from "./modals/ResetGroupAvatarModal.vue";
 import ChangeGroupAvatarModal from "./modals/ChangeGroupAvatarModal.vue";
 import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
+import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+import PrimaryButton from "@/components/button/PrimaryButton.vue";
+import SecondaryButton from "@/components/button/SecondaryButton.vue";
 
 export default defineComponent({
     components: {
@@ -155,12 +186,18 @@ export default defineComponent({
         RenameGroupModal,
         ResetGroupAvatarModal,
         ChangeGroupAvatarModal,
-        AddUserToGroupModal
+        AddUserToGroupModal,
+        RadioGroup,
+        RadioGroupDescription,
+        RadioGroupLabel,
+        RadioGroupOption,
+        PrimaryButton,
+        SecondaryButton
     },
     props: {
         groupData: {
             type: Object as PropType<allGroupTypes>,
-            default: undefined
+            required: true
         }
     },
     setup() {
@@ -170,7 +207,15 @@ export default defineComponent({
         const setGroupAvatarToStandardModalIsOpen = ref(false);
         const changeGroupAvatarModalIsOpen = ref(false);
         const addUserToGroupModalIsOpen = ref(false);
-        const addUserToGroupModalRole = ref('groupMember')
+        const addUserToGroupModalRole = ref('groupMember');
+
+        const groupStatus = [
+            { id: 1, name: 'Regulär', description: 'Diese Gruppe ist reguläres Mitglied laut Bundessatzung' },
+            { id: 2, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
+            { id: 3, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
+        ]
+
+        const selected = ref(groupStatus[0])
 
         return { 
             store,
@@ -178,7 +223,9 @@ export default defineComponent({
             setGroupAvatarToStandardModalIsOpen,
             changeGroupAvatarModalIsOpen,
             addUserToGroupModalIsOpen,
-            addUserToGroupModalRole
+            addUserToGroupModalRole,
+            groupStatus,
+            selected
         }
     },
     computed: {
@@ -239,7 +286,7 @@ export default defineComponent({
                 groupList.push(this.store.getgroupById!(groupId))
             }
             return groupList
-        },
+        }
     },
     methods: {
         markGroupAsFavorit() {
