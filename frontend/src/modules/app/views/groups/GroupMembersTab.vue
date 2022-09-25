@@ -4,7 +4,12 @@
             <p class="font-description text-proto-grey">Gruppen</p>
             <div v-if="subGroupList.length >= 1" class="flex flex-col gap-4">
                 <GroupCard v-for="(group, index) in subGroupList" :key="index" :group-data="group" />
-                <TertiaryButton class="self-center" :target="() => addSubgroupToGroup()">hinzufügen</TertiaryButton>
+                <TertiaryButton class="self-center" :target="() => addGroupToGroupModalIsOpen=true">hinzufügen</TertiaryButton>
+                <AddGroupToGroupModal 
+                    :is-open="addGroupToGroupModalIsOpen"
+                    :group-id="groupData.groupId"
+                    @close-modal="addGroupToGroupModalIsOpen=false"
+                />
             </div>
             <div v-else>
                 <p>Keine Gruppenzugehörigkeit</p>
@@ -29,11 +34,13 @@ import { allGroupTypes } from "@/types/GroupDBEntry";
 import { PropType } from "vue";
 import GroupUserList from "./GroupUserList.vue";
 import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
+import AddGroupToGroupModal from "./modals/AddGroupToGroupModal.vue";
 
 export default defineComponent({
     components: {
         GroupUserList,
-        AddUserToGroupModal
+        AddUserToGroupModal,
+        AddGroupToGroupModal
     },
     props: {
         groupData: {
@@ -44,9 +51,11 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const addMemberToGroupModalIsOpen = ref(false);
+        const addGroupToGroupModalIsOpen = ref(false);
         return { 
             store,
-            addMemberToGroupModalIsOpen
+            addMemberToGroupModalIsOpen,
+            addGroupToGroupModalIsOpen
         }
     },
     computed: {
