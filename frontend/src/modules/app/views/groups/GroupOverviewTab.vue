@@ -81,6 +81,7 @@
         </div>
 
         <Divider /> <!-- ------------------------------------------------ -->
+
         <div v-if="isBundesGroup" class="flex flex-col gap-4">
             <div class="flex flex-col gap-4">
                 <GroupUserList :title="groupLeadRoleName" :user-list="groupData.leader" />
@@ -133,25 +134,9 @@
         </div>
         <Divider /> <!-- ------------------------------------------------ -->
         <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Email Weiterleitungen</p>
-                <GroupServiceElement :service-data="groupData.emailAlias" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Ordner in der Cloud</p>
-                <GroupServiceElement :service-data="groupData.linkToCloud" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Wiki Seite</p>
-                <GroupServiceElement :service-data="groupData.linkToWiki" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Chatgruppe</p>
-                <GroupServiceElement :service-data="groupData.linkToChat" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Miro Board</p>
-                <GroupServiceElement :service-data="groupData.linkToMiro" />
+            <div v-for="(item, index) in groupServices" :key="index" class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">{{ item.title }}</p>
+                <GroupServiceElement :service-data="item.data" />
             </div>
         </div>
     </div>
@@ -200,7 +185,7 @@ export default defineComponent({
             required: true
         }
     },
-    setup() {
+    setup(computed) {
         const store = useStore();
 
         const renameGroupModalIsOpen = ref(false);
@@ -214,8 +199,12 @@ export default defineComponent({
             { id: 2, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
             { id: 3, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
         ]
-
         const selected = ref(groupStatus[0])
+
+        const leadsBundesGroup = [{title: computed.groupLeadRoleName, userList: [], action: ''}];
+        const leadsStammesGroup = [];
+        const leadsRoleGroup = [];
+        const leadsIndividualGroup = [];
 
         return { 
             store,
@@ -286,6 +275,27 @@ export default defineComponent({
                 groupList.push(this.store.getgroupById!(groupId))
             }
             return groupList
+        },
+        groupServices() {
+            return [
+                { title: 'Email Weiterleitungen', data: this.groupData.emailAlias },
+                { title: 'Ordner in der Cloud', data: this.groupData.linkToCloud },
+                { title: 'Wiki Seite', data: this.groupData.linkToWiki },
+                { title: 'Chatgruppe', data: this.groupData.linkToChat },
+                { title: 'Miro Board', data: this.groupData.linkToMiro },
+            ]
+        },
+        groupLeadLists() {
+            if (this.isBundesGroup) {
+                return leadsBundesGroup
+            } else if (this.isStammesGroup) {
+                return leadsStammesGroup
+            } else if (this.isRoleGroup) {
+                return leadsRoleGroup
+            } else if (this.isIndividualGroup) {
+                return leadsIndividualGroup
+            }
+            return []
         }
     },
     methods: {
