@@ -9,7 +9,6 @@ declare module '@vue/runtime-core' {
     AvatarIcon: typeof import('./src/components/dashboardOld/AvatarIcon.vue')['default']
     AvatarText: typeof import('./src/components/dashboardOld/AvatarText.vue')['default']
     ButtonFancy: typeof import('./src/components/dashboardOld/ButtonFancy.vue')['default']
-    ConfirmationModal: typeof import('./src/components/modal/ConfirmationModal.vue')['default']
     Divider: typeof import('./src/components/divider/Divider.vue')['default']
     DropdownInput: typeof import('./src/components/inputs/DropdownInput.vue')['default']
     FileInput: typeof import('./src/components/inputs/FileInput.vue')['default']

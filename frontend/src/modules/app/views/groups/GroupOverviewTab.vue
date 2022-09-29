@@ -57,7 +57,7 @@
 
             <Divider /> <!-- ------------------------------------------------ -->
     
-            <RadioGroup v-model="selected">
+            <RadioGroup v-model="selectedGroupStatus">
                 <RadioGroupLabel class="sr-only"> Gruppenstatus </RadioGroupLabel>
                 <div class="-space-y-px rounded-md bg-white">
                     <RadioGroupOption v-for="(setting, settingIdx) in groupStatus" :key="setting.name" v-slot="{ checked, active }" as="template" :value="setting">
@@ -74,7 +74,7 @@
                 </div>
             </RadioGroup>
     
-            <div class="flex flex-row gap-4 justify-center mt-8">
+            <div v-if="!selectedGroupHasChanged" class="flex flex-row gap-4 justify-center mt-8">
                 <SecondaryButton :target="() => resetGroupStatus()">Abbrechen</SecondaryButton>
                 <PrimaryButton :target="() => saveNewGroupStatus()">Speichern</PrimaryButton>
             </div>
@@ -185,7 +185,7 @@ export default defineComponent({
             required: true
         }
     },
-    setup(computed) {
+    setup(props) {
         const store = useStore();
 
         const renameGroupModalIsOpen = ref(false);
@@ -195,16 +195,18 @@ export default defineComponent({
         const addUserToGroupModalRole = ref('groupMember');
 
         const groupStatus = [
-            { id: 1, name: 'Regulär', description: 'Diese Gruppe ist reguläres Mitglied laut Bundessatzung' },
-            { id: 2, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
-            { id: 3, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
+            { id: 0, name: 'Regulär', description: 'Diese Gruppe ist reguläres Mitglied laut Bundessatzung' },
+            { id: 1, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
+            { id: 2, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
         ]
-        const selected = ref(groupStatus[0])
-
-        const leadsBundesGroup = [{title: computed.groupLeadRoleName, userList: [], action: ''}];
-        const leadsStammesGroup = [];
-        const leadsRoleGroup = [];
-        const leadsIndividualGroup = [];
+        //@ts-ignore groupStatus does exist in object an dis defined in type
+        const savedGroupStatus = props.groupData.groupStatus;
+        const selectedGroupStatus = ref(groupStatus[savedGroupStatus]);
+        
+        //const leadsBundesGroup = [{title: computed.groupLeadRoleName, userList: [], action: ''}];
+        //const leadsStammesGroup = [];
+        //const leadsRoleGroup = [];
+        //const leadsIndividualGroup = [];
 
         return { 
             store,
@@ -214,7 +216,8 @@ export default defineComponent({
             addUserToGroupModalIsOpen,
             addUserToGroupModalRole,
             groupStatus,
-            selected
+            selectedGroupStatus,
+            savedGroupStatus
         }
     },
     computed: {
@@ -285,18 +288,26 @@ export default defineComponent({
                 { title: 'Miro Board', data: this.groupData.linkToMiro },
             ]
         },
-        groupLeadLists() {
+        selectedGroupHasChanged() {
+            let savedStatus;
             if (this.isBundesGroup) {
-                return leadsBundesGroup
-            } else if (this.isStammesGroup) {
-                return leadsStammesGroup
-            } else if (this.isRoleGroup) {
-                return leadsRoleGroup
-            } else if (this.isIndividualGroup) {
-                return leadsIndividualGroup
-            }
-            return []
+                //@ts-ignore groupStatus does exist in object an dis defined in type
+                savedStatus = this.groupData.groupStatus;
+            }            
+            return savedStatus == this.selectedGroupStatus.id
         }
+        //groupLeadLists() {
+        //    if (this.isBundesGroup) {
+        //        return leadsBundesGroup
+        //    } else if (this.isStammesGroup) {
+        //        return leadsStammesGroup
+        //    } else if (this.isRoleGroup) {
+        //        return leadsRoleGroup
+        //    } else if (this.isIndividualGroup) {
+        //        return leadsIndividualGroup
+        //    }
+        //    return []
+        //}
     },
     methods: {
         markGroupAsFavorit() {
@@ -324,6 +335,15 @@ export default defineComponent({
         },
         joinArrayToList(arr: string[]) {
             return arr.join(', ')
+        },
+        resetGroupStatus() {
+            //@ts-ignore groupStatus does exist in object an dis defined in type
+            this.selectedGroupStatus = this.groupStatus[this.savedGroupStatus];
+        },
+        saveNewGroupStatus() {
+            const groupId = this.groupData.groupId
+            const newGroupStatus = this.selectedGroupStatus.id
+            alert(`Set new group Status ${newGroupStatus} for group with id ${groupId}`)
         }
     },
 

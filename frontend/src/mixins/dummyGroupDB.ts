@@ -42,7 +42,7 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     deputies: ['fehlerUser'],
     headOfFinance: ['fehlerUser'],
     type: 'Stamm',
-    groupStatus: 3
+    groupStatus: 2
   },
   "0": {
     groupId: '0',
@@ -84,7 +84,7 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     deputies: ['3', '4', '5'],
     headOfFinance: ['6'],
     type: 'Stamm',
-    groupStatus: 3
+    groupStatus: 2
   },
   "1": {
     groupId: '1',
@@ -126,7 +126,7 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
     deputies: ['3', '4', '5'],
     headOfFinance: ['6'],
     type: 'Ring',
-    groupStatus: 3
+    groupStatus: 2
   },
   "2": {
     groupId: '2',
