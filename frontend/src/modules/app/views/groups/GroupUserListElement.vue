@@ -74,10 +74,11 @@ export default defineComponent({
             moreNavigation
         }
     },
+    emits: ['remove-user'],
     methods: {
         removeUserFromList() {
             if (this.user) {
-                alert('Remove User From List with Id ' + this.user.id)
+                this.$emit("remove-user", this.user.id)
             }
         }
     },

@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="flex flex-col gap-4">
-            <GroupUserList title="Mitglieder" :user-list="groupData.groupMember" />
+            <GroupUserList title="Mitglieder" :user-list="groupData.groupMember" @remove-user="removeUserFromGroup" />
             <TertiaryButton class="self-center" :target="() => addMemberToGroupModalIsOpen=true">hinzufügen</TertiaryButton>
             <AddUserToGroupModal 
                 :is-open="addMemberToGroupModalIsOpen"
@@ -25,6 +25,13 @@
                 @close-modal="addMemberToGroupModalIsOpen=false"
             />
         </div>
+        <RemoveUserFromGroupModal 
+            :is-open="removeUserFromGroupModalIsOpen"
+            :group-id="groupData.groupId"
+            :user-id="userToRemove.userId"
+            :list-type="userToRemove.role"
+            @close-modal="removeUserFromGroupModalIsOpen=false"
+        />
     </div>
 </template>
 
@@ -35,12 +42,14 @@ import { PropType } from "vue";
 import GroupUserList from "./GroupUserList.vue";
 import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
 import AddGroupToGroupModal from "./modals/AddGroupToGroupModal.vue";
+import RemoveUserFromGroupModal from "./modals/RemoveUserFromGroupModal.vue";
 
 export default defineComponent({
     components: {
         GroupUserList,
         AddUserToGroupModal,
-        AddGroupToGroupModal
+        AddGroupToGroupModal,
+        RemoveUserFromGroupModal
     },
     props: {
         groupData: {
@@ -52,10 +61,14 @@ export default defineComponent({
         const store = useStore();
         const addMemberToGroupModalIsOpen = ref(false);
         const addGroupToGroupModalIsOpen = ref(false);
+        const userToRemove = ref({userId: '', role: ''});
+        const removeUserFromGroupModalIsOpen = ref(false);
         return { 
             store,
             addMemberToGroupModalIsOpen,
-            addGroupToGroupModalIsOpen
+            addGroupToGroupModalIsOpen,
+            userToRemove,
+            removeUserFromGroupModalIsOpen
         }
     },
     computed: {
@@ -70,6 +83,10 @@ export default defineComponent({
     methods: {
         addSubgroupToGroup() {
             alert('Open Modal to Add Subgroup to Group')
+        },
+        removeUserFromGroup(e: {userId: string, role: string}) {
+            this.userToRemove = e;
+            this.removeUserFromGroupModalIsOpen = true;
         }
     }
 })

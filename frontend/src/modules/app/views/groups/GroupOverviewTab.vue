@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div v-if="isBundesGroup" class="flex flex-col gap-4">
+        <div v-if="isBundesGroup" class="flex flex-col gap-4" >
 
             <Divider /> <!-- ------------------------------------------------ -->
     
@@ -78,27 +78,16 @@
                 <SecondaryButton :target="() => resetGroupStatus()">Abbrechen</SecondaryButton>
                 <PrimaryButton :target="() => saveNewGroupStatus()">Speichern</PrimaryButton>
             </div>
+
         </div>
 
         <Divider /> <!-- ------------------------------------------------ -->
 
-        <div v-if="isBundesGroup" class="flex flex-col gap-4">
-            <div class="flex flex-col gap-4">
-                <GroupUserList :title="groupLeadRoleName" :user-list="groupData.leader" />
-                <TertiaryButton class="self-center" :target="() => addUserToLead()">hinzufügen</TertiaryButton>
+        <div v-if="isBundesGroup || isStammesGroup" class="flex flex-col gap-4">
+            <div v-for="roleType in groupRoles" class="flex flex-col gap-4">
+                <GroupUserList :title="roleType.title" :user-list="roleType.userList" @remove-user="removeUserFromGroup"/>
+                <TertiaryButton class="self-center" :target="roleType.action">hinzufügen</TertiaryButton>
             </div>
-            <div class="flex flex-col gap-4">
-                <GroupUserList title="Stellvertreter_innen" :user-list="groupData.deputies" />
-                <TertiaryButton class="self-center" :target="() => addUserToDeputies()">hinzufügen</TertiaryButton>
-            </div>
-            <div class="flex flex-col gap-4">
-                <GroupUserList title="Schatzmeister_in" :user-list="groupData.headOfFinance" />
-                <TertiaryButton class="self-center" :target="() => addUserToHeadOfFinance()">hinzufügen</TertiaryButton>
-            </div>
-        </div>
-        <div v-else-if="isStammesGroup" class="flex flex-col gap-4">
-            <GroupUserList title="Leiter_innen" :user-list="groupData.leader" />
-            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
         </div>
         <div v-else-if="isRoleGroup" class="flex flex-col gap-4">
             <div class="flex flex-col gap-4">
@@ -120,6 +109,14 @@
             :group-id="groupData.groupId"
             :role="addUserToGroupModalRole"
             @close-modal="addUserToGroupModalIsOpen=false"
+        />
+
+        <RemoveUserFromGroupModal 
+            :is-open="removeUserFromGroupModalIsOpen"
+            :group-id="groupData.groupId"
+            :user-id="userToRemove.userId"
+            :list-type="userToRemove.role"
+            @close-modal="removeUserFromGroupModalIsOpen=false"
         />
 
         <Divider /> <!-- ------------------------------------------------ -->
@@ -159,6 +156,7 @@ import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
 import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
 import PrimaryButton from "@/components/button/PrimaryButton.vue";
 import SecondaryButton from "@/components/button/SecondaryButton.vue";
+import RemoveUserFromGroupModal from "./modals/RemoveUserFromGroupModal.vue";
 
 export default defineComponent({
     components: {
@@ -177,7 +175,8 @@ export default defineComponent({
         RadioGroupLabel,
         RadioGroupOption,
         PrimaryButton,
-        SecondaryButton
+        SecondaryButton,
+        RemoveUserFromGroupModal
     },
     props: {
         groupData: {
@@ -192,7 +191,10 @@ export default defineComponent({
         const setGroupAvatarToStandardModalIsOpen = ref(false);
         const changeGroupAvatarModalIsOpen = ref(false);
         const addUserToGroupModalIsOpen = ref(false);
+        const removeUserFromGroupModalIsOpen = ref(false);
         const addUserToGroupModalRole = ref('groupMember');
+
+        const userToRemove = ref({userId: '', role: ''});
 
         const groupStatus = [
             { id: 0, name: 'Regulär', description: 'Diese Gruppe ist reguläres Mitglied laut Bundessatzung' },
@@ -202,11 +204,6 @@ export default defineComponent({
         //@ts-ignore groupStatus does exist in object an dis defined in type
         const savedGroupStatus = props.groupData.groupStatus;
         const selectedGroupStatus = ref(groupStatus[savedGroupStatus]);
-        
-        //const leadsBundesGroup = [{title: computed.groupLeadRoleName, userList: [], action: ''}];
-        //const leadsStammesGroup = [];
-        //const leadsRoleGroup = [];
-        //const leadsIndividualGroup = [];
 
         return { 
             store,
@@ -217,12 +214,14 @@ export default defineComponent({
             addUserToGroupModalRole,
             groupStatus,
             selectedGroupStatus,
-            savedGroupStatus
+            savedGroupStatus,
+            removeUserFromGroupModalIsOpen,
+            userToRemove
         }
     },
     computed: {
         isBundesGroup() {
-            const type = this.groupData?.type
+            const type = this.groupData.type
             if (type === 'Stamm' || type === 'Aufbaustamm' || type === 'Horst' || type === 'Ring' || type === 'Aufbauring') {
                 return true
             }
@@ -295,19 +294,50 @@ export default defineComponent({
                 savedStatus = this.groupData.groupStatus;
             }            
             return savedStatus == this.selectedGroupStatus.id
+        },
+        groupRoles() {
+            let groupRoles;
+            if (this.isBundesGroup) {
+                groupRoles = [
+                    {
+                        title: this.groupLeadRoleName,
+                        namecode: 'leader',
+                        //@ts-ignore
+                        userList: this.groupData.leader,
+                        action: () => this.addUserToLead()
+                    },
+                    {
+                        title: 'Stellvertreter_innen',
+                        namecode: 'deputies',
+                        //@ts-ignore
+                        userList: this.groupData.deputies,
+                        action: () => this.addUserToDeputies()
+                    },
+                    {
+                        title: 'Schatzmeister_in',
+                        namecode: 'headOfFinance',
+                        //@ts-ignore
+                        userList: this.groupData.headOfFinance,
+                        action: () => this.addUserToHeadOfFinance()
+                    },
+                ]
+            } else if (this.isStammesGroup) {
+                groupRoles = [
+                    {
+                        title: this.groupLeadRoleName,
+                        namecode: 'leader',
+                        //@ts-ignore
+                        userList: this.groupData.leader,
+                        action: () => this.addUserToGroupLeaders()
+                    },
+                ]
+            } else if (this.isRoleGroup) {
+                
+            } else {
+                groupRoles = []
+            }
+            return groupRoles
         }
-        //groupLeadLists() {
-        //    if (this.isBundesGroup) {
-        //        return leadsBundesGroup
-        //    } else if (this.isStammesGroup) {
-        //        return leadsStammesGroup
-        //    } else if (this.isRoleGroup) {
-        //        return leadsRoleGroup
-        //    } else if (this.isIndividualGroup) {
-        //        return leadsIndividualGroup
-        //    }
-        //    return []
-        //}
     },
     methods: {
         markGroupAsFavorit() {
@@ -344,6 +374,10 @@ export default defineComponent({
             const groupId = this.groupData.groupId
             const newGroupStatus = this.selectedGroupStatus.id
             alert(`Set new group Status ${newGroupStatus} for group with id ${groupId}`)
+        },
+        removeUserFromGroup(e: {userId: string, role: string}) {
+            this.userToRemove = e;
+            this.removeUserFromGroupModalIsOpen = true;
         }
     },
 

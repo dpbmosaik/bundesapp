@@ -9,6 +9,7 @@
                 :key="index"
                 :user="user"
                 :user-list-length="getUserListsById(userList).length"
+                @remove-user="removeUser"
             />
         </div>
     </div>
@@ -36,9 +37,13 @@ export default defineComponent({
             store,
         }
     },
+    emits: ['remove-user'],
     methods: {
         getUserListsById(userIds: string[]) {
             return this.store.getUserListsById?.(userIds)
+        },
+        removeUser(e: string) {
+            this.$emit("remove-user", {userId: e, role: this.title})
         }
     }
 })
