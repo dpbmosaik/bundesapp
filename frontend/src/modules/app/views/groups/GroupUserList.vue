@@ -31,13 +31,13 @@ export default defineComponent({
             default: () => {return []}
         }
     },
+    emits: ['remove-user'],
     setup() {
         const store = useStore();
         return { 
             store,
         }
     },
-    emits: ['remove-user'],
     methods: {
         getUserListsById(userIds: string[]) {
             return this.store.getUserListsById?.(userIds)

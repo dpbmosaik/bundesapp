@@ -84,7 +84,7 @@
         <Divider /> <!-- ------------------------------------------------ -->
 
         <div v-if="isBundesGroup || isStammesGroup" class="flex flex-col gap-4">
-            <div v-for="roleType in groupRoles" class="flex flex-col gap-4">
+            <div v-for="(roleType, index) in groupRoles" :key="index" class="flex flex-col gap-4">
                 <GroupUserList :title="roleType.title" :user-list="roleType.userList" @remove-user="removeUserFromGroup"/>
                 <TertiaryButton class="self-center" :target="roleType.action">hinzufügen</TertiaryButton>
             </div>
@@ -201,8 +201,11 @@ export default defineComponent({
             { id: 1, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
             { id: 2, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
         ]
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore groupStatus does exist in object an dis defined in type
+        // eslint-disable-next-line vue/no-setup-props-destructure
         const savedGroupStatus = props.groupData.groupStatus;
+        // eslint-disable-next-line security/detect-object-injection
         const selectedGroupStatus = ref(groupStatus[savedGroupStatus]);
 
         return { 
@@ -367,6 +370,7 @@ export default defineComponent({
             return arr.join(', ')
         },
         resetGroupStatus() {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore groupStatus does exist in object an dis defined in type
             this.selectedGroupStatus = this.groupStatus[this.savedGroupStatus];
         },
