@@ -57,7 +57,8 @@ export default defineComponent({
         favoriteGroups(): Array<allGroupTypes> {
             const user = this.store.getLoggedInUserData();
             const favoriteGroupIds = user.favoriteGroups;
-            return this.store.getgroupsByIdList(favoriteGroupIds);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return this.store.getgroupsByIdList!(favoriteGroupIds);
         },
         filteredGroups(): Array<allGroupTypes> {
             let groups = this.store.getAllGroups;

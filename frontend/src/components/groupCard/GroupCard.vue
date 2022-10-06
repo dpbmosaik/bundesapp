@@ -15,6 +15,9 @@
         </div>
         <div class="flex flex-row gap-2">
             <AppIcon v-if="isFavorite" name="heart" type="bold" />
+            <button v-if="isRemovable" @click="() => removeGroup()">
+                <AppIcon name="closeSquare" type="light" color="#C4C4C4" hover/>
+            </button>
             <Menu v-show="interactive" as="div" class="relative flex">
                 <MenuButton>
                     <AppIcon name="moreSqaure" type="light" color="#C4C4C4" hover/>
@@ -67,11 +70,11 @@ const cardMenu = [
         icon: 'delete',
         action: () => alert('Gruppe gelöscht')
     },
-    //{
-    //    name: 'Bearbeiten',
-    //    icon: 'edit',
-    //    action: () => alert('Bearbeiten')
-    //},
+    {
+        name: 'Bearbeiten',
+        icon: 'edit',
+        action: () => alert('Bearbeiten')
+    },
 ]
 
 export default defineComponent({
@@ -83,7 +86,10 @@ export default defineComponent({
         MenuItem
     },
     props: {
-        groupData: Object as PropType<allGroupTypes>,
+        groupData: { 
+            type: Object as PropType<allGroupTypes>,
+            required: true
+        },
         checked: {
             default: false,
             type: Boolean
@@ -95,8 +101,13 @@ export default defineComponent({
         isFavorite : {
             type: Boolean,
             default: false
+        },
+        isRemovable : {
+            type: Boolean,
+            default: false
         }
     },
+    emits: ['remove-group'],
     setup() {
         const store = useStore();
         return {
@@ -104,7 +115,6 @@ export default defineComponent({
             cardMenu,
         }
     },
-
     methods: {
         getPlaceholderAvatar() {
             const name = 'Hellas';
@@ -124,6 +134,9 @@ export default defineComponent({
             if (this.groupData) {
                 this.store.selectGroup(this.groupData.groupId);
             }
+        },
+        removeGroup() {
+            this.$emit("remove-group", this.groupData.groupId)
         }
     },
 

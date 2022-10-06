@@ -18,24 +18,20 @@
             <TertiaryButton target="https://dpbm.de" icon="chat">Anschreiben</TertiaryButton> <!-- Opens Rocket Chat with Person -->
             <TertiaryButton target="/app/settings" icon="profile">Bearbeiten</TertiaryButton> <!-- Goes Profile Edit Page to this person -->
             
-            <TertiaryButton :target="() => openBlockAccountModal()" icon="shieldFail">Deaktivieren</TertiaryButton> <!-- Opens modal and asks for confirmation -->
-            <ConfirmationModal 
-                :is-open="deactivateUserModal.isOpen"
-                :title="deactivateUserModal.title"
-                :description="deactivateUserModal.description"
-                :text="deactivateUserModal.text"
-                :action="deactivateUserModal.action"
-                @close-modal="deactivateUserModal.isOpen = false"
+            <TertiaryButton :target="() => deactivateUserModalIsOpen=true" icon="shieldFail">Deaktivieren</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <DeactivateUserModal 
+                :is-open="deactivateUserModalIsOpen"
+                :user-id="userId"
+                :user-name="getFullName"
+                @close-modal="deactivateUserModalIsOpen=false"
             />
 
-            <TertiaryButton :target="() => openDeleteAccountModal()" icon="delete">Löschen</TertiaryButton> <!-- Opens modal and asks for confirmation -->
-            <ConfirmationModal 
-                :is-open="deleteUserModal.isOpen"
-                :title="deleteUserModal.title"
-                :description="deleteUserModal.description"
-                :text="deleteUserModal.text"
-                :action="deleteUserModal.action"
-                @close-modal="deleteUserModal.isOpen = false"
+            <TertiaryButton :target="() => deleteUserModalIsOpen=true" icon="delete">Löschen</TertiaryButton> <!-- Opens modal and asks for confirmation -->
+            <DeleteUserModal 
+                :is-open="deleteUserModalIsOpen"
+                :user-id="userId"
+                :user-name="getFullName"
+                @close-modal="deleteUserModalIsOpen=false"
             />
         </div>
         <Divider /> <!-- ---------------------------------------------- -->
@@ -113,7 +109,8 @@ import Divider from "@/components/divider/Divider.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
 import GroupCard from "@/components/groupCard/GroupCard.vue";
 import { allGroupTypes } from "@/types/GroupDBEntry";
-import ConfirmationModal from "@/components/modal/ConfirmationModal.vue";
+import DeactivateUserModal from "./modals/DeactivateUserModal.vue";
+import DeleteUserModal from "./modals/DeleteUserModal.vue";
 
 export default defineComponent({
     components: {
@@ -122,7 +119,8 @@ export default defineComponent({
         Divider,
         TertiaryButton,
         GroupCard,
-        ConfirmationModal
+        DeactivateUserModal,
+        DeleteUserModal
     },
     props: {
         userId: {
@@ -132,25 +130,13 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const deactivateUserModal = ref({
-            isOpen: false,
-            title: 'Benutzer_innen Account deaktivieren',
-            description: `Hiermit deaktivierst du den Account für ${store.selectedMembers[0]}`,
-            text: 'Mit dem ausführen, kann diese Person ab sofort nicht mehr auf die Bundesapp zugreifen und wir von allen Geräten abgemeldet. Diese Aktion kann Rückgängig gemacht werden',
-            action: () => alert(`Deactivate User Acount with the Id: ${store.selectedMembers[0]}`)
-        });
-        const deleteUserModal = ref({
-            isOpen: false,
-            title: 'Benutzer_innen Account löschen',
-            description: `Hiermit löschst du den Account für ${store.selectedMembers[0]}`,
-            text: 'Mit dem ausführen, kann diese Person ab sofort nicht mehr auf die Bundesapp zugreifen und wir von allen Geräten abgemeldet. Diese Aktion kann nicht Rückgängig gemacht werden',
-            action: () => alert(`Delete User Acount with the Id: ${store.selectedMembers[0]}`)
-        });
+        const deactivateUserModalIsOpen = ref(false);
+        const deleteUserModalIsOpen = ref(false);
         
         return { 
             store,
-            deactivateUserModal,
-            deleteUserModal
+            deactivateUserModalIsOpen,
+            deleteUserModalIsOpen
         }
     },
     computed: {
@@ -221,12 +207,6 @@ export default defineComponent({
         },
     },
     methods: {
-        openDeleteAccountModal() {
-            this.deleteUserModal.isOpen = true;
-        },
-        openBlockAccountModal() {
-            this.deactivateUserModal.isOpen = true;
-        },
         buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
             let name = "";
             if (user.firstName !== undefined) {
