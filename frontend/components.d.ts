@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     DropdownInput: typeof import('./src/components/inputs/DropdownInput.vue')['default']
     FilterIcon: typeof import('./src/components/searchbar/FilterIcon.vue')['default']
     GroupCard: typeof import('./src/components/groupCard/GroupCard.vue')['default']
+    LargeMulticheckInput: typeof import('./src/components/inputs/LargeMulticheckInput.vue')['default']
     LargeMultiselectInput: typeof import('./src/components/inputs/LargeMultiselectInput.vue')['default']
     Main: typeof import('./src/components/searchbar/Main.vue')['default']
     ModalWithSlot: typeof import('./src/components/modal/ModalWithSlot.vue')['default']

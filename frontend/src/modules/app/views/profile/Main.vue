@@ -6,7 +6,7 @@
     <br />
     test: {{ profileVars.birthDate }}
     <br />
-    allergies: {{ profileVars.allergies }}
+    eatingHabits: {{ profileVars.eatingHabits }}
   </div>
   <div class="w-3/5 m-auto flex flex-col gap-8">
     <div class="flex flex-row gap-8 align-middle justify-center">
@@ -15,9 +15,7 @@
         <SecondaryButton :target="() => changeProfilePicture()"
           >Wechseln</SecondaryButton
         >
-        <TertiaryButton
-          class="self-center"
-          :target="() => setProfilePicturetoDefault()"
+        <TertiaryButton class="self-center" :target="setProfilePicturetoDefault"
           >Entfernen</TertiaryButton
         >
       </div>
@@ -59,14 +57,20 @@
         required
       />
 
-        <div>
-            <label class="block font-highlight text-proto-darkgrey">
-                Allergien ({{ selectingAllergies }})
-            </label>
-            <button @click="selectingAllergies = true">click me!</button>
-            <LargeMultiselectInput :display="selectingAllergies" position="body" :fields="allergiesOptions" @close="selectingAllergies = false"/>
-        </div>
-      
+      <div>
+        <label class="block font-highlight text-proto-darkgrey">
+          Essbesonderheiten
+        </label>
+        <span> {{ profileVars.eatingHabits.join(', ') }} </span>
+        <br />
+        <button @click="selectingEatingHabits = true"> &gt;&gt; bearbeiten &lt;&lt; </button>
+        <LargeMulticheckInput
+          :display="selectingEatingHabits"
+          position="body"
+          :fields="eatingHabitsOptions"
+          @close="selectingEatingHabits = false"
+        />
+      </div>
     </div>
     <Divider />
     <TextInputGroup
@@ -118,7 +122,8 @@ import TextInputGroup from "./TextInputGroup.vue";
 import { TextInputGroupConfig } from "./TextInputGroupConfig";
 import { computed } from "@vue/reactivity";
 import { objsAreDeeplyEqual } from "@/mixins/equalityCheckUtils";
-import LargeMultiselectInput from "@/components/inputs/LargeMultiselectInput.vue";
+import { createReactiveDeepCopy, createDeepCopy } from "@/mixins/miscUtils";
+import LargeMulticheckInput from "@/components/inputs/LargeMulticheckInput.vue";
 
 const store = useStore();
 const user = store.getLoggedInUserData();
@@ -137,19 +142,19 @@ const initialState = {
   addressAddition: user.address.addition,
   phoneNumber: user.phone,
   gender: user.gender,
-  allergies: user.allergies,
+  eatingHabits: user.allergies,
   birthDate: user.birthdate,
 };
 
-const profileVars = reactive({ ...initialState });
+const profileVars = createReactiveDeepCopy(initialState);
 
 const currentInputErrors = reactive(new Map<string, string[]>());
 
-const selectingAllergies = ref(false);
+const selectingEatingHabits = ref(false);
 
 const dataHasChanged = computed(() => {
   //get rid of proxies for property comparisons
-  const currentState = JSON.parse(JSON.stringify(profileVars));
+  const currentState = createDeepCopy(profileVars);
 
   return !objsAreDeeplyEqual(currentState, initialState);
 });
@@ -163,6 +168,10 @@ const hasErrors = computed(() => {
   }
   return false;
 });
+
+/**
+ * todo Adress data is only required when having an elected role
+ */
 
 const importantInputFields: TextInputGroupConfig = {
   firstName: {
@@ -371,21 +380,35 @@ const genderOptions = computed(() => {
   ];
 });
 
-const allergiesOptions = computed(() => {
-    const allAllergies = ['vegetarisch', 'keine Milch', 'Weizen', 'Gluten', 'Laktose'];
-    const result = {};
-    for (const allergy of allAllergies) {
-        result[allergy] = profileVars.allergies.includes(allergy);
-    }
+const eatingHabitsOptions = computed(() => {
+    //todo get habits list from server
+  const allEatingHabits = [
+    "vegetarisch",
+    "keine Milch",
+    "Weizen",
+    "Gluten",
+    "Laktose",
+  ];
+  const result = {};
+  for (const eatingHabit of allEatingHabits) {
+    result[eatingHabit] = profileVars.eatingHabits.includes(eatingHabit);
+  }
 
-    const proxiedResult = new Proxy(result, {
-        get (target, name, receiver) {
-            //todo
-        }
-    })
+  const proxiedResult = new Proxy(result, {
+    set(target, name, value, receiver) {
+      if (value) {
+        profileVars.eatingHabits.push(name.toString());
+      } else {
+        profileVars.eatingHabits = profileVars.eatingHabits.filter(
+          (item) => item !== name
+        );
+      }
 
+      return true;
+    },
+  });
 
-    return result;
+  return proxiedResult;
 });
 
 const daysUntilPwExpiration = computed(() => {
@@ -449,7 +472,7 @@ function saveProfileChanges() {
   /**
    * request to api.anmelde-tool.de/auth/personal-data
    * POST with object consisting of account properties
-   * todo exact object structure
+   * exact object structure -> missing opts are added to anmeldetool -> look at network traffic
    */
   const currentProfileData = profileVars;
   alert(

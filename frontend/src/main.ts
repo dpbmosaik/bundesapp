@@ -27,9 +27,18 @@ const option = {
 }
 
 const head = createHead();
-const app = createApp(App)
+const app = createApp(App);
+const pinia = createPinia();
+pinia.use(() => {
+    return {
+        debug: import.meta.env.MODE === 'development',
+        version: import.meta.env.MODE === 'development'
+            ? import.meta.env.VITE_APP_VERSION + '-dev'
+            : import.meta.env.VITE_APP_VERSION
+    }
+});
 
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.use(head);
 
