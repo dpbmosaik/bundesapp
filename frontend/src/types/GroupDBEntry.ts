@@ -11,27 +11,27 @@ interface GroupDBEntry {
     groupMember: string[];
     emailAlias: {
         type: string
-        enabled: Boolean
+        enabled: boolean
         emails: string[]
     }
     linkToCloud: {
         type: string
-        enabled: Boolean
+        enabled: boolean
         url: string
     }
     linkToWiki: {
         type: string
-        enabled: Boolean
+        enabled: boolean
         url: string
     }
     linkToChat: {
         type: string
-        enabled: Boolean
+        enabled: boolean
         url: string
     }
     linkToMiro: {
         type: string
-        enabled: Boolean
+        enabled: boolean
         url: string
     }
 };
@@ -40,6 +40,7 @@ export interface BundesinfrastrukturType extends GroupDBEntry {
     leader: string[]
     deputies: string[]
     headOfFinance: string[]
+    groupStatus: number;
     type: 'Stamm' | 'Aufbaustamm' | 'Horst' | 'Ring' | 'Aufbauring'
 }
 

@@ -3,29 +3,22 @@
         <div class="flex flex-row justify-between gap-8">
             <div class="flex flex-col ">
                 <div class="flex flex-row gap-4">
-                    <p class="font-h2">{{ `${groupPrefix}${groupData.name}` }}</p>
-                    <button @click="() => editGroupName()">
-                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
-                    </button>
+                    <p class="font-h2">{{ `${groupNameWithPrefix}` }}</p>
 
-                    <ModalWithSlot
-                        :is-open="renameGroupModal.isOpen"
-                        @close-modal="renameGroupModal.isOpen = false"
-                    >
-                        <p class="font-h2">{{ `Namensänderung für ${groupPrefix} ${groupData.name}` }}</p>
-                        <div class="flex flex-row items-end gap-3">
-                            <span class="pb-2 font-p">{{`${groupPrefix}`}}</span>
-                            <TextInput v-model="newGroupName" class="grow" label="Neuer Gruppenname" required type="text" placeholder="Neuer Name..." :value="newGroupName" />
-                        </div>
-                        <div class="flex flex-row gap-4 justify-center mt-8">
-                            <SecondaryButton :target="() => {renameGroupModal.isOpen = false; newGroupName = '';}">Abbrechen</SecondaryButton>
-                            <PrimaryButton :target="() => handleNameSave()">Speichern</PrimaryButton>
-                        </div>
-                    </ModalWithSlot>
+                    <button @click="() => renameGroupModalIsOpen = true">
+                        <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
+                        <RenameGroupModal
+                            :is-open="renameGroupModalIsOpen"
+                            :group-name="groupNameWithPrefix"
+                            :group-id="groupData.groupId"
+                            @close-modal="renameGroupModalIsOpen=false"
+                        />
+                    </button>
 
                     <button @click="() => markGroupAsFavorit()">
                         <AppIcon name="heart" type="light" color="#C4C4C4" hover/>
                     </button>
+
                 </div>
                 <div class="flex flex-col h-full justify-end">
                     <p class="font-info text-proto-grey font-normal">{{ `Zuletzt bearbeitet am ${groupData.lastEditedAt} von ${groupData.lastEditedByUser}` }}</p>
@@ -34,36 +27,67 @@
             </div>
             <div class="flex flex-row gap-4">
                 <div class="flex flex-col gap-4">
-                    <button @click="() => setGroupAvatarToStandard()">
+
+                    <button @click="() => setGroupAvatarToStandardModalIsOpen=true">
                         <AppIcon name="closeSquare" type="light" color="#C4C4C4" hover/>
+                        <ResetGroupAvatarModal
+                            :is-open="setGroupAvatarToStandardModalIsOpen"
+                            :group-id="groupData.groupId"
+                            @close-modal="setGroupAvatarToStandardModalIsOpen=false"
+                        />
                     </button>
-                    <button @click="() => changeGroupAvatar()">
+
+                    <button @click="() => changeGroupAvatarModalIsOpen=true">
                         <AppIcon name="edit" type="light" color="#C4C4C4" hover/>
+                        <ChangeGroupAvatarModal 
+                            :is-open="changeGroupAvatarModalIsOpen"
+                            :group-id="groupData.groupId"
+                            @close-modal="changeGroupAvatarModalIsOpen=false"
+                        />
                     </button>
+
                 </div>
                 <div class="h-36 w-36 rounded-lg overflow-clip">
                     <img class="h-full w-full" :src="groupData.groupAvatar" alt="Avatar" />
                 </div>
             </div>
         </div>
-        <Divider /> <!-- ------------------------------------------------ -->
-        <div v-if="isBundesGroup" class="flex flex-col gap-4">
-            <div class="flex flex-col gap-4">
-                <GroupUserList :title="groupLeadRoleName" :user-list="groupData.leader" />
-                <TertiaryButton class="self-center" :target="() => addUserToLead()">hinzufügen</TertiaryButton>
+
+        <div v-if="isBundesGroup" class="flex flex-col gap-4" >
+
+            <Divider /> <!-- ------------------------------------------------ -->
+    
+            <RadioGroup v-model="selectedGroupStatus">
+                <RadioGroupLabel class="sr-only"> Gruppenstatus </RadioGroupLabel>
+                <div class="-space-y-px rounded-md bg-white">
+                    <RadioGroupOption v-for="(setting, settingIdx) in groupStatus" :key="setting.name" v-slot="{ checked, active }" as="template" :value="setting">
+                        <div :class="[settingIdx === 0 ? 'rounded-tl-md rounded-tr-md' : '', settingIdx === groupStatus.length - 1 ? 'rounded-bl-md rounded-br-md' : '', checked ? 'bg-proto-lightgrey border-bg-proto-grey z-10' : 'border-gray-200', 'relative border p-4 flex cursor-pointer focus:outline-none']">
+                        <span :class="[checked ? 'bg-proto-darkgrey border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-proto-darkgrey' : '', 'mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center']" aria-hidden="true">
+                            <span class="rounded-full bg-white w-1.5 h-1.5" />
+                        </span>
+                        <span class="ml-3 flex flex-col">
+                            <RadioGroupLabel as="span" :class="[checked ? 'text-proto-darkgrey' : 'text-proto-darkgrey', 'block text-sm font-medium']">{{ setting.name }}</RadioGroupLabel>
+                            <RadioGroupDescription as="span" :class="[checked ? 'text-proto-darkgrey' : 'text-gray-500', 'block text-sm']">{{ setting.description }}</RadioGroupDescription>
+                        </span>
+                        </div>
+                    </RadioGroupOption>
+                </div>
+            </RadioGroup>
+    
+            <div v-if="!selectedGroupHasChanged" class="flex flex-row gap-4 justify-center mt-8">
+                <SecondaryButton :target="() => resetGroupStatus()">Abbrechen</SecondaryButton>
+                <PrimaryButton :target="() => saveNewGroupStatus()">Speichern</PrimaryButton>
             </div>
-            <div class="flex flex-col gap-4">
-                <GroupUserList title="Stellvertreter_innen" :user-list="groupData.deputies" />
-                <TertiaryButton class="self-center" :target="() => addUserToDeputies()">hinzufügen</TertiaryButton>
-            </div>
-            <div class="flex flex-col gap-4">
-                <GroupUserList title="Schatzmeister_in" :user-list="groupData.headOfFinance" />
-                <TertiaryButton class="self-center" :target="() => addUserTHeadOfFinance()">hinzufügen</TertiaryButton>
-            </div>
+
         </div>
-        <div v-else-if="isStammesGroup" class="flex flex-col gap-4">
-            <GroupUserList title="Leiter_innen" :user-list="groupData.leader" />
-            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
+
+        <Divider /> <!-- ------------------------------------------------ -->
+
+        <div v-if="isBundesGroup || isStammesGroup" class="flex flex-col gap-4">
+            <div v-for="(roleType, index) in groupRoles" :key="index" class="flex flex-col gap-4">
+                <GroupUserList :title="roleType.title" :user-list="roleType.userList" @remove-user="removeUserFromGroup"/>
+                <TertiaryButton class="self-center" :target="roleType.action">hinzufügen</TertiaryButton>
+            </div>
         </div>
         <div v-else-if="isRoleGroup" class="flex flex-col gap-4">
             <div class="flex flex-col gap-4">
@@ -77,8 +101,24 @@
         </div>
         <div v-else-if="isIndividualGroup" class="flex flex-col gap-4">
             <GroupUserList title="Gruppenadministrator_innen" :user-list="groupData.editAccessUsers" />
-            <TertiaryButton class="self-center" :target="() => addUserToGroupLeaders()">hinzufügen</TertiaryButton>
+            <TertiaryButton class="self-center" :target="() => addUserToEditAccessUsers()">hinzufügen</TertiaryButton>
         </div>
+
+        <AddUserToGroupModal 
+            :is-open="addUserToGroupModalIsOpen"
+            :group-id="groupData.groupId"
+            :role="addUserToGroupModalRole"
+            @close-modal="addUserToGroupModalIsOpen=false"
+        />
+
+        <RemoveUserFromGroupModal 
+            :is-open="removeUserFromGroupModalIsOpen"
+            :group-id="groupData.groupId"
+            :user-id="userToRemove.userId"
+            :list-type="userToRemove.role"
+            @close-modal="removeUserFromGroupModalIsOpen=false"
+        />
+
         <Divider /> <!-- ------------------------------------------------ -->
         <div class="flex flex-col gap-4">
             <p class="font-description text-proto-grey">Teil der Gruppen</p>
@@ -91,25 +131,9 @@
         </div>
         <Divider /> <!-- ------------------------------------------------ -->
         <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Email Weiterleitungen</p>
-                <GroupServiceElement :service-data="groupData.emailAlias" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Ordner in der Cloud</p>
-                <GroupServiceElement :service-data="groupData.linkToCloud" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Wiki Seite</p>
-                <GroupServiceElement :service-data="groupData.linkToWiki" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Chatgruppe</p>
-                <GroupServiceElement :service-data="groupData.linkToChat" />
-            </div>
-            <div class="flex flex-col gap-2">
-                <p class="font-description text-proto-grey">Miro Board</p>
-                <GroupServiceElement :service-data="groupData.linkToMiro" />
+            <div v-for="(item, index) in groupServices" :key="index" class="flex flex-col gap-2">
+                <p class="font-description text-proto-grey">{{ item.title }}</p>
+                <GroupServiceElement :service-data="item.data" />
             </div>
         </div>
     </div>
@@ -118,15 +142,21 @@
 
 <script lang="ts">
 import { allGroupTypes } from "@/types/GroupDBEntry";
-import { PropType } from "vue";
+import { PropType, ref } from "vue";
 import AppIcon from "@/components/icons/AppIcon.vue";
 import Divider from '@/components/divider/Divider.vue';
 import GroupUserList from "./GroupUserList.vue";
 import TertiaryButton from '@/components/button/TertiaryButton.vue';
 import GroupCard from '@/components/groupCard/GroupCard.vue';
 import GroupServiceElement from "./GroupServiceElement.vue";
-import ModalWithSlot from "@/components/modal/ModalWithSlot.vue";
-import TextInput from "@/components/inputs/TextInput.vue";
+import RenameGroupModal from "./modals/RenameGroupModal.vue";
+import ResetGroupAvatarModal from "./modals/ResetGroupAvatarModal.vue";
+import ChangeGroupAvatarModal from "./modals/ChangeGroupAvatarModal.vue";
+import AddUserToGroupModal from "./modals/AddUserToGroupModal.vue";
+import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+import PrimaryButton from "@/components/button/PrimaryButton.vue";
+import SecondaryButton from "@/components/button/SecondaryButton.vue";
+import RemoveUserFromGroupModal from "./modals/RemoveUserFromGroupModal.vue";
 
 export default defineComponent({
     components: {
@@ -136,33 +166,65 @@ export default defineComponent({
         TertiaryButton,
         GroupCard,
         GroupServiceElement,
-        ModalWithSlot,
-        TextInput
+        RenameGroupModal,
+        ResetGroupAvatarModal,
+        ChangeGroupAvatarModal,
+        AddUserToGroupModal,
+        RadioGroup,
+        RadioGroupDescription,
+        RadioGroupLabel,
+        RadioGroupOption,
+        PrimaryButton,
+        SecondaryButton,
+        RemoveUserFromGroupModal
     },
     props: {
         groupData: {
             type: Object as PropType<allGroupTypes>,
-            default: undefined
+            required: true
         }
     },
-    setup() {
+    setup(props) {
         const store = useStore();
 
-        const renameGroupModal = ref({
-            isOpen: false,
-        });
+        const renameGroupModalIsOpen = ref(false);
+        const setGroupAvatarToStandardModalIsOpen = ref(false);
+        const changeGroupAvatarModalIsOpen = ref(false);
+        const addUserToGroupModalIsOpen = ref(false);
+        const removeUserFromGroupModalIsOpen = ref(false);
+        const addUserToGroupModalRole = ref('groupMember');
 
-        const newGroupName = ref('');
+        const userToRemove = ref({userId: '', role: ''});
+
+        const groupStatus = [
+            { id: 0, name: 'Regulär', description: 'Diese Gruppe ist reguläres Mitglied laut Bundessatzung' },
+            { id: 1, name: 'Aufbau', description: 'Nach Bundessatzung befindet sich diese Gruppe noch im Aufbau' },
+            { id: 2, name: 'Inaktiv', description: 'Diese Gruppe war mal ein reguläres Mitglied, ist aber nicht mehr Teil der offiziellen Gremien' },
+        ]
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore groupStatus does exist in object an dis defined in type
+        // eslint-disable-next-line vue/no-setup-props-destructure
+        const savedGroupStatus = props.groupData.groupStatus;
+        // eslint-disable-next-line security/detect-object-injection
+        const selectedGroupStatus = ref(groupStatus[savedGroupStatus]);
 
         return { 
             store,
-            renameGroupModal,
-            newGroupName
+            renameGroupModalIsOpen,
+            setGroupAvatarToStandardModalIsOpen,
+            changeGroupAvatarModalIsOpen,
+            addUserToGroupModalIsOpen,
+            addUserToGroupModalRole,
+            groupStatus,
+            selectedGroupStatus,
+            savedGroupStatus,
+            removeUserFromGroupModalIsOpen,
+            userToRemove
         }
     },
     computed: {
         isBundesGroup() {
-            const type = this.groupData?.type
+            const type = this.groupData.type
             if (type === 'Stamm' || type === 'Aufbaustamm' || type === 'Horst' || type === 'Ring' || type === 'Aufbauring') {
                 return true
             }
@@ -189,12 +251,12 @@ export default defineComponent({
             }
             return false
         },
-        groupPrefix() {
+        groupNameWithPrefix() {
             const type = this.groupData?.type
             if (type === 'Rollen' || type === 'Individuell') {
-                return ''
+                return '' + this.groupData?.name
             } else {
-                return `${type} `
+                return `${type} ${this.groupData?.name}`
             }
         },
         groupLeadRoleName() {
@@ -219,39 +281,107 @@ export default defineComponent({
             }
             return groupList
         },
+        groupServices() {
+            return [
+                { title: 'Email Weiterleitungen', data: this.groupData.emailAlias },
+                { title: 'Ordner in der Cloud', data: this.groupData.linkToCloud },
+                { title: 'Wiki Seite', data: this.groupData.linkToWiki },
+                { title: 'Chatgruppe', data: this.groupData.linkToChat },
+                { title: 'Miro Board', data: this.groupData.linkToMiro },
+            ]
+        },
+        selectedGroupHasChanged() {
+            let savedStatus;
+            if (this.isBundesGroup) {
+                //@ts-ignore groupStatus does exist in object an dis defined in type
+                savedStatus = this.groupData.groupStatus;
+            }            
+            return savedStatus == this.selectedGroupStatus.id
+        },
+        groupRoles() {
+            let groupRoles;
+            if (this.isBundesGroup) {
+                groupRoles = [
+                    {
+                        title: this.groupLeadRoleName,
+                        namecode: 'leader',
+                        //@ts-ignore
+                        userList: this.groupData.leader,
+                        action: () => this.addUserToLead()
+                    },
+                    {
+                        title: 'Stellvertreter_innen',
+                        namecode: 'deputies',
+                        //@ts-ignore
+                        userList: this.groupData.deputies,
+                        action: () => this.addUserToDeputies()
+                    },
+                    {
+                        title: 'Schatzmeister_in',
+                        namecode: 'headOfFinance',
+                        //@ts-ignore
+                        userList: this.groupData.headOfFinance,
+                        action: () => this.addUserToHeadOfFinance()
+                    },
+                ]
+            } else if (this.isStammesGroup) {
+                groupRoles = [
+                    {
+                        title: this.groupLeadRoleName,
+                        namecode: 'leader',
+                        //@ts-ignore
+                        userList: this.groupData.leader,
+                        action: () => this.addUserToGroupLeaders()
+                    },
+                ]
+            } else if (this.isRoleGroup) {
+                
+            } else {
+                groupRoles = []
+            }
+            return groupRoles
+        }
     },
     methods: {
         markGroupAsFavorit() {
             alert(`Group with id ${this.groupData?.groupId} marked as favorite`)
         },
-        editGroupName() {
-            this.renameGroupModal.isOpen = true
-        },
-        setGroupAvatarToStandard() {
-            alert('Open Modal to ask for confirmation to set avatar to standard')
-        },
-        changeGroupAvatar() {
-            alert('Open Modal to change group Avatar')
-        },
         addUserToLead() {
-            alert('Open Something to add new user to Lead');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'leader';
         },
         addUserToDeputies() {
-            alert('Open Something to add new user to Deputies');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'deputies';
         },
-        addUserTHeadOfFinance() {
-            alert('Open Something to add new user to Head of Finance');
+        addUserToHeadOfFinance() {
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'headOfFinance';
         },
         addUserToGroupLeaders() {
-            alert('Add Modal to Add User to Stammesgroup Leaders');
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'leader';
+        },
+        addUserToEditAccessUsers() {
+            this.addUserToGroupModalIsOpen = true;
+            this.addUserToGroupModalRole = 'editAccessUsers';
         },
         joinArrayToList(arr: string[]) {
             return arr.join(', ')
         },
-        handleNameSave() {
-            alert(`Save new Groupname "${this.newGroupName}" for group with id ${this.groupData?.groupId}`)
-            this.newGroupName = '';
-            this.renameGroupModal.isOpen = false;
+        resetGroupStatus() {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore groupStatus does exist in object an dis defined in type
+            this.selectedGroupStatus = this.groupStatus[this.savedGroupStatus];
+        },
+        saveNewGroupStatus() {
+            const groupId = this.groupData.groupId
+            const newGroupStatus = this.selectedGroupStatus.id
+            alert(`Set new group Status ${newGroupStatus} for group with id ${groupId}`)
+        },
+        removeUserFromGroup(e: {userId: string, role: string}) {
+            this.userToRemove = e;
+            this.removeUserFromGroupModalIsOpen = true;
         }
     },
 

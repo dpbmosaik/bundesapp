@@ -8,7 +8,8 @@
                 v-for="(user, index) in getUserListsById(userList)"
                 :key="index"
                 :user="user"
-                :userListLength="getUserListsById(userList).length"
+                :user-list-length="getUserListsById(userList).length"
+                @remove-user="removeUser"
             />
         </div>
     </div>
@@ -27,10 +28,10 @@ export default defineComponent({
         },
         userList: {
             type: Array,
-            // eslint-disable-next-line vue/require-valid-default-prop
-            default: []
+            default: () => {return []}
         }
     },
+    emits: ['remove-user'],
     setup() {
         const store = useStore();
         return { 
@@ -40,6 +41,9 @@ export default defineComponent({
     methods: {
         getUserListsById(userIds: string[]) {
             return this.store.getUserListsById?.(userIds)
+        },
+        removeUser(e: string) {
+            this.$emit("remove-user", {userId: e, role: this.title})
         }
     }
 })

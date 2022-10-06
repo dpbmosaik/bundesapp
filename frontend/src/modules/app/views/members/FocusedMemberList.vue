@@ -4,7 +4,7 @@
         <div class="flex flex-col gap-4">
             <div class="flex flex-row flex-wrap gap-2">
                 <Tag 
-                    v-for="(user, index) in store.getSelectedMembers"
+                    v-for="(user, index) in selectedMembers"
                     :key="index"
                     class="bg-proto-darkgrey text-white w-fit"
                 >
@@ -17,7 +17,12 @@
             <TertiaryButton :target="getEmailString()" icon="message">Email schreiben</TertiaryButton>
             <TertiaryButton :target="getChatLink()" icon="chat">Anschreiben</TertiaryButton>
             <TertiaryButton :target="() => copyMails()" icon="moreSqaure">Emails kopieren</TertiaryButton>
-            <TertiaryButton :target="() => exportAdresses()" icon="ticketStar">Adressen exportieren</TertiaryButton>
+            <TertiaryButton :target="() => exportAddressesModalIsOpen=true" icon="ticketStar">Adressen exportieren</TertiaryButton>
+            <ExportAddressesModal 
+                :is-open="exportAddressesModalIsOpen"
+                :selected-members="selectedMembers"
+                @close-modal="exportAddressesModalIsOpen=false"
+            />
         </div>
     </div>
 </template>
@@ -26,15 +31,23 @@
 <script lang="ts">
 import Tag from "@/components/tag/Tag.vue";
 import TertiaryButton from "@/components/button/TertiaryButton.vue";
+import ExportAddressesModal from './modals/exportAdressesModal.vue';
 
 export default defineComponent({
     components: {
         Tag,
-        TertiaryButton
+        TertiaryButton,
+        ExportAddressesModal
     },
     setup() {
         const store = useStore()
-        return { store }
+        const exportAddressesModalIsOpen = ref(false);
+        return { store, exportAddressesModalIsOpen }
+    },
+    computed: {
+        selectedMembers() {
+            return this.store.getSelectedMembers
+        }
     },
     methods: {
         buildFullName(user: {firstName: string, fahrtenName: string, lastName: string}) {
@@ -49,9 +62,6 @@ export default defineComponent({
                 name += " " + user.lastName;
             }
             return name;
-        },
-        exportAdresses() {
-            alert('Exported');
         },
         getEmailString() {
             const start = "mailto:";
