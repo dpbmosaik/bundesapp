@@ -1,11 +1,11 @@
 import TopBar from '@/components/layout/TopBar.vue';
 
 <template lang="">
-    <div class="border-b px-8 py-4 flex flex-row justify-end">
+    <div class="border-b px-8 py-4 flex flex-row justify-end gap-6">
+      <div class="flex self-center">
+          Hallo {{userName}}
+      </div>
         <Menu>
-          <div class="box-border h-10 w-20">
-              Hallo {{user.firstName}}
-          </div>
             <MenuButton>
                 <Avatar size="small" :src="getPlaceholderAvatar()" alt="Avatar" />
             </MenuButton>
@@ -75,7 +75,7 @@ const topBarNavigation = [
 ];
 
 
-export default {
+export default defineComponent({
   components: {
     Avatar,
     Menu,
@@ -96,7 +96,15 @@ export default {
       user,
     };
   },
-};
+  computed: {
+    userName() {
+      if (this.user) {
+        return this.user.firstName
+      }
+      return ''
+    }
+  }
+});
 </script>
 
 <style lang="">
