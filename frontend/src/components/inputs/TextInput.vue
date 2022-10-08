@@ -121,7 +121,8 @@
             isAlphanumeric(value: unknown, set = 'default') {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const sets: {[index: string]: any, default: RegExp, latin: RegExp} = {
-                    default: /^[a-zA-Z0-9À-ÖØ-öø-ÿĄąĆćĘęŁłŃńŚśŹźŻż,.'-]+$/,
+                    //default: /^[a-zA-Z0-9À-ÖØ-öø-ÿĄąĆćĘęŁłŃńŚśŹźŻż,.'-]+$/,
+                    default: /^[\w\-\s\ÄÖÜäöüß]+$/,
                     latin: /^[a-zA-Z0-9,.'-]+$/
                 }
                 if (typeof value != 'string') {
