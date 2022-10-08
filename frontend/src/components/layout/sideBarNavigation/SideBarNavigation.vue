@@ -10,8 +10,8 @@
       overflow-y-auto
     "
   >
-    <div class="w-full rounded-lg px-4 py-2">
-      <img src="@/assets/logo.png" class="object-scale-down h-48 w-30">
+    <div class="w-full bg-proto-grey rounded-lg px-4 py-2">
+      Bundesapp Logo
     </div>
     <div class="flex flex-col grow gap-8">
       <nav class="flex flex-col gap-2 grow ">
