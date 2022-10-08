@@ -133,7 +133,7 @@
         <div class="flex flex-col gap-4">
             <div v-for="(item, index) in groupServices" :key="index" class="flex flex-col gap-2">
                 <p class="font-description text-proto-grey">{{ item.title }}</p>
-                <GroupServiceElement :service-data="item.data" />
+                <GroupServiceElement :service-data="item.data" :group-id="groupData.groupId" />
             </div>
         </div>
         <Divider /> <!-- ------------------------------------------------ -->

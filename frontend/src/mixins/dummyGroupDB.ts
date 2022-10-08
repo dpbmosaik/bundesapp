@@ -118,7 +118,7 @@ const dummyGroupDB: { [key: string]: allGroupTypes } = {
         url: ''
     },
     linkToMiro: {
-        type: 'Miro',
+        type: 'miro',
         enabled: false,
         url: ''
     },
