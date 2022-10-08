@@ -136,6 +136,16 @@
                 <GroupServiceElement :service-data="item.data" />
             </div>
         </div>
+        <Divider /> <!-- ------------------------------------------------ -->
+        <div class="flex flexbox justify-center w-full">
+            <PrimaryButton :target="() => deleteGroup()">Gruppe löschen</PrimaryButton>
+        </div>
+        <DeleteGroupModal
+            :is-open="deleteGroupModalIsOpen"
+            :group-name="groupNameWithPrefix"
+            :group-id="groupData.groupId"
+            @close-modal="deleteGroupModalIsOpen=false"
+        />
     </div>
 </template>
 
@@ -157,6 +167,7 @@ import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } 
 import PrimaryButton from "@/components/button/PrimaryButton.vue";
 import SecondaryButton from "@/components/button/SecondaryButton.vue";
 import RemoveUserFromGroupModal from "./modals/RemoveUserFromGroupModal.vue";
+import DeleteGroupModal from "./modals/DeleteGroupModal.vue";
 
 export default defineComponent({
     components: {
@@ -176,7 +187,8 @@ export default defineComponent({
         RadioGroupOption,
         PrimaryButton,
         SecondaryButton,
-        RemoveUserFromGroupModal
+        RemoveUserFromGroupModal,
+        DeleteGroupModal
     },
     props: {
         groupData: {
@@ -192,6 +204,7 @@ export default defineComponent({
         const changeGroupAvatarModalIsOpen = ref(false);
         const addUserToGroupModalIsOpen = ref(false);
         const removeUserFromGroupModalIsOpen = ref(false);
+        const deleteGroupModalIsOpen = ref(false);
         const addUserToGroupModalRole = ref('groupMember');
 
         const userToRemove = ref({userId: '', role: ''});
@@ -219,7 +232,8 @@ export default defineComponent({
             selectedGroupStatus,
             savedGroupStatus,
             removeUserFromGroupModalIsOpen,
-            userToRemove
+            userToRemove,
+            deleteGroupModalIsOpen
         }
     },
     computed: {
@@ -293,6 +307,7 @@ export default defineComponent({
         selectedGroupHasChanged() {
             let savedStatus;
             if (this.isBundesGroup) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore groupStatus does exist in object an dis defined in type
                 savedStatus = this.groupData.groupStatus;
             }            
@@ -305,6 +320,7 @@ export default defineComponent({
                     {
                         title: this.groupLeadRoleName,
                         namecode: 'leader',
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         //@ts-ignore
                         userList: this.groupData.leader,
                         action: () => this.addUserToLead()
@@ -312,6 +328,7 @@ export default defineComponent({
                     {
                         title: 'Stellvertreter_innen',
                         namecode: 'deputies',
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         //@ts-ignore
                         userList: this.groupData.deputies,
                         action: () => this.addUserToDeputies()
@@ -319,6 +336,7 @@ export default defineComponent({
                     {
                         title: 'Schatzmeister_in',
                         namecode: 'headOfFinance',
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         //@ts-ignore
                         userList: this.groupData.headOfFinance,
                         action: () => this.addUserToHeadOfFinance()
@@ -329,6 +347,7 @@ export default defineComponent({
                     {
                         title: this.groupLeadRoleName,
                         namecode: 'leader',
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         //@ts-ignore
                         userList: this.groupData.leader,
                         action: () => this.addUserToGroupLeaders()
@@ -382,6 +401,9 @@ export default defineComponent({
         removeUserFromGroup(e: {userId: string, role: string}) {
             this.userToRemove = e;
             this.removeUserFromGroupModalIsOpen = true;
+        },
+        deleteGroup(){
+            this.deleteGroupModalIsOpen = true
         }
     },
 
