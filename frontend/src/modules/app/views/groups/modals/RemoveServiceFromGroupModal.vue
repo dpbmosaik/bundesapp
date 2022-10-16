@@ -16,7 +16,7 @@
         </p>
 
         <div>
-            <TextInput v-model="serviceNameTyped" class="grow" label="Gruppenname" required type="text" :placeholder="service" :value="serviceNameTyped" />
+            <TextInput v-model="serviceNameTyped" class="grow" label="Service" required type="text" :placeholder="service" :value="serviceNameTyped" />
         </div>
 
         <div class="flex flex-row gap-4 justify-center mt-8">

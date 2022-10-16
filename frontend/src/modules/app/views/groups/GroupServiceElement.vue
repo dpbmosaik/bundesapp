@@ -10,6 +10,12 @@
             <div v-else>
                 <TertiaryButton :target="() => addService()">hinzufügen</TertiaryButton>
             </div>
+            <AddServiceToGroupModal
+                :is-open="addServiceModalIsOpen"
+                :group-id="groupId"
+                :service="serviceData.type"
+                @close-modal="addServiceModalIsOpen=false"
+            />
         </div>
         <div v-if="serviceData.enabled" class="flex flex-row">
             <Menu as="div" class="relative flex">
@@ -58,6 +64,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { PropType } from 'vue';
 import TertiaryButton from '@/components/button/TertiaryButton.vue';
 import RemoveServiceFromGroupModal from './modals/RemoveServiceFromGroupModal.vue';
+import AddServiceToGroupModal from './modals/AddServiceToGroupModal.vue';
 
 export default defineComponent({
     components: {
@@ -66,7 +73,8 @@ export default defineComponent({
         MenuItems,
         MenuItem,
         TertiaryButton,
-        RemoveServiceFromGroupModal
+        RemoveServiceFromGroupModal,
+        AddServiceToGroupModal
     },
     props: {
         serviceData: {
@@ -80,10 +88,12 @@ export default defineComponent({
     },
     setup() {
         const removeServiceModalIsOpen = ref(false);
+        const addServiceModalIsOpen = ref(false);
         const emailServiceModalIsOpen = ref(false);
 
         return {
             removeServiceModalIsOpen,
+            addServiceModalIsOpen,
             emailServiceModalIsOpen
         }
     },
@@ -118,7 +128,7 @@ export default defineComponent({
             alert('Open Modal and ask for cofirmation to remove service from group')
         },
         addService() {
-            alert(`Open Modal to add ${this.serviceData.type} service`)
+            this.addServiceModalIsOpen = true
         }
     },
 
